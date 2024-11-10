@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3f3f3;
+}
+
+.landing-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-overlay {
+  background-color: white;
+  border-radius: 20px;
+  height: 90%;
+  width: 100%;
+  max-width: 95%;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16%;
+}
+
+.landing-page::before,
+.landing-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.landing-page::before {
+  width: 70%;
+  height: 60%;
+  background: #333;
+  top: 10%;
+  left: -10%;
+  transform: rotate(-15deg);
+}
+
+.landing-page::after {
+  width: 60%;
+  height: 60%;
+  background: purple;
+  bottom: -10%;
+  right: -10%;
+  transform: rotate(15deg);
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.content {
+  z-index: 10;
+  color: #333;
+  width: 50%;
+}
+
+.content h1 {
+  font-size: 4.5rem;
+  margin-bottom: 15px;
+}
+
+.content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  padding: 10px 20px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.image-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cargo-image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.content::before {
+  content: "";
+  position: absolute;
+  background-image: url('../../Assets//blob-haikei.svg');
+  width: 40%;
+  height: 40%;
+  right: 58%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(100px); 
+  z-index: -1;
+  opacity: 0.9;
+}
+
+/* Add styles to position the bottom image */
+.bottom-image-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; 
+  overflow: hidden;
+}
+
+.bottom-image {
+  width: 100%; 
+  height: 600px;
+  max-height: 600px; 
+  border-radius: 0 0 20px 20px;
+}
