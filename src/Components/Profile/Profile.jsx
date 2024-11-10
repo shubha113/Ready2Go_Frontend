@@ -33,7 +33,7 @@ const Profile = () => {
     if (!Array.isArray(documentArray) || documentArray.length === 0) {
       return <span>No document uploaded</span>;
     }
-  
+
     return (
       <ul>
         {documentArray.map((doc, index) => (
@@ -49,8 +49,9 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
+      
+      <Navbar />
       <div className="profile-card">
-        <Navbar /> {/* Navbar inside the card */}
         <div className="profile-sidebar">
           <img src={profileImage} alt="Profile Background" className="profile-image" />
           <h2 className="profile-name">{name}</h2>
@@ -64,7 +65,7 @@ const Profile = () => {
           <button className="history-button">History</button>
           
           {role === 'user' && (
-            <p><strong>Wallet Balance:</strong> ${walletBalance}</p>
+            <p><strong>Wallet Balance:</strong> Rs{walletBalance}</p>
           )}
 
           {role === 'driver' && (
@@ -92,7 +93,7 @@ const Profile = () => {
               {vehicleDetails?.vehiclePhoto && <img src={vehicleDetails.vehiclePhoto} alt="Vehicle" className="vehicle-photo" />}
               <p><strong>Account Created:</strong> {new Date(createdAt).toLocaleDateString()}</p>
               <p><strong>Last Updated:</strong> {new Date(updatedAt).toLocaleDateString()}</p>
-              <p><strong>Verification Status:</strong> {verificationStatus}</p>
+              <p><strong>Verification Status:</strong> {JSON.stringify(verificationStatus)}</p>
               <p><strong>Verification Timestamp:</strong> {new Date(verificationTimestamp).toLocaleString()}</p>
             </>
           )}
@@ -107,7 +108,7 @@ const Profile = () => {
                 <strong>GST Certificate:</strong> {formatDocumentList(documents?.gstCertificate || [])}
               </div>
               <p><strong>Overall Verification Status:</strong> {overallVerificationStatus}</p>
-              <p><strong>Verification Status:</strong> {verificationStatus}</p>
+              <p><strong>Verification Status:</strong> {JSON.stringify(verificationStatus)}</p>
               <p><strong>Verification Timestamp:</strong> {new Date(verificationTimestamp).toLocaleString()}</p>
               <h4>Company Information</h4>
               <p><strong>Company Name:</strong> {companyDetails?.companyName || 'Not provided'}</p>

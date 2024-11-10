@@ -8,21 +8,19 @@ import { toast } from 'react-toastify';
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated, message, error } = useSelector(state => state.user);
-
+  const { isAuthenticated, user, message, error } = useSelector(state => state.user);
 
   useEffect(() => {
     if (message) { 
       toast.success(message);
       dispatch({ type: "clearMessage" });
-      navigate('/login')
+      navigate('/login');
     }
     if (error) {
       toast.error(error);
       dispatch({ type: "clearError" });
     }
   }, [message, error, dispatch, navigate]);
-  
 
   const handleLogout = () => {
     dispatch(logout());
@@ -33,15 +31,21 @@ const Navbar = () => {
       <nav>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/categories">Create Order</Link></li>
-          <li><Link to="/categories">Track Order</Link></li>
-          <li><Link to="/categories">Take Delivery</Link></li>
+          
+          {user?.role === 'user' && (
+            <>
+              <li><Link to="/create-order">Create Order</Link></li>
+              <li><Link to="/track-order">Track Order</Link></li>
+            </>
+          )}
+          {(user?.role === 'driver' || user?.role === 'company') && (
+            <li><Link to="/take-delivery">Take Delivery</Link></li>
+          )}
 
           {isAuthenticated ? (
             <>
-            
-            <li> <Link to="/profile">Profile</Link> </li>
-              <li onClick={handleLogout}> <Link>Logout</Link></li>
+              <li><Link to="/profile">Profile</Link></li>
+              <li onClick={handleLogout}><Link>Logout</Link></li>
             </>
           ) : (
             <>
