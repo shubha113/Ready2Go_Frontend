@@ -9,6 +9,7 @@ import CarouselImage3 from '../../Assets/Delivery9.jpg';
 import Loader from '../Loader/Loader.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../Redux/actions/userAction.js';
+import { getFCMToken } from '../../utils/firebase';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Login = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [fcmToken, setFcmToken] = useState(null);  // State to store FCM token
 
   const carouselImages = [CarouselImage1, CarouselImage2, CarouselImage3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -32,8 +34,18 @@ const Login = () => {
     return () => clearInterval(interval);
   }, [carouselImages.length]);
 
+  // Fetch FCM token when the component mounts
   useEffect(() => {
-    if (message) { 
+    const fetchFcmToken = async () => {
+      const token = await getFCMToken();  // Get the token (you now have this function)
+      setFcmToken(token);  // Save the token in state
+    };
+    
+    fetchFcmToken();
+  }, []);
+
+  useEffect(() => {
+    if (message) {
       toast.success(message);
       setFormData(initialFormData);
       dispatch({ type: "clearMessage" });
@@ -45,7 +57,6 @@ const Login = () => {
     }
   }, [message, error, dispatch]);
   
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -57,13 +68,19 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error("Please enter a valid email address.");
-      return; 
+      return;
     }
 
-    dispatch(login(formData)); 
+    // Include the fcmToken in the login request payload
+    const loginData = {
+      ...formData,
+      fcmToken: fcmToken,  // Add fcmToken here
+    };
+
+    dispatch(login(loginData));  // Pass the updated loginData including the fcmToken
   };
 
   return (
@@ -91,8 +108,8 @@ const Login = () => {
               onChange={handleChange}
             />
             <p className="register-link">
-            <Link className='login-link-text' to="/forgot-password">Forgot Password?</Link>
-          </p>
+              <Link className='login-link-text' to="/forgot-password">Forgot Password?</Link>
+            </p>
             <button type="submit" disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
               {loading ? <Loader size={5} /> : "Login"}
             </button>

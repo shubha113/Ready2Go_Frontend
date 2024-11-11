@@ -14,6 +14,7 @@ import { loadUser } from './Redux/actions/userAction';
 import Loader from './Components/Loader/Loader';
 import Profile from './Components/Profile/Profile';
 import {ProtectedRoute} from "protected-route-react";
+import CreateOrder from './Components/CreateOrder/CreateOrder';
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
           <Route path='/forgot-password' element={isAuthenticated ? <Navigate to= "/login"/> : <ForgotPassword/>}/>
           <Route path='/reset-passord' element={isAuthenticated ? <Navigate to= "/login"/> : <ResetPassword/>}/>
           <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/create-order" element={<CreateOrder />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

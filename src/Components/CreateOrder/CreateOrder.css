@@ -1,107 +1,121 @@
-/* src/pages/CreateOrder.css */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  .create-order-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .card-overlay {
-    background-color: white;
-    border-radius: 20px;
-    height: 90%;
-    width: 100%;
-    max-width: 95%;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 5%;
-    position: relative;
-  }
-  
-  .create-order-page::before,
-  .create-order-page::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    z-index: 1;
-  }
-  
-  .create-order-page::before {
-    width: 70%;
-    height: 60%;
-    background: #333;
-    top: 10%;
-    left: -10%;
-    transform: rotate(-15deg);
-  }
-  
-  .create-order-page::after {
-    width: 60%;
-    height: 60%;
-    background: purple;
-    bottom: -10%;
-    right: -10%;
-    transform: rotate(15deg);
-  }
-  
-  .main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .content {
-    width: 100%;
-    max-width: 500px;
-    z-index: 10;
-  }
-  
-  .title {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .create-order-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .create-order-form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .create-order-form input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    outline: none;
-    width: 100%;
-  }
-  
-  .create-order-form .cta-button {
-    padding: 10px 20px;
-    background-color: purple;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.create-order-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-overlay {
+  background-color: white;
+  border-radius: 20px;
+  height: 90%;
+  width: 100%;
+  max-width: 95%;
+  padding: 30px;
+  margin: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.create-order-page::before,
+.create-order-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.create-order-page::before {
+  width: 70%;
+  height: 60%;
+  background: #333;
+  top: 10%;
+  left: -10%;
+  transform: rotate(-15deg);
+}
+
+.create-order-page::after {
+  width: 60%;
+  height: 60%;
+  background: purple;
+  bottom: -10%;
+  right: -10%;
+  transform: rotate(15deg);
+}
+
+.main-content1 {
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.content1-title {
+  width: 30%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content1-title .title {
+  font-size: 3.5rem;
+  color: #333;
+  text-align: left;
+}
+
+.content1-form {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-group label {
+  width: 30%;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  flex: 1; /* Takes up remaining space in row */
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.create-order-form .cta-button {
+  padding: 10px 20px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
