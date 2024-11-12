@@ -9,7 +9,8 @@ import CarouselImage3 from '../../Assets/Delivery9.jpg';
 import Loader from '../Loader/Loader.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../Redux/actions/userAction.js';
-import { getFCMToken } from '../../utils/firebase';
+import { getFCMToken, messaging } from '../../utils/firebase';
+import { onMessage } from 'firebase/messaging';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -37,9 +38,12 @@ const Login = () => {
   // Fetch FCM token when the component mounts
   useEffect(() => {
     const fetchFcmToken = async () => {
-      const token = await getFCMToken();  // Get the token (you now have this function)
-      setFcmToken(token);  // Save the token in state
+      const token = await getFCMToken();
+      setFcmToken(token);
     };
+    onMessage(messaging, (payload)=>{
+      console.log(payload)
+    })
     
     fetchFcmToken();
   }, []);

@@ -2,52 +2,132 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 30px;
   background-color: #f3f3f3;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-page::before,
+.profile-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.profile-page::before {
+  width: 70%;
+  height: 60%;
+  background: #333;
+  top: 10%;
+  left: -10%;
+  transform: rotate(-15deg);
+}
+
+.profile-page::after {
+  width: 60%;
+  height: 60%;
+  background: purple;
+  bottom: -10%;
+  right: -10%;
+  transform: rotate(15deg);
 }
 
 .profile-card {
   display: flex;
-  height: 83vh;
+  flex-direction: column;
+  height: 90vh;
   width: 100%;
-  max-width: 95%;
-  border-radius: 10px;
+  max-width: 100%;
+  border-radius: 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   background-color: #ffffff;
+  z-index: 10;
 }
+
+.navbar-container {
+  position: absolute;
+  padding: 30px;
+}
+
+.profile-content {
+  display: flex;
+  flex: 1;
+}
+
+.profile-main-info {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  grid-gap: 20px;
+  padding: 20px;
+  margin-top: 80px;
+}
+
+.profile-main-info p {
+  position: relative;
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+
+.icon {
+  color: purple;
+  margin-left: 10px; 
+  cursor: pointer;
+  vertical-align: middle;
+}
+
 
 .profile-sidebar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #ff5e62, #8e44ad);
+  justify-content: flex-start;
   width: 35%;
   padding: 20px;
   color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;background: linear-gradient(135deg, #ff758c, #ff7eb3, #a4508b, #5f0a87);
+
 }
 
 .profile-image {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin-bottom: 10px;
+  z-index: 1; 
 }
 
 .profile-name {
   font-size: 1.5rem;
   margin: 5px 0;
+  z-index: 1;
+  color: white;
+}
+
+.profile-name1 {
+  font-size: 1rem;
+  margin: 5px 0;
+  z-index: 1;
+  color: white;
 }
 
 .profile-role {
   font-size: 1rem;
   margin-bottom: 15px;
-}
-
-.profile-info {
-  flex: 1;
-  padding: 20px;
 }
 
 .profile-info h3 {
@@ -67,8 +147,6 @@ strong {
   color: #333;
 }
 
-
-
 .history-button {
   display: inline-block;
   padding: 8px 16px;
@@ -85,4 +163,24 @@ strong {
   height: auto;
   border-radius: 5px;
   margin-top: 10px;
+}
+
+.profile-content::before {
+  content: "";
+  position: absolute;
+  background-image: url('../../Assets//blob-haikei.svg');
+  width: 40%;
+  height: 40%;
+  right: 55%;
+  top: 35%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(100px); 
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.strong{
+font-size: 20px;
+ color:purple
 }

@@ -146,7 +146,6 @@ export const resendOtp = formData => async dispatch =>{
   }
 }
 
-// Action to load user profile
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: "loadUserRequest" });
@@ -160,3 +159,22 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: "loadUserFail", payload: error.response.data.message });
   }
 };
+
+
+export const updateProfile = (profileData) => async (dispatch) => {
+  try {
+    dispatch({ type: "updateProfileRequest" });
+
+    const config = {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    };
+
+    const { data } = await axios.put(`${server}/user/profile`, profileData, config);
+
+    dispatch({ type: "updateProfileSuccess", payload: data.updatedProfile });
+  } catch (error) {
+    dispatch({ type: "updateProfileFail", payload: error.response.data.message });
+  }
+};
+

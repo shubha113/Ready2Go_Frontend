@@ -130,7 +130,7 @@ const CreateOrder = () => {
               </div>
 
               <button type="submit" className="cta-button" disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-              {loading ? <Loader size={5} /> : "Login"}
+              {loading ? <Loader size={5} /> : "Create Delivery"}
               </button>
             </form>
           </div>

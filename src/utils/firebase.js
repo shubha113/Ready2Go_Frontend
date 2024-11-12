@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize messaging
-const messaging = getMessaging(app);
+export const messaging = getMessaging(app);
 
 // Function to get the FCM token
 export const getFCMToken = async () => {
@@ -25,8 +25,9 @@ export const getFCMToken = async () => {
     if (permission === 'granted') {
       const token = await getToken(messaging, {
         vapidKey: 'BMxFBwOZK7cUSehtq1ROBOJ5qS_6cmIieJ2GvfjHNdZLJ5F_J22VtE8WFZiK4bTuqE2CKYSoZZftJSR5fhMJTXs',
-        serviceWorkerRegistration: await navigator.serviceWorker.register('../../firebase-messaging-sw.js')
+        //serviceWorkerRegistration: await navigator.serviceWorker.register('../../firebase-messaging-sw.js')
       });
+      console.log(token)
       return token;
     } else {
       throw new Error('Notification permission denied');

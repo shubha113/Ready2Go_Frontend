@@ -110,6 +110,20 @@ export const userReducer = createReducer({}, (builder) => {
       state.isAuthenticated = false;
       state.error = action.payload;
     })
+    
+    .addCase("updateProfileRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("updateProfileSuccess", (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = true; 
+      state.user = action.payload;
+    })
+    .addCase("updateProfileFail", (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    })
     .addCase("clearMessage", (state) => {
       state.message = "";
     })

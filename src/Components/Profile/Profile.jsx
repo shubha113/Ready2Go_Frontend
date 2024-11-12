@@ -1,11 +1,22 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Auth/Shared/Navbar';
 import './Profile.css';
-import profileImage from '../../Assets/Delivery.jpg';
+import profileImage from '../../Assets/profile2.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { updateProfile } from '../../Redux/actions/userAction';
+import { toast } from 'react-toastify';
+import Loader from '../Loader/Loader';
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user, message, loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [editingField, setEditingField] = React.useState(null);
+  const [fieldValue, setFieldValue] = React.useState('');
 
   if (!user) {
     return <div>Please log in to view your profile.</div>;
@@ -21,26 +32,59 @@ const Profile = () => {
     documents,
     overallVerificationStatus,
     vehicleDetails,
-    createdAt,
-    updatedAt,
     verificationStatus,
     verificationTimestamp,
     location,
     companyDetails
   } = user;
 
-  const formatDocumentList = (documentArray) => {
+  const handleEditClick = (field, initialValue) => {
+    setEditingField(field);
+    setFieldValue(initialValue);
+  };
+
+  const handleSaveClick = () => {
+    const updatedData = { [editingField]: fieldValue };
+    
+    dispatch(updateProfile(updatedData)).then(() => {
+      if (editingField === 'phoneNumber') {
+        navigate('/verify-otp');
+      }
+      setEditingField(null);
+    });
+  };
+
+  
+  useEffect(() => {
+    if (message) {
+      toast.success(message);
+      dispatch({ type: "clearMessage" });
+    }
+    if (error) {
+      toast.error(error);
+      dispatch({ type: "clearError" });
+    }
+  }, [message, error, dispatch]);
+  
+
+  const formatDocumentList = (documentArray, field) => {
     if (!Array.isArray(documentArray) || documentArray.length === 0) {
       return <span>No document uploaded</span>;
     }
-
     return (
       <ul>
         {documentArray.map((doc, index) => (
           <li key={index}>
-            <a href={doc} target="_blank" rel="noopener noreferrer">
+            <a href={doc} target="_blank" rel="noopener noreferrer" style={{ color: 'purple' }}>
               View Document
             </a>
+            {editingField === field && (
+              <input
+                type="text"
+                value={fieldValue}
+                onChange={(e) => setFieldValue(e.target.value)}
+              />
+            )}
           </li>
         ))}
       </ul>
@@ -49,73 +93,112 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      
-      <Navbar />
       <div className="profile-card">
-        <div className="profile-sidebar">
-          <img src={profileImage} alt="Profile Background" className="profile-image" />
-          <h2 className="profile-name">{name}</h2>
-          <p className="profile-role">{role === 'user' ? 'User' : role.charAt(0).toUpperCase() + role.slice(1)}</p>
+        <div className="navbar-container">
+          <Navbar />
         </div>
-        <div className="profile-info">
-          <h3>Basic Information</h3>
-          <p><strong>Name:</strong> {name}</p>
-          <p><strong>Email:</strong> {email}</p>
-          <p><strong>Phone Number:</strong> {phoneNumber || 'Not provided'}</p>
-          <button className="history-button">History</button>
-          
-          {role === 'user' && (
-            <p><strong>Wallet Balance:</strong> Rs{walletBalance}</p>
-          )}
+        <div className="profile-content">
+          <div className="profile-main-info">
+            <p><strong className='strong'>Email:</strong> {email}</p>
+            
+            <p>
+              <strong className='strong'>Phone Number:</strong> {phoneNumber || 'Not provided'}
+              <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('phoneNumber', phoneNumber)} />
+            </p>
+            {editingField === 'phoneNumber' && (
+              <div>
+                <input
+                  type="text"
+                  value={fieldValue}
+                  onChange={(e) => setFieldValue(e.target.value)}
+                />
+                <button onClick={handleSaveClick} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
+                {loading ? <Loader size={5} /> : "Save"}
+                </button>
+              </div>
+            )}
 
-          {role === 'driver' && (
-            <>
-              <h3>Driver Details</h3>
-              <p><strong>Ratings:</strong> {ratings && ratings.length > 0 ? ratings.join(', ') : 'No ratings available'}</p>
-              
-              <div>
-                <strong>Driver License:</strong> {formatDocumentList(documents?.driverLicense || [])}
-              </div>
-              <div>
-                <strong>Vehicle Registration:</strong> {formatDocumentList(documents?.vehicleRegistration || [])}
-              </div>
-              <div>
-                <strong>Vehicle Insurance:</strong> {formatDocumentList(documents?.vehicleInsurance || [])}
-              </div>
-              <div>
-                <strong>Identity Proof:</strong> {formatDocumentList(documents?.identityProof || [])}
-              </div>
-              <p><strong>Overall Verification Status:</strong> {overallVerificationStatus}</p>
-              <h4>Vehicle Details</h4>
-              <p><strong>Type:</strong> {vehicleDetails?.vehicleType || 'Not provided'}</p>
-              <p><strong>Load Capacity:</strong> {vehicleDetails?.loadCapacity || 'Not provided'}</p>
-              <p><strong>Availability:</strong> {vehicleDetails?.availability ? 'Available' : 'Not Available'}</p>
-              {vehicleDetails?.vehiclePhoto && <img src={vehicleDetails.vehiclePhoto} alt="Vehicle" className="vehicle-photo" />}
-              <p><strong>Account Created:</strong> {new Date(createdAt).toLocaleDateString()}</p>
-              <p><strong>Last Updated:</strong> {new Date(updatedAt).toLocaleDateString()}</p>
-              <p><strong>Verification Status:</strong> {JSON.stringify(verificationStatus)}</p>
-              <p><strong>Verification Timestamp:</strong> {new Date(verificationTimestamp).toLocaleString()}</p>
-            </>
-          )}
+            {role === 'driver' && (
+              <>
+                <p><strong className='strong'>Ratings:</strong> {ratings?.length > 0 ? ratings.join(', ') : 'No ratings available'}</p>
 
-          {role === 'company' && (
-            <>
-              <h3>Company Details</h3>
-              <div>
-                <strong>Company Registration:</strong> {formatDocumentList(documents?.companyRegistration || [])}
-              </div>
-              <div>
-                <strong>GST Certificate:</strong> {formatDocumentList(documents?.gstCertificate || [])}
-              </div>
-              <p><strong>Overall Verification Status:</strong> {overallVerificationStatus}</p>
-              <p><strong>Verification Status:</strong> {JSON.stringify(verificationStatus)}</p>
-              <p><strong>Verification Timestamp:</strong> {new Date(verificationTimestamp).toLocaleString()}</p>
-              <h4>Company Information</h4>
-              <p><strong>Company Name:</strong> {companyDetails?.companyName || 'Not provided'}</p>
-              <p><strong>Account Created:</strong> {new Date(createdAt).toLocaleDateString()}</p>
-              <p><strong>Last Updated:</strong> {new Date(updatedAt).toLocaleDateString()}</p>
-            </>
-          )}
+                <div>
+                  <strong className='strong'>Driver License:</strong> {formatDocumentList(documents?.driverLicense, 'driverLicense')}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('driverLicense', '')} />
+                </div>
+                
+                <div>
+                  <strong className='strong'>Vehicle Registration:</strong> {formatDocumentList(documents?.vehicleRegistration, 'vehicleRegistration')}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('vehicleRegistration', '')} />
+                </div>
+
+                <div>
+                  <strong className='strong'>Vehicle Insurance:</strong> {formatDocumentList(documents?.vehicleInsurance, 'vehicleInsurance')}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('vehicleInsurance', '')} />
+                </div>
+
+                <div>
+                  <strong className='strong'>Identity Proof:</strong> {formatDocumentList(documents?.identityProof, 'identityProof')}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('identityProof', '')} />
+                </div>
+
+                <p><strong className='strong'>Vehicle Type:</strong> {vehicleDetails?.vehicleType || 'Not provided'}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('vehicleType', vehicleDetails?.vehicleType)} />
+                </p>
+                
+                {editingField === 'vehicleType' && (
+                  <div>
+                    <input
+                      type="text"
+                      value={fieldValue}
+                      onChange={(e) => setFieldValue(e.target.value)}
+                    />
+                    <button onClick={handleSaveClick} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
+                {loading ? <Loader size={5} /> : "Save"}
+                </button>
+                  </div>
+                )}
+
+                <p><strong className='strong'>Load Capacity:</strong> {vehicleDetails?.loadCapacity || 'Not provided'}Kg
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('loadCapacity', vehicleDetails?.loadCapacity)} />
+                </p>
+                
+                {editingField === 'loadCapacity' && (
+                  <div>
+                    <input
+                      type="text"
+                      value={fieldValue}
+                      onChange={(e) => setFieldValue(e.target.value)}
+                    />
+                    <button onClick={handleSaveClick} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
+                {loading ? <Loader size={5} /> : "Save"}
+                </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {role === 'company' && (
+              <>
+                <h3>Company Details</h3>
+                <div>
+                  <strong className='strong'>Company Registration:</strong> {formatDocumentList(documents?.companyRegistration, 'companyRegistration')}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('companyRegistration', '')} />
+                </div>
+
+                <div>
+                  <strong className='strong'>GST Certificate:</strong> {formatDocumentList(documents?.gstCertificate, 'gstCertificate')}
+                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('gstCertificate', '')} />
+                </div>
+              </>
+            )}
+          </div>
+          <div className="profile-sidebar">
+            <img src={profileImage} alt="Profile Background" className="profile-image" />
+            <h2 className="profile-name">{name}</h2>
+            
+            <h4 className="profile-name1">Wallet Balance: {walletBalance}</h4>
+          </div>
         </div>
       </div>
     </div>
