@@ -11,10 +11,10 @@ const Navbar = () => {
   const { isAuthenticated, user, message, error } = useSelector(state => state.user);
 
   useEffect(() => {
-    if (message) { 
+    if (message) {
+      navigate('/login')
       toast.success(message);
       dispatch({ type: "clearMessage" });
-      navigate('/login');
     }
     if (error) {
       toast.error(error);
@@ -45,6 +45,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <li><Link to="/profile">Profile</Link></li>
+              <li><Link to="/history">History</Link></li>
               <li onClick={handleLogout}><Link>Logout</Link></li>
             </>
           ) : (

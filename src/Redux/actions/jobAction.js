@@ -19,3 +19,21 @@ export const createJob = formData => async dispatch => {
     dispatch({ type: 'createJobFail', payload: error.response.data.message });
   }
 };
+
+
+export const userHistory = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'userHistoryRequest' });
+    
+    const { data } = await axios.get(`${server}/job/user`, {
+      withCredentials: true,
+    });
+    
+    dispatch({ type: 'userHistorySuccess', payload: data });
+  } catch (error) {
+    dispatch({
+      type: 'userHistoryFail',
+      payload: error.response?.data?.message || 'Error fetching history'
+    });
+  }
+};

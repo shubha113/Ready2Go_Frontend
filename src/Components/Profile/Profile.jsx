@@ -191,12 +191,12 @@ const Profile = () => {
                   <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('gstCertificate', '')} />
                 </div>
               </>
+              
             )}
           </div>
           <div className="profile-sidebar">
             <img src={profileImage} alt="Profile Background" className="profile-image" />
             <h2 className="profile-name">{name}</h2>
-            
             <h4 className="profile-name1">Wallet Balance: {walletBalance}</h4>
           </div>
         </div>

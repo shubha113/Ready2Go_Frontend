@@ -38,20 +38,23 @@ export const login = formData => async dispatch => {
   }
 }
 
-
 export const logout = () => async dispatch => {
   try {
-    dispatch({type: "logoutRequest"});
-    
-    const { data } = await axios.get(`${server}/user/logout`, {
-      withCredentials: true,
-    });
+     dispatch({ type: "logoutRequest" });
+     
+     const { data } = await axios.get(`${server}/user/logout`, {
+        withCredentials: true,
+     });
 
-    dispatch({ type: "logoutSuccess", payload: data });
+     dispatch({ type: "logoutSuccess", payload: data.message });
+
+     // Remove token cookie from the frontend (client-side)
+     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   } catch (error) {
-    dispatch({ type: "logoutFail", payload: error.response.data.message });
+     dispatch({ type: "logoutFail", payload: error.response.data.message });
   }
 };
+
 
 
 export const forgotPassword = formData => async dispatch =>{

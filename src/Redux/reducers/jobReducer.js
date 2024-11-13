@@ -8,8 +8,7 @@ const initialState = {
   error: null
 };
 
-export const jobReducer = createReducer({}, (builder) => {
-  initialState, 
+export const jobReducer = createReducer(initialState, (builder) => { 
   builder
     .addCase("createJobRequest", (state) => {
       state.loading = true;
@@ -23,6 +22,20 @@ export const jobReducer = createReducer({}, (builder) => {
     .addCase("createJobFail", (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
+      state.error = action.payload;
+    })
+    .addCase("userHistoryRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("userHistorySuccess", (state, action) => {
+      state.loading = false;
+      state.ongoingDeliveries = action.payload.ongoingDeliveries;
+      state.pastDeliveries = action.payload.pastDeliveries;
+      state.ongoingCount = action.payload.ongoingCount;
+      state.pastDeliveriesCount = action.payload.pastDeliveriesCount;
+    })
+    .addCase("userHistoryFail", (state, action) => {
+      state.loading = false;
       state.error = action.payload;
     })
     .addCase("clearMessage", (state) => {

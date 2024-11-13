@@ -9,8 +9,8 @@ import Loader from '../Loader/Loader';
 
 const CreateOrder = () => {
   const dispatch = useDispatch();
-  const { loading, message, error } = useSelector((state) => state.job); // Adjust if your job state has different properties
-  
+  const { loading, message, error } = useSelector((state) => state.job);
+
   const [formData, setFormData] = useState({
     pickupLocation: '',
     dropLocation: '',
@@ -19,18 +19,48 @@ const CreateOrder = () => {
     weight: '',
     multiDropLocations: '',
   });
+  const [weightError, setWeightError] = useState(''); // State for weight validation error
+
+  // Vehicle type weight limits
+  const vehicleTypeLimits = {
+    motorcycle: 150,
+    small: 500,
+    medium: 2000,
+    large: 5000,
+    "extra-large": 10000,
+    "heavy-duty": Infinity, // for weights above 10,000 kg
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Weight validation
+    if (name === "weight" || name === "vehicleType") {
+      validateWeight(name === "weight" ? value : formData.weight, name === "vehicleType" ? value : formData.vehicleType);
+    }
+  };
+
+  const validateWeight = (weight, vehicleType) => {
+    if (vehicleType && weight) {
+      const maxWeight = vehicleTypeLimits[vehicleType];
+      if (weight > maxWeight) {
+        setWeightError(`${vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)} vehicle can carry only ${maxWeight}kg.`);
+      } else {
+        setWeightError("");
+      }
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createJob(formData)); // Start the job creation process
+    if (!weightError) {
+      dispatch(createJob(formData));
+    } else {
+      toast.error("Please fix the weight error before submitting.");
+    }
   };
 
-  // Trigger toast notifications for success or error messages
   useEffect(() => {
     if (message) {
       toast.success(message);
@@ -41,7 +71,7 @@ const CreateOrder = () => {
         items: '',
         weight: '',
         multiDropLocations: '',
-      }); // Reset form after success
+      });
       dispatch({ type: "clearMessage" });
     }
     if (error) {
@@ -55,12 +85,12 @@ const CreateOrder = () => {
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="card-overlay">
         <Navbar />
-        
+
         <div className="main-content1">
           <div className="content1-title">
             <h1 className="title">Create Job</h1>
           </div>
-          
+
           <div className="content1-form">
             <form onSubmit={handleSubmit} className="create-order-form">
               <div className="form-group">
@@ -87,13 +117,19 @@ const CreateOrder = () => {
 
               <div className="form-group">
                 <label>Vehicle Type</label>
-                <input
-                  type="text"
+                <select
                   name="vehicleType"
                   value={formData.vehicleType}
                   onChange={handleChange}
                   required
-                />
+                >
+                  <option value="">Select Vehicle Type</option>
+                  {Object.keys(vehicleTypeLimits).map((type) => (
+                    <option key={type} value={type}>
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">
@@ -115,7 +151,13 @@ const CreateOrder = () => {
                   value={formData.weight}
                   onChange={handleChange}
                   required
+                  style={{
+                    borderColor: weightError ? "red" : "initial",
+                  }}
                 />
+                {weightError && (
+                  <small style={{ color: "red" }}>{weightError}</small>
+                )}
               </div>
 
               <div className="form-group">
@@ -129,8 +171,18 @@ const CreateOrder = () => {
                 />
               </div>
 
-              <button type="submit" className="cta-button" disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-              {loading ? <Loader size={5} /> : "Create Delivery"}
+              <button
+                type="submit"
+                className="cta-button"
+                disabled={loading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '40px',
+                }}
+              >
+                {loading ? <Loader size={5} /> : "Create Delivery"}
               </button>
             </form>
           </div>

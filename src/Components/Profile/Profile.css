@@ -147,24 +147,6 @@ strong {
   color: #333;
 }
 
-.history-button {
-  display: inline-block;
-  padding: 8px 16px;
-  margin-top: 10px;
-  background-color: purple;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.vehicle-photo {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
 .profile-content::before {
   content: "";
   position: absolute;
