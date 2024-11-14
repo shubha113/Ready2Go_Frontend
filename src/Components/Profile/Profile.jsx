@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Auth/Shared/Navbar';
 import './Profile.css';
-import profileImage from '../../Assets/profile2.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { Pencil, Check, X, Upload } from 'lucide-react';
 import { updateProfile } from '../../Redux/actions/userAction';
 import { toast } from 'react-toastify';
 import Loader from '../Loader/Loader';
@@ -15,8 +13,10 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [editingField, setEditingField] = React.useState(null);
-  const [fieldValue, setFieldValue] = React.useState('');
+  const [editingField, setEditingField] = useState(null);
+  const [fieldValue, setFieldValue] = useState('');
+  const [file, setFile] = useState(null);
+  const [editingDocument, setEditingDocument] = useState(null);
 
   if (!user) {
     return <div>Please log in to view your profile.</div>;
@@ -30,174 +30,242 @@ const Profile = () => {
     role,
     ratings,
     documents,
-    overallVerificationStatus,
     vehicleDetails,
-    verificationStatus,
-    verificationTimestamp,
-    location,
-    companyDetails
   } = user;
 
   const handleEditClick = (field, initialValue) => {
     setEditingField(field);
     setFieldValue(initialValue);
+    setFile(null);
+    setEditingDocument(field);
   };
 
   const handleSaveClick = () => {
-    const updatedData = { [editingField]: fieldValue };
+    if (!editingField) {
+      console.error('No field selected for editing.');
+      return;
+    }
+  
+    const updatedData = new FormData();
     
+    if (file) {
+      updatedData.append(editingField, file);
+    } else {
+      updatedData.append(editingField, fieldValue);
+    }
+  
     dispatch(updateProfile(updatedData)).then(() => {
       if (editingField === 'phoneNumber') {
         navigate('/verify-otp');
       }
       setEditingField(null);
+      setFile(null);
+      setEditingDocument(null);
     });
   };
-
   
+
   useEffect(() => {
     if (message) {
       toast.success(message);
-      dispatch({ type: "clearMessage" });
+      dispatch({ type: 'clearMessage' });
     }
     if (error) {
       toast.error(error);
-      dispatch({ type: "clearError" });
+      dispatch({ type: 'clearError' });
     }
   }, [message, error, dispatch]);
-  
 
   const formatDocumentList = (documentArray, field) => {
     if (!Array.isArray(documentArray) || documentArray.length === 0) {
       return <span>No document uploaded</span>;
     }
+  
     return (
       <ul>
         {documentArray.map((doc, index) => (
-          <li key={index}>
-            <a href={doc} target="_blank" rel="noopener noreferrer" style={{ color: 'purple' }}>
+          <li key={index} className="document-item">
+            <a href={doc} target="_blank" rel="noopener noreferrer" className="document-link">
               View Document
             </a>
-            {editingField === field && (
+            <div className="document-upload">
+              <label htmlFor={`${field}-${index}`} className="upload-label">
+                <Upload size={16} /> Upload New
+              </label>
               <input
-                type="text"
-                value={fieldValue}
-                onChange={(e) => setFieldValue(e.target.value)}
+                type="file"
+                id={`${field}-${index}`}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                  setEditingField(field);
+                  setEditingDocument(field);
+                }}
+                className="file-input"
               />
-            )}
+              {file && editingDocument === field && (
+                <button onClick={handleSaveClick} disabled={loading} className="submit-upload" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px' }}>
+                  {loading ? <Loader size={5} /> : 'Submit'}
+                </button>
+              )}
+            </div>
           </li>
         ))}
       </ul>
     );
   };
+  
 
   return (
-    <div className="profile-page">
+    <div className="profile-container">
+      <div className='header1'>
+      <Navbar />
+      </div>
       <div className="profile-card">
-        <div className="navbar-container">
-          <Navbar />
+        <div className="profile-header">
+          <h2 className="profile-title">{name}</h2>
+          <h4 className="wallet-balance">Wallet Balance: {walletBalance}</h4>
         </div>
         <div className="profile-content">
-          <div className="profile-main-info">
-            <p><strong className='strong'>Email:</strong> {email}</p>
-            
-            <p>
-              <strong className='strong'>Phone Number:</strong> {phoneNumber || 'Not provided'}
-              <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('phoneNumber', phoneNumber)} />
-            </p>
-            {editingField === 'phoneNumber' && (
-              <div>
-                <input
-                  type="text"
-                  value={fieldValue}
-                  onChange={(e) => setFieldValue(e.target.value)}
-                />
-                <button onClick={handleSaveClick} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-                {loading ? <Loader size={5} /> : "Save"}
-                </button>
+          <div className="info-grid">
+            <div className="info-item">
+              <span className="info-label">Email:</span>
+              <span className="info-value">{email}</span>
+            </div>
+
+            <div className="info-item">
+              <span className="info-label">Phone Number:</span>
+              <div className="editable-field">
+                {editingField === 'phoneNumber' ? (
+                  <div className="edit-mode">
+                    <input
+                      type="text"
+                      value={fieldValue}
+                      onChange={(e) => setFieldValue(e.target.value)}
+                      className="edit-input"
+                    />
+                    <button onClick={handleSaveClick} disabled={loading} className="action-btn save">
+                      <Check size={16} />
+                    </button>
+                    <button onClick={() => setEditingField(null)} className="action-btn cancel">
+                      <X size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="display-mode">
+                    <span className="info-value">{phoneNumber || 'Not provided'}</span>
+                    <button onClick={() => handleEditClick('phoneNumber', phoneNumber)} className="edit-btn">
+                      <Pencil size={16} />
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
 
             {role === 'driver' && (
               <>
-                <p><strong className='strong'>Ratings:</strong> {ratings?.length > 0 ? ratings.join(', ') : 'No ratings available'}</p>
-
-                <div>
-                  <strong className='strong'>Driver License:</strong> {formatDocumentList(documents?.driverLicense, 'driverLicense')}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('driverLicense', '')} />
-                </div>
-                
-                <div>
-                  <strong className='strong'>Vehicle Registration:</strong> {formatDocumentList(documents?.vehicleRegistration, 'vehicleRegistration')}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('vehicleRegistration', '')} />
+                <div className="info-item">
+                  <span className="info-label">Ratings:</span>
+                  <span className="info-value">
+                    {ratings?.length > 0 ? ratings.join(', ') : 'No ratings available'}
+                  </span>
                 </div>
 
-                <div>
-                  <strong className='strong'>Vehicle Insurance:</strong> {formatDocumentList(documents?.vehicleInsurance, 'vehicleInsurance')}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('vehicleInsurance', '')} />
+                <div className="info-item">
+                  <span className="info-label">Driver License:</span>
+                  {formatDocumentList(documents?.driverLicense, 'driverLicense')}
                 </div>
 
-                <div>
-                  <strong className='strong'>Identity Proof:</strong> {formatDocumentList(documents?.identityProof, 'identityProof')}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('identityProof', '')} />
+                <div className="info-item">
+                  <span className="info-label">Vehicle Registration:</span>
+                  {formatDocumentList(documents?.vehicleRegistration, 'vehicleRegistration')}
                 </div>
 
-                <p><strong className='strong'>Vehicle Type:</strong> {vehicleDetails?.vehicleType || 'Not provided'}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('vehicleType', vehicleDetails?.vehicleType)} />
-                </p>
-                
-                {editingField === 'vehicleType' && (
-                  <div>
-                    <input
-                      type="text"
-                      value={fieldValue}
-                      onChange={(e) => setFieldValue(e.target.value)}
-                    />
-                    <button onClick={handleSaveClick} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-                {loading ? <Loader size={5} /> : "Save"}
-                </button>
+                <div className="info-item">
+                  <span className="info-label">Vehicle Insurance:</span>
+                  {formatDocumentList(documents?.vehicleInsurance, 'vehicleInsurance')}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Identity Proof:</span>
+                  {formatDocumentList(documents?.identityProof, 'identityProof')}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Vehicle Type:</span>
+                  <div className="editable-field">
+                    {editingField === 'vehicleType' ? (
+                      <div className="edit-mode">
+                        <input
+                          type="text"
+                          value={fieldValue}
+                          onChange={(e) => setFieldValue(e.target.value)}
+                          className="edit-input"
+                        />
+                        <button onClick={handleSaveClick} disabled={loading} className="action-btn save">
+                          <Check size={16} />
+                        </button>
+                        <button onClick={() => setEditingField(null)} className="action-btn cancel">
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="display-mode">
+                        <span className="info-value">{vehicleDetails?.vehicleType || 'Not provided'}</span>
+                        <button onClick={() => handleEditClick('vehicleType', vehicleDetails?.vehicleType)} className="edit-btn">
+                          <Pencil size={16} />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
 
-                <p><strong className='strong'>Load Capacity:</strong> {vehicleDetails?.loadCapacity || 'Not provided'}Kg
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('loadCapacity', vehicleDetails?.loadCapacity)} />
-                </p>
-                
-                {editingField === 'loadCapacity' && (
-                  <div>
-                    <input
-                      type="text"
-                      value={fieldValue}
-                      onChange={(e) => setFieldValue(e.target.value)}
-                    />
-                    <button onClick={handleSaveClick} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-                {loading ? <Loader size={5} /> : "Save"}
-                </button>
+                <div className="info-item">
+                  <span className="info-label">Load Capacity:</span>
+                  <div className="editable-field">
+                    {editingField === 'loadCapacity' ? (
+                      <div className="edit-mode">
+                        <input
+                          type="text"
+                          value={fieldValue}
+                          onChange={(e) => setFieldValue(e.target.value)}
+                          className="edit-input"
+                        />
+                        <button onClick={handleSaveClick} disabled={loading} className="action-btn save">
+                          <Check size={16} />
+                        </button>
+                        <button onClick={() => setEditingField(null)} className="action-btn cancel">
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="display-mode">
+                        <span className="info-value">{vehicleDetails?.loadCapacity || 'Not provided'} Kg</span>
+                        <button onClick={() => handleEditClick('loadCapacity', vehicleDetails?.loadCapacity)} className="edit-btn">
+                          <Pencil size={16} />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </>
             )}
 
             {role === 'company' && (
               <>
-                <h3>Company Details</h3>
-                <div>
-                  <strong className='strong'>Company Registration:</strong> {formatDocumentList(documents?.companyRegistration, 'companyRegistration')}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('companyRegistration', '')} />
-                </div>
+                <div className="section">
+                  <h3 className="section-title">Company Details</h3>
+                  <div className="info-item">
+                    <span className="info-label">Company Registration:</span>
+                    {formatDocumentList(documents?.companyRegistration, 'companyRegistration')}
+                  </div>
 
-                <div>
-                  <strong className='strong'>GST Certificate:</strong> {formatDocumentList(documents?.gstCertificate, 'gstCertificate')}
-                  <FontAwesomeIcon className='icon' icon={faPen} onClick={() => handleEditClick('gstCertificate', '')} />
+                  <div className="info-item">
+                    <span className="info-label">GST Certificate:</span>
+                    {formatDocumentList(documents?.gstCertificate, 'gstCertificate')}
+                  </div>
                 </div>
               </>
-              
             )}
-          </div>
-          <div className="profile-sidebar">
-            <img src={profileImage} alt="Profile Background" className="profile-image" />
-            <h2 className="profile-name">{name}</h2>
-            <h4 className="profile-name1">Wallet Balance: {walletBalance}</h4>
           </div>
         </div>
       </div>

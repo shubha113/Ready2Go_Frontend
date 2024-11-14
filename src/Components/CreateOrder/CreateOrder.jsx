@@ -19,7 +19,8 @@ const CreateOrder = () => {
     weight: '',
     multiDropLocations: '',
   });
-  const [weightError, setWeightError] = useState(''); // State for weight validation error
+  const [weightError, setWeightError] = useState('');
+  const [itemsError, setItemsError] = useState('');
 
   // Vehicle type weight limits
   const vehicleTypeLimits = {
@@ -33,6 +34,17 @@ const CreateOrder = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    
+    // Items validation: allow only letters and spaces
+    if (name === "items") {
+      if (/^[a-zA-Z\s]*$/.test(value)) {
+        setItemsError('');
+      } else {
+        setItemsError('Items field should only contain letters and spaces.');
+      }
+    }
+    
     setFormData({ ...formData, [name]: value });
 
     // Weight validation

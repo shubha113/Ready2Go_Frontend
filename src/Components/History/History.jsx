@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './History.css';
 import { userHistory } from '../../Redux/actions/jobAction';
+import Loader from '../Loader/Loader';
 
 const History = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const History = () => {
         
         <div className="details-row">
           <div className="detail-item">
-            <h4>Items</h4>
+            <h4>Items Name</h4>
             <p>{job.items}</p>
           </div>
           
@@ -75,7 +76,7 @@ const History = () => {
   );
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading"><Loader/></div>;
   }
 
   if (error) {
