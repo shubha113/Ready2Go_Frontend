@@ -272,6 +272,7 @@
   border-radius: 4px;
   transition: all 0.2s ease;
   opacity: 0;
+  margin-bottom: 10px;
 }
 
 .info-item:hover .edit-btn {
@@ -382,3 +383,7 @@
 .header1{
   margin-left: 8%;
 }
+
+
+
+

@@ -33,6 +33,15 @@ const Profile = () => {
     vehicleDetails,
   } = user;
 
+  const vehicleTypes = [
+    { label: 'Motorcycle (up to 150 kg)', value: 'motorcycle' },
+    { label: 'Small (up to 500 kg)', value: 'small' },
+    { label: 'Medium (500 kg - 2,000 kg)', value: 'medium' },
+    { label: 'Large (2,000 kg - 5,000 kg)', value: 'large' },
+    { label: 'Extra-Large (5,000 kg - 10,000 kg)', value: 'extra-large' },
+    { label: 'Heavy-Duty (10,000 kg and above)', value: 'heavy-duty' },
+  ];
+
   const handleEditClick = (field, initialValue) => {
     setEditingField(field);
     setFieldValue(initialValue);
@@ -191,33 +200,39 @@ const Profile = () => {
                 </div>
 
                 <div className="info-item">
-                  <span className="info-label">Vehicle Type:</span>
-                  <div className="editable-field">
-                    {editingField === 'vehicleType' ? (
-                      <div className="edit-mode">
-                        <input
-                          type="text"
-                          value={fieldValue}
-                          onChange={(e) => setFieldValue(e.target.value)}
-                          className="edit-input"
-                        />
-                        <button onClick={handleSaveClick} disabled={loading} className="action-btn save">
-                          <Check size={16} />
-                        </button>
-                        <button onClick={() => setEditingField(null)} className="action-btn cancel">
-                          <X size={16} />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="display-mode">
-                        <span className="info-value">{vehicleDetails?.vehicleType || 'Not provided'}</span>
-                        <button onClick={() => handleEditClick('vehicleType', vehicleDetails?.vehicleType)} className="edit-btn">
-                          <Pencil size={16} />
-                        </button>
-                      </div>
-                    )}
+              <span className="info-label">Vehicle Type:</span>
+              <div className="editable-field">
+                {editingField === 'vehicleType' ? (
+                  <div className="edit-mode">
+                    <select
+                      value={fieldValue}
+                      onChange={(e) => setFieldValue(e.target.value)}
+                      className="edit-select"
+                    >
+                      {vehicleTypes.map((type) => (
+                        <option key={type.value} value={type.value}>
+                          {type.label}
+                        </option>
+                      ))}
+                    </select>
+                    <button onClick={handleSaveClick} disabled={loading} className="action-btn save">
+                      <Check size={16} />
+                    </button>
+                    <button onClick={() => setEditingField(null)} className="action-btn cancel">
+                      <X size={16} />
+                    </button>
                   </div>
-                </div>
+                ) : (
+                  <div className="display-mode">
+                    <span className="info-value">{user.vehicleDetails?.vehicleType || 'Not provided'}</span>
+                    <button onClick={() => handleEditClick('vehicleType', user.vehicleDetails?.vehicleType)} className="edit-btn">
+                      <Pencil size={16} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
 
                 <div className="info-item">
                   <span className="info-label">Load Capacity:</span>

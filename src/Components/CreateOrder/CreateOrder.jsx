@@ -6,6 +6,7 @@ import './CreateOrder.css';
 import { createJob } from "../../Redux/actions/jobAction";
 import Navbar from '../Auth/Shared/Navbar';
 import Loader from '../Loader/Loader';
+import GoogleMap from '../Map/Map';
 
 const CreateOrder = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const CreateOrder = () => {
   });
   const [weightError, setWeightError] = useState('');
   const [itemsError, setItemsError] = useState('');
+  const [showMap, setShowMap] = useState(null); // State to control map modal
 
   // Vehicle type weight limits
   const vehicleTypeLimits = {
@@ -35,13 +37,13 @@ const CreateOrder = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    
     // Items validation: allow only letters and spaces
     if (name === "items") {
-      if (/^[a-zA-Z\s]*$/.test(value)) {
+      // Updated regex to allow letters, spaces, and commas
+      if (/^[a-zA-Z\s,]*$/.test(value)) {
         setItemsError('');
       } else {
-        setItemsError('Items field should only contain letters and spaces.');
+        setItemsError('Items field should only contain letters, spaces, and commas.');
       }
     }
     
@@ -62,6 +64,15 @@ const CreateOrder = () => {
         setWeightError("");
       }
     }
+  };
+
+  const handleLocationSelect = (address) => {
+    if (showMap === 'pickup') {
+      setFormData({ ...formData, pickupLocation: address });
+    } else if (showMap === 'drop') {
+      setFormData({ ...formData, dropLocation: address });
+    }
+    setShowMap(null); // Close the map after selecting location
   };
 
   const handleSubmit = (e) => {
@@ -107,24 +118,34 @@ const CreateOrder = () => {
             <form onSubmit={handleSubmit} className="create-order-form">
               <div className="form-group">
                 <label>Pickup Location</label>
-                <input
-                  type="text"
-                  name="pickupLocation"
-                  value={formData.pickupLocation}
-                  onChange={handleChange}
-                  required
-                />
+                <div style={{ display: 'flex' }}>
+                  <input
+                    type="text"
+                    name="pickupLocation"
+                    value={formData.pickupLocation}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button type="button" onClick={() => setShowMap('pickup')}>
+                    📍
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
                 <label>Drop Location</label>
-                <input
-                  type="text"
-                  name="dropLocation"
-                  value={formData.dropLocation}
-                  onChange={handleChange}
-                  required
-                />
+                <div style={{ display: 'flex' }}>
+                  <input
+                    type="text"
+                    name="dropLocation"
+                    value={formData.dropLocation}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button type="button" onClick={() => setShowMap('drop')}>
+                    📍
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
@@ -153,6 +174,7 @@ const CreateOrder = () => {
                   onChange={handleChange}
                   required
                 />
+                {itemsError && <small style={{ color: "red" }}>{itemsError}</small>}
               </div>
 
               <div className="form-group">
@@ -200,6 +222,14 @@ const CreateOrder = () => {
           </div>
         </div>
       </div>
+
+      {/* Conditionally render Google Map */}
+      {showMap && (
+        <div className="map-modal">
+          <GoogleMap onLocationSelect={handleLocationSelect} />
+          <button onClick={() => setShowMap(null)}>Close Map</button>
+        </div>
+      )}
     </div>
   );
 };
