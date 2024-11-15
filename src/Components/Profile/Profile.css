@@ -216,6 +216,7 @@
   font-size: 0.75rem;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
+  margin-left: 10px;
   text-transform: capitalize;
 }
 
@@ -226,7 +227,7 @@
 
 .verification-status.verified {
   background-color: rgba(107,33,168,0.1);
-  color: var(--primary-dark);
+  color: green;
 }
 
 .verification-status.rejected {

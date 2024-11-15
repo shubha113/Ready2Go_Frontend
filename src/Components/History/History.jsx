@@ -39,12 +39,12 @@ const History = () => {
       <div className="job-details">
         <div className="detail-group">
           <h4>Pickup Location</h4>
-          <p>{job.pickupLocation.coordinates.join(', ')}</p>
+          <p>{job.pickupLocation.coordinates}</p>
         </div>
         
         <div className="detail-group">
           <h4>Drop Location</h4>
-          <p>{job.dropLocation.coordinates.join(', ')}</p>
+          <p>{job.dropLocation.coordinates}</p>
         </div>
         
         <div className="details-row">

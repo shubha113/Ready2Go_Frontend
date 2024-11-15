@@ -29,7 +29,9 @@ export const userHistory = () => async (dispatch) => {
       withCredentials: true,
     });
     
+    console.log("API Response:", data);
     dispatch({ type: 'userHistorySuccess', payload: data });
+
   } catch (error) {
     dispatch({
       type: 'userHistoryFail',
