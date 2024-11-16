@@ -48,8 +48,6 @@ export const logout = () => async dispatch => {
 
      dispatch({ type: "logoutSuccess", payload: data.message });
 
-     // Remove token cookie from the frontend (client-side)
-     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   } catch (error) {
      dispatch({ type: "logoutFail", payload: error.response.data.message });
   }

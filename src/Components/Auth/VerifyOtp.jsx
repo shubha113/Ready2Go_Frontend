@@ -53,7 +53,7 @@ const OTP = () => {
 
 
   useEffect(() => {
-    if (message === "Phone number verified successfully.") {  // Only navigate on verification success
+    if (message === "Phone number verified successfully.") {
       toast.success(message);
       setFormData(initialFormData);
       dispatch({ type: "clearMessage" });

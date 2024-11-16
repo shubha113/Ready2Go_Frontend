@@ -38,6 +38,22 @@ export const jobReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+
+    
+    .addCase("uploadDetailsRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("uploadDetailsSuccess", (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.message = action.payload.message;
+      state.uploadedDocuments = action.payload.uploadedDocuments;
+    })
+    .addCase("uploadDetailsFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    
     .addCase("clearMessage", (state) => {
       state.message = "";
     })

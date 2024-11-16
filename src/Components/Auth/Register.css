@@ -187,3 +187,27 @@
   }
   
   
+
+
+  .password-field {
+    position: relative;
+  }
+  
+  .password-field input {
+    width: 100%;
+    padding: 12px;
+    padding-right: 40px; /* Add space for the icon */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Position the icon within the input field */
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  

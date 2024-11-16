@@ -151,3 +151,28 @@
     color: #666666;
   }
   
+
+
+
+
+  .password-container {
+    position: relative;
+  }
+  
+  .password-container input {
+    padding-right: 40px; /* This ensures space on the right for the icon */
+  }
+  
+  .eye-icon {
+    position: absolute;
+    right: 10px; /* Adjust to fine-tune the position of the icon */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the icon */
+    cursor: pointer;
+    z-index: 1; /* Ensure the icon is clickable and above the input */
+  }
+  
+  .password-container input:focus {
+    outline: none;
+  }
+  

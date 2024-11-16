@@ -16,7 +16,7 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase("registerSuccess", (state, action) => {
       state.loading = false;
-      state.isAuthenticated = true;
+      state.isAuthenticated = false;
       state.user = action.payload.user;
       state.message = action.payload.message;
     })
@@ -81,6 +81,7 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase("verifySuccess", (state, action) => {
       state.loading = false;
+      state.isAuthenticated = false;
       state.message = action.payload.message;
     })
     .addCase("verifyFail", (state, action) => {

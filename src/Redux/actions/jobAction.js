@@ -29,13 +29,32 @@ export const userHistory = () => async (dispatch) => {
       withCredentials: true,
     });
     
-    console.log("API Response:", data);
     dispatch({ type: 'userHistorySuccess', payload: data });
 
   } catch (error) {
     dispatch({
       type: 'userHistoryFail',
       payload: error.response?.data?.message || 'Error fetching history'
+    });
+  }
+};
+
+
+
+export const uploadDetails = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'uploadDetailsRequest' });
+    
+    const { data } = await axios.get(`${server}/user/upload-documents`, {
+      withCredentials: true,
+    });
+    
+    dispatch({ type: 'uploadDetailsSuccess', payload: data });
+
+  } catch (error) {
+    dispatch({
+      type: 'uploadDetailsFail',
+      payload: error.response?.data?.message || 'Error uploading Details'
     });
   }
 };
