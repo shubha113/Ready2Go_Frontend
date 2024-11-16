@@ -1,7 +1,8 @@
 .history-container {
-    max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
     padding: 20px;
+    background: linear-gradient(135deg, rgba(107,33,168,0.05) 0%, rgba(219,39,119,0.05) 100%);
   }
   
   .delivery-section {

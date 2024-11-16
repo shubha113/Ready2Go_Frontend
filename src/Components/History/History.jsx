@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './History.css';
 import { userHistory } from '../../Redux/actions/jobAction';
 import Loader from '../Loader/Loader';
+import Navbar from '../Auth/Shared/Navbar';
 
 const History = () => {
   const dispatch = useDispatch();
@@ -75,16 +76,10 @@ const History = () => {
     </div>
   );
 
-  if (loading) {
-    return <div className="loading"><Loader/></div>;
-  }
-
-  if (error) {
-    return <div className="error">{error}</div>;
-  }
-
   return (
     <div className="history-container">
+      
+      <Navbar/>
       {ongoingCount > 0 && (
         <section className="delivery-section">
           <h2>Ongoing Deliveries ({ongoingCount})</h2>
