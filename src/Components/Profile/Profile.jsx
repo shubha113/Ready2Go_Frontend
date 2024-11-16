@@ -16,7 +16,25 @@ const Profile = () => {
   const [editingField, setEditingField] = useState(null);
   const [fieldValue, setFieldValue] = useState("");
   const [file, setFile] = useState(null);
-  const [editingDocument, setEditingDocument] = useState(null);
+  const [files, setFiles] = useState({
+    identityProof: [],
+    addressProof: [],
+    otherDocuments: [],
+    driverLicense: [],
+    vehicleInsurance: [],
+    vehicleRegistration: [],
+    vehiclePhoto: [],
+  });
+
+  const handleFileChange = (e, field) => {
+    const selectedFiles = Array.from(e.target.files); // Convert FileList to array
+    setFiles((prevFiles) => {
+      return {
+        ...prevFiles,
+        [field]: [...prevFiles[field], ...selectedFiles], // Add new files to the respective field
+      };
+    });
+  };
 
   if (!user) {
     return <div>Please log in to view your profile.</div>;
@@ -47,30 +65,32 @@ const Profile = () => {
     setEditingField(field);
     setFieldValue(initialValue || "");
     setFile(null);
-    setEditingDocument(field);
   };
 
-  const handleSaveClick = () => {
-    if (!editingField) {
-      console.error("No field selected for editing.");
+  const handleSaveClick = (field) => {
+    // Handle Non-Document Fields (e.g., phoneNumber, vehicleType, etc.)
+    if (editingField && fieldValue.trim()) {
+      const updatedData = { [editingField]: fieldValue };
+      dispatch(updateProfile(updatedData)); // Submit non-document data
+      setEditingField(null);
+      setFieldValue("");
       return;
     }
 
-    const updatedData = new FormData();
-    if (file) {
-      updatedData.append(editingField, file);
-    } else {
-      updatedData.append(editingField, fieldValue);
-    }
+    // Handle Document Fields (e.g., identityProof, vehicleInsurance, etc.)
+    if (field && files[field]?.length) {
+      const updatedData = new FormData();
+      files[field]?.forEach((file) => {
+        updatedData.append(field, file);
+      });
 
-    dispatch(updateProfile(updatedData)).then(() => {
-      if (editingField === "phoneNumber") {
-        navigate("/verify-otp");
-      }
-      setEditingField(null);
-      setFile(null);
-      setEditingDocument(null);
-    });
+      dispatch(updateProfile(updatedData)).then(() => {
+        setFiles((prevFiles) => ({
+          ...prevFiles,
+          [field]: [], // Clear the files after submission
+        }));
+      });
+    }
   };
 
   useEffect(() => {
@@ -119,18 +139,30 @@ const Profile = () => {
           <input
             type="file"
             id={field}
-            onChange={(e) => {
-              setFile(e.target.files[0]);
-              setEditingField(field);
-            }}
+            multiple // Allow multiple file uploads
+            onChange={(e) => handleFileChange(e, field)} // Use the updated handler
             className="file-input"
           />
-          {file && editingField === field && (
+          {files[field]?.length > 0 && (
+            <div className="selected-files">
+              <ul>
+                {files[field].map((file, index) => (
+                  <li key={index}>{file.name}</li> // Display selected file names
+                ))}
+              </ul>
+            </div>
+          )}
+          {files[field]?.length > 0 && (
             <button
-              onClick={handleSaveClick}
+              onClick={() => handleSaveClick(field)} // Pass the specific field to save
               disabled={loading}
               className="submit-upload"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px' }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "30px",
+              }}
             >
               {loading ? <Loader size={5} /> : "Submit"}
             </button>
@@ -159,7 +191,10 @@ const Profile = () => {
 
       <div className="info-item">
         <span className="info-label">Vehicle Registration:</span>
-        {formatDocumentList("vehicleRegistration", documents.vehicleRegistration)}
+        {formatDocumentList(
+          "vehicleRegistration",
+          documents.vehicleRegistration
+        )}
       </div>
 
       <div className="info-item">
@@ -215,52 +250,48 @@ const Profile = () => {
         </div>
       </div>
 
-      
-<div className="info-item">
-                  <span className="info-label">Load Capacity:</span>
-                  <div className="editable-field">
-                    {editingField === "loadCapacity" ? (
-                      <div className="edit-mode">
-                        <input
-                          type="text"
-                          value={fieldValue}
-                          onChange={(e) => setFieldValue(e.target.value)}
-                          className="edit-input"
-                        />
-                        <button
-                          onClick={handleSaveClick}
-                          disabled={loading}
-                          className="action-btn save"
-                        >
-                          <Check size={16} />
-                        </button>
-                        <button
-                          onClick={() => setEditingField(null)}
-                          className="action-btn cancel"
-                        >
-                          <X size={16} />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="display-mode">
-                        <span className="info-value">
-                          {vehicleDetails?.loadCapacity || "Not provided"} Kg
-                        </span>
-                        <button
-                          onClick={() =>
-                            handleEditClick(
-                              "loadCapacity",
-                              vehicleDetails?.loadCapacity
-                            )
-                          }
-                          className="edit-btn"
-                        >
-                          <Pencil size={16} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
+      <div className="info-item">
+        <span className="info-label">Load Capacity:</span>
+        <div className="editable-field">
+          {editingField === "loadCapacity" ? (
+            <div className="edit-mode">
+              <input
+                type="text"
+                value={fieldValue}
+                onChange={(e) => setFieldValue(e.target.value)}
+                className="edit-input"
+              />
+              <button
+                onClick={handleSaveClick}
+                disabled={loading}
+                className="action-btn save"
+              >
+                <Check size={16} />
+              </button>
+              <button
+                onClick={() => setEditingField(null)}
+                className="action-btn cancel"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ) : (
+            <div className="display-mode">
+              <span className="info-value">
+                {vehicleDetails.loadCapacity || "Not provided"}
+              </span>
+              <button
+                onClick={() =>
+                  handleEditClick("loadCapacity", vehicleDetails.loadCapacity)
+                }
+                className="edit-btn"
+              >
+                <Pencil size={16} />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 
@@ -313,7 +344,7 @@ const Profile = () => {
                       className="edit-input"
                     />
                     <button
-                      onClick={handleSaveClick}
+                      onClick={() => handleSaveClick("phoneNumber")}
                       disabled={loading}
                       className="action-btn save"
                     >
