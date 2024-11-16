@@ -1,14 +1,13 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-
 const initialState = {
   user: null,
   job: null,
   loading: false,
-  error: null
+  error: null,
 };
 
-export const jobReducer = createReducer(initialState, (builder) => { 
+export const jobReducer = createReducer(initialState, (builder) => {
   builder
     .addCase("createJobRequest", (state) => {
       state.loading = true;
@@ -39,7 +38,21 @@ export const jobReducer = createReducer(initialState, (builder) => {
       state.error = action.payload;
     })
 
-    
+    .addCase("driverHistoryRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("driverHistorySuccess", (state, action) => {
+      state.loading = false;
+      state.ongoingDeliveries = action.payload.ongoingDeliveries;
+      state.pastDeliveries = action.payload.pastDeliveries;
+      state.ongoingCount = action.payload.ongoingCount;
+      state.pastDeliveriesCount = action.payload.pastDeliveriesCount;
+    })
+    .addCase("driverHistoryFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
     .addCase("uploadDetailsRequest", (state) => {
       state.loading = true;
     })
@@ -53,7 +66,7 @@ export const jobReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
-    
+
     .addCase("clearMessage", (state) => {
       state.message = "";
     })

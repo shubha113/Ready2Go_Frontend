@@ -41,6 +41,26 @@ export const userHistory = () => async (dispatch) => {
 
 
 
+export const driverHistory = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'driverHistoryRequest' });
+    
+    const { data } = await axios.get(`${server}/job/driver`, {
+      withCredentials: true,
+    });
+    
+    dispatch({ type: 'driverHistorySuccess', payload: data });
+
+  } catch (error) {
+    dispatch({
+      type: 'driverHistoryFail',
+      payload: error.response?.data?.message || 'Error fetching history'
+    });
+  }
+};
+
+
+
 export const uploadDetails = () => async (dispatch) => {
   try {
     dispatch({ type: 'uploadDetailsRequest' });
