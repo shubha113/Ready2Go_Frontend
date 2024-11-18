@@ -78,3 +78,28 @@ export const uploadDetails = () => async (dispatch) => {
     });
   }
 };
+
+
+
+export const getJobs = (radius = 10) => async (dispatch) => {
+  try {
+    dispatch({ type: "getJobsRequest" });
+
+    const config = {
+      params: { radius },
+      withCredentials: true,
+    };
+
+    const { data } = await axios.get(`${server}/job/jobs/driver`, config);
+
+    dispatch({ 
+      type: "getJobsSuccess", 
+      payload: data  
+    });
+  } catch (error) {
+    dispatch({ 
+      type: "getJobsFail", 
+      payload: error.response?.data?.message || "Something went wrong" 
+    });
+  }
+};

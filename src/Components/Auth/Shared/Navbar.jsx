@@ -59,7 +59,7 @@ const Navbar = () => {
           )}
           {(user?.role === "driver" || user?.role === "company") && (
             <li>
-              <Link to="/take-delivery">Take Delivery</Link>
+              <Link to="/jobs">Take Delivery</Link>
             </li>
           )}
 

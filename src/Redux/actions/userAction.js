@@ -179,3 +179,36 @@ export const updateProfile = (profileData) => async (dispatch) => {
   }
 };
 
+
+// Update location action
+export const updateLocation = (coordinates, jobId = null) => async (dispatch) => {
+  try {
+    dispatch({ type: 'locationUpdateRequest' });
+
+    const endpoint = jobId
+      ? `${server}/driver/location/${jobId}`
+      : `${server}/user/user/location`;
+
+    const { data } = await axios.patch(
+      endpoint,
+      { coordinates },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({ type: 'locationUpdateSuccess', payload: data });
+    return data;
+
+  } catch (error) {
+    dispatch({
+      type: 'locationUpdateFail',
+      payload: error.response?.data?.message || 'Failed to update location',
+    });
+    throw error;
+  }
+};
+

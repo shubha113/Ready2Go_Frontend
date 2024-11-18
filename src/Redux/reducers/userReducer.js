@@ -30,14 +30,14 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase("loginSuccess", (state, action) => {
       state.loading = false;
-      state.message = action.payload.message;
       state.isAuthenticated = true;
       state.user = action.payload.user;
+      state.message = action.payload.message;
     })
     .addCase("loginFail", (state, action) => {
       state.loading = false;
-      state.error = action.payload;
       state.isAuthenticated = false;
+      state.error = action.payload;
     })
     .addCase("logoutRequest", (state) => {
       state.loading = true;
@@ -50,8 +50,8 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase("logoutFail", (state, action) => {
       state.loading = false;
-      state.error = action.payload;
       state.isAuthenticated = true;
+      state.error = action.payload;
     })
     .addCase("forgotPasswordRequest", (state) => {
       state.loading = true;
@@ -126,6 +126,21 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.isAuthenticated = false;
       state.error = action.payload;
     })
+
+     // Location update actions
+     .addCase('locationUpdateRequest', (state) => {
+      state.loading = true;
+    })
+    .addCase('locationUpdateSuccess', (state, action) => {
+      state.loading = false;
+      state.message = action.payload.message;
+      state.user.location = action.payload.location; // Update location in the state
+    })
+    .addCase('locationUpdateFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    
     .addCase("clearMessage", (state) => {
       state.message = "";
     })

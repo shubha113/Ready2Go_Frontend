@@ -2,7 +2,9 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-  job: null,
+  jobs: [], // Renamed from 'job' for clarity
+  ongoingDeliveries: [],
+  pastDeliveries: [],
   loading: false,
   error: null,
 };
@@ -66,6 +68,23 @@ export const jobReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+
+    
+    .addCase("getJobsRequest", (state) => {
+      state.loading = true;
+      state.jobs = []; // Reset jobs during a new request
+    })
+    .addCase("getJobsSuccess", (state, action) => {
+      state.loading = false;
+      state.jobs = action.payload.availableJobs; // Store the jobs from the API
+      state.message = action.payload.message || null; // Optional message, if needed
+      state.error = null; // Clear any previous errors
+    })
+    .addCase("getJobsFail", (state, action) => {
+      state.loading = false;
+      state.jobs = []; // Clear jobs on failure
+      state.error = action.payload; // Store the error message
+    })    
 
     .addCase("clearMessage", (state) => {
       state.message = "";

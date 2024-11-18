@@ -16,6 +16,7 @@ import Profile from './Components/Profile/Profile';
 import {ProtectedRoute} from "protected-route-react";
 import CreateOrder from './Components/CreateOrder/CreateOrder';
 import History from './Components/History/History';
+import GetJobs from './Components/GetJobs/GetJobs';
 
 function App() {
 
@@ -51,6 +52,7 @@ function App() {
           <Route path='/reset-passord' element={isAuthenticated ? <Navigate to= "/login"/> : <ResetPassword/>}/>
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/create-order" element={<CreateOrder />} />
+          <Route path="/jobs" element={<GetJobs />} />
           <Route path="/history" element={<History />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
