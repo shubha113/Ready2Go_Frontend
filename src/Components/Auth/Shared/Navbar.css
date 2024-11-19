@@ -10,11 +10,10 @@ body {
 }
 
 .header nav {
-  padding: 0px 3%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 }
 
 .header .logo {
@@ -84,11 +83,9 @@ body {
   position: absolute;
   top: 109px;
   right: 0;
-  width: 25%;
-  height: -1px;
   background: #fff;
   padding: 1rem 67px;
-  z-index: 10;
+  z-index: 20;
   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
 }
 
@@ -121,13 +118,44 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
+  background-image: linear-gradient(to right, #cb0fd8 0%, #c147f9 100%);
   transition: 0.5s ease;
   display: block;
   z-index: -1;
 }
 
 .button-logout:hover::before {
+  width: 9em;
+}
+
+.button-login {
+  border-radius: 30em;
+  font-size: 15px;
+  padding: 10px;
+  font-family: inherit;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  background-color: purple;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+.button-login::before {
+  content: "";
+  width: 0;
+  height: 3em;
+  border-radius: 30em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(to right, #cb0fd8 0%, #c147f9 100%);
+  transition: 0.5s ease;
+  display: block;
+  z-index: -1;
+}
+
+.button-login:hover::before {
   width: 9em;
 }
 

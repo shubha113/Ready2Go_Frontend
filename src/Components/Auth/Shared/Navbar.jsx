@@ -30,6 +30,10 @@ const Navbar = () => {
     dispatch(logout());
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   const toggleMenu = () => {
     setMenuActive(!isMenuActive);
   };
@@ -82,8 +86,11 @@ const Navbar = () => {
               <li>
                 <Link to="/register">Register</Link>
               </li>
-              <li>
-                <Link to="/login">Login</Link>
+
+              <li onClick={handleLogin}>
+                <div className="button-login">
+                  <Link className="button-link">Login</Link>
+                </div>
               </li>
             </>
           )}
