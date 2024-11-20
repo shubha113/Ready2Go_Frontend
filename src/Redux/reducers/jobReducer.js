@@ -1,8 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
+  isAuthenticated: false,
   user: null,
-  jobs: [], // Renamed from 'job' for clarity
+  message: null,
+  jobs: [],
   ongoingDeliveries: [],
   pastDeliveries: [],
   loading: false,
@@ -72,19 +74,56 @@ export const jobReducer = createReducer(initialState, (builder) => {
     
     .addCase("getJobsRequest", (state) => {
       state.loading = true;
-      state.jobs = []; // Reset jobs during a new request
+      state.jobs = []; 
     })
     .addCase("getJobsSuccess", (state, action) => {
       state.loading = false;
-      state.jobs = action.payload.availableJobs; // Store the jobs from the API
-      state.message = action.payload.message || null; // Optional message, if needed
-      state.error = null; // Clear any previous errors
+      state.jobs = action.payload.availableJobs;
+      state.message = action.payload.message || null; 
+      state.error = null;
     })
     .addCase("getJobsFail", (state, action) => {
       state.loading = false;
-      state.jobs = []; // Clear jobs on failure
-      state.error = action.payload; // Store the error message
-    })    
+      state.jobs = []; 
+      state.error = action.payload;
+    })   
+
+    .addCase("cancelJobRequest", (state) => {
+      state.loading = true;
+      state.isAuthenticated = false
+    })
+    .addCase("cancelJobSuccess", (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = true
+      state.message = action.payload.message;
+      state.jobs = state.jobs.filter((job) => job._id !== action.payload.jobId);
+    })
+    .addCase("cancelJobFail", (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    })
+
+    .addCase('acceptJobRequest', (state) => {
+      state.loading = true;
+    })
+    .addCase('acceptJobSuccess', (state, action) => {
+      state.loading = false;
+      state.message = action.payload.message;
+      const jobIndex = state.jobs.findIndex(
+        (job) => job._id === action.payload.fareSubmission.jobId
+      );
+      if (jobIndex !== -1) {
+        state.jobs[jobIndex].submittedFares = [
+          ...(state.jobs[jobIndex].submittedFares || []),
+          action.payload.fareSubmission,
+        ];
+      }
+    })
+    .addCase('acceptJobFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
     .addCase("clearMessage", (state) => {
       state.message = "";

@@ -240,3 +240,36 @@
       flex-direction: column;
     }
   }
+
+
+  .fare-submission-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .fare-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    flex-grow: 1;
+  }
+  
+  .fare-input-container .icon {
+    margin-right: 10px;
+    color: #666;
+  }
+  
+  .fare-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 5px;
+  }
+  
+  .fare-input:focus {
+    border-color: #DB2777;
+  }

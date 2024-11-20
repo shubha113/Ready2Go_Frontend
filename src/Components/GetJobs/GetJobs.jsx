@@ -8,28 +8,66 @@ import {
   Navigation,
   Package, 
   Weight,
-  User
+  User,
+  IndianRupee
 } from "lucide-react";
-import "./GetJobs.css"; // Matches the provided CSS file
-import { getJobs } from "../../Redux/actions/jobAction";
+import "./GetJobs.css";
+import { getJobs, acceptJob } from "../../Redux/actions/jobAction";
 import Navbar from "../Auth/Shared/Navbar";
+import Loader from "../Loader/Loader";
+import { toast, ToastContainer } from "react-toastify";
 
 const GetJobs = () => {
   const dispatch = useDispatch();
-  const { loading, jobs, error } = useSelector((state) => state.job);
+  const { loading, jobs, error, message } = useSelector((state) => state.job);
 
-  const [expandedJob, setExpandedJob] = useState(null); // To toggle job details
+  const [expandedJob, setExpandedJob] = useState(null);
+  const [fareInputs, setFareInputs] = useState({});
+
+
+  useEffect(() => {
+    if (message) {
+      toast.success(message);
+    }
+    if (error) {
+      toast.error(error);
+    }
+  }, [message, error]);
+
 
   useEffect(() => {
     dispatch(getJobs());
   }, [dispatch]);
 
-  if (loading) return <p>Loading jobs...</p>;
+  
+  const handleFareChange = (jobId, value) => {
+    setFareInputs(prev => ({
+      ...prev,
+      [jobId]: value
+    }));
+  };
+
+  const handleSubmitFare = (jobId) => {
+    const fare = fareInputs[jobId];
+    if (fare && parseFloat(fare) > 0) {
+      dispatch(acceptJob(jobId, parseFloat(fare)));
+      setFareInputs(prev => ({
+        ...prev,
+        [jobId]: ''
+      }));
+    } else {
+      alert("Please enter a valid fare amount");
+    }
+  };
+
+
+  if (loading) return <Loader/>;
   if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="nearby-jobs-container">
         <Navbar/>
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="header-section">
         <h2 className="main-title">Nearby Jobs</h2>
         <div className="header-controls">
@@ -115,9 +153,25 @@ const GetJobs = () => {
                   </div>
                 </div>
 
-                <div className="action-buttons">
-                  <button className="primary-button">Accept Job</button>
-                  <button className="secondary-button">Contact Customer</button>
+                <div className="fare-submission-section">
+                  <div className="fare-input-container">
+                    <IndianRupee className="icon"/>
+                    <input 
+                      type="number" 
+                      placeholder="Enter your fare"
+                      value={fareInputs[job._id] || ''}
+                      onChange={(e) => handleFareChange(job._id, e.target.value)}
+                      className="fare-input"
+                      min="0"
+                      step="0.01"
+                    />
+                  </div>
+                  <button 
+                    className="primary-button" 
+                    onClick={() => handleSubmitFare(job._id)}
+                  >
+                    Submit Fare
+                  </button>
                 </div>
               </div>
             )}

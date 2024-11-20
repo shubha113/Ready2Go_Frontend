@@ -10,7 +10,7 @@
 }
 
 .history-title {
-  color: #4B0082;
+  color: purple;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
@@ -22,7 +22,7 @@
 }
 
 .delivery-section h2 {
-  color: #4B0082;
+  color: purple;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
@@ -79,7 +79,7 @@
 }
 
 .job-card.ongoing {
-  border-left: 4px solid #4B0082;
+  border-left: 4px solid purple;
 }
 
 .job-card.past {
@@ -128,7 +128,7 @@
 }
 
 .person-icon {
-  color: #4B0082;
+  color: purple;
   width: 18px;
   height: 18px;
 }
@@ -160,7 +160,7 @@
 }
 
 .location-icon.pickup {
-  color: #4B0082;
+  color: purple;
 }
 
 .location-icon.drop {
@@ -193,7 +193,7 @@
 }
 
 .detail-icon {
-  color: #4B0082;
+  color: #DB2777;
   width: 18px;
   height: 18px;
 }
@@ -228,7 +228,7 @@
 }
 
 .time-icon {
-  color: #4B0082;
+  color: purple;
   width: 18px;
   height: 18px;
 }
@@ -265,17 +265,43 @@
 }
 
 .empty-icon {
-  color: #4B0082;
+  color: purple;
   margin-bottom: 1rem;
   opacity: 0.5;
 }
 
 .no-deliveries h3 {
-  color: #4B0082;
+  color: purple;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
 .no-deliveries p {
   color: #666;
+}
+
+
+/* Cancel button styling */
+.cancel-job-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #DB2777;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-job-button:hover {
+  background-color: purple;
+}
+
+.cancel-job-button .cancel-icon {
+  width: 16px;
+  height: 16px;
 }

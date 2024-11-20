@@ -53,7 +53,7 @@ function App() {
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/create-order" element={<CreateOrder />} />
           <Route path="/jobs" element={<GetJobs />} />
-          <Route path="/history" element={<History />} />
+          <Route path="/history" element={  <History />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

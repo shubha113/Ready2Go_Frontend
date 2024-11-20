@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userHistory, driverHistory } from '../../Redux/actions/jobAction';
+import { cancelJob } from '../../Redux/actions/jobAction';
 import Loader from '../Loader/Loader';
 import Navbar from '../Auth/Shared/Navbar';
 import './History.css'
@@ -15,8 +16,10 @@ import {
   Calendar,
   CheckCircle2,
   Timer,
-  MapPinned
+  MapPinned,
+  XCircle
 } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const History = () => {
   const dispatch = useDispatch();
@@ -48,6 +51,22 @@ const History = () => {
     });
   };
 
+  const handleCancelJob = (jobId) => {
+    const confirmCancel = window.confirm('Are you sure you want to cancel this job?');
+    if (confirmCancel) {
+      dispatch(cancelJob(jobId))
+        .then(() => {
+          toast.success('Job canceled successfully');
+          if (user?.role === 'user') {
+            dispatch(userHistory());
+          }
+        })
+        .catch((error) => {
+          toast.error(error.message || 'Failed to cancel job');
+        });
+    }
+  };
+
   const JobCard = ({ job, type }) => (
     <div className={`job-card ${type}`}>
       <div className="job-header">
@@ -68,6 +87,17 @@ const History = () => {
             <User className="person-icon" />
             <p className="person-name">Customer: {job.userName}</p>
           </div>
+        )}
+        
+        {/* Conditional Cancel Button for Users in Pending Jobs */}
+        {user?.role === 'user' && job.status === 'pending' && (
+          <button 
+            className="cancel-job-button"
+            onClick={() => handleCancelJob(job._id)}
+          >
+            <XCircle className="cancel-icon" />
+            Cancel Job
+          </button>
         )}
       </div>
 

@@ -103,3 +103,49 @@ export const getJobs = (radius = 10) => async (dispatch) => {
     });
   }
 };
+
+export const cancelJob = (jobId) => async (dispatch) => {
+  try {
+    dispatch({ type: 'cancelJobRequest' });
+    
+    const { data } = await axios.delete(
+      `${server}/job/jobs/${jobId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    
+    dispatch({ type: 'cancelJobSuccess', payload: data });
+  } catch (error) {
+    dispatch({
+      type: 'cancelJobFail',
+      payload: error.response?.data?.message || 'Error canceling job',
+    });
+  }
+};
+
+
+
+export const acceptJob = (jobId, fare) => async (dispatch) => {
+  try {
+    dispatch({ type: 'acceptJobRequest' });
+
+    const { data } = await axios.post(
+      `${server}/job/jobs/${jobId}/accept`,
+      { jobId, fare },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({ type: 'acceptJobSuccess', payload: data });
+  } catch (error) {
+    dispatch({
+      type: 'acceptJobFail',
+      payload: error.response?.data?.message || 'Error accepting job',
+    });
+  }
+};
