@@ -48,20 +48,35 @@ const Navbar = () => {
         </div>
         <ul className={`nav-links ${isMenuActive ? "active" : ""}`}>
           <li>
-            <Link to="/">Home</Link>
+             <div className="button-logout">
+                  <Link  to="/" className="button-link">Home</Link>
+                </div>
+         
           </li>
 
           {user?.role === "user" && (
             <>
               <li>
-                <Link to="/create-order">Create Order</Link>
+                <div className="button-logout">
+                  <Link  to="/create-order" className="button-link">Create Order</Link>
+                </div>
+              </li>
+              
+              <li>
+                <div className="button-logout">
+                  <Link  to="/track-order" className="button-link">Track Order</Link>
+                </div>
+                
               </li>
             </>
           )}
           {(user?.role === "driver" || user?.role === "company") && (
             <>
             <li>
-              <Link to="/jobs">Take Delivery</Link>
+            
+               <div className="button-logout">
+                  <Link  to="/jobs" className="button-link">Take Delivery</Link>
+                </div>
             </li>
             <li>
               <Link to="/jobs">Track Order</Link>
@@ -72,10 +87,15 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <li>
-                <Link to="/profile">Profile</Link>
+                  <div className="button-logout">
+                  <Link  to="/profile" className="button-link">Profile</Link>
+                </div>
+          
               </li>
               <li>
-                <Link to="/history">History</Link>
+                 <div className="button-logout">
+                  <Link  to="/history" className="button-link">History</Link>
+                </div>
               </li>
               <li onClick={handleLogout}>
                 <div className="button-logout">
@@ -86,7 +106,10 @@ const Navbar = () => {
           ) : (
             <>
               <li>
-                <Link to="/register">Register</Link>
+             
+                    <div className="button-logout">
+                  <Link  to="/register" className="button-link">Register</Link>
+                </div>
               </li>
 
               <li onClick={handleLogin}>
