@@ -1,187 +1,297 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { userHistory, driverHistory } from '../../Redux/actions/jobAction';
-import { cancelJob } from '../../Redux/actions/jobAction';
-import Loader from '../Loader/Loader';
-import Navbar from '../Auth/Shared/Navbar';
-import './History.css'
-import { 
-  PackageOpen, 
-  MapPin, 
-  Truck, 
-  Weight, 
-  Clock, 
-  DollarSign,
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userHistory, driverHistory } from "../../Redux/actions/jobAction";
+import { cancelJob } from "../../Redux/actions/jobAction";
+import Loader from "../Loader/Loader";
+import Navbar from "../Auth/Shared/Navbar";
+import "./History.css";
+import {
+  PackageOpen,
+  LocateIcon,
+  MapPin,
+  Truck,
+  Weight,
+  Clock,
+  IndianRupee,
   User,
   Calendar,
   CheckCircle2,
   Timer,
   MapPinned,
-  XCircle
-} from 'lucide-react';
-import { toast } from 'react-toastify';
+  XCircle,
+  Navigation,
+} from "lucide-react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Location from '../Location/Location.jsx';
 
 const History = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [trackingJob, setTrackingJob] = useState(null);
   const {
     loading,
-    ongoingDeliveries,
-    pastDeliveries,
-    ongoingCount,
-    pastDeliveriesCount,
+    ongoingDeliveries = [], 
+    pastDeliveries = [], 
+    ongoingCount = 0, 
+    pastDeliveriesCount = 0, 
   } = useSelector((state) => state.job);
-  
-  const { user } = useSelector((state) => state.user);
+
+  const { isAuthenticated, user } = useSelector(state => state.user);
 
   useEffect(() => {
-    if (user?.role === 'driver') {
+    if (user?.role === "driver") {
       dispatch(driverHistory());
-    } else if (user?.role === 'user') {
+    } else if (user?.role === "user") {
       dispatch(userHistory());
     }
   }, [dispatch, user?.role]);
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    if (!dateString) return "Date not available";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const handleCancelJob = (jobId) => {
-    const confirmCancel = window.confirm('Are you sure you want to cancel this job?');
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel this job?"
+    );
     if (confirmCancel) {
       dispatch(cancelJob(jobId))
         .then(() => {
-          toast.success('Job canceled successfully');
-          if (user?.role === 'user') {
+          toast.success("Job canceled successfully");
+          if (user?.role === "user") {
             dispatch(userHistory());
           }
         })
         .catch((error) => {
-          toast.error(error.message || 'Failed to cancel job');
+          toast.error(error.message || "Failed to cancel job");
         });
     }
   };
 
-  const JobCard = ({ job, type }) => (
-    <div className={`job-card ${type}`}>
-      <div className="job-header">
-        <div className="status-section">
-          <span className={`status-badge ${job.status}`}>
-            {type === 'ongoing' ? <Timer className="status-icon" /> : <CheckCircle2 className="status-icon" />}
-            {job.status}
-          </span>
-        </div>
-        {user?.role === 'user' && job.driverName && (
-          <div className="person-info">
-            <User className="person-icon" />
-            <p className="person-name">Driver: {job.driverName}</p>
-          </div>
-        )}
-        {user?.role === 'driver' && job.userName && (
-          <div className="person-info">
-            <User className="person-icon" />
-            <p className="person-name">Customer: {job.userName}</p>
-          </div>
-        )}
+  const getLocationText = (location) => {
+    try {
+      if (!location) return null;
+  
+      if (location.pickupLocationText) return location.pickupLocationText;
+      if (location.dropLocationText) return location.dropLocationText;
+      
+      if (location.text) return location.text;
+      if (location.address) return location.address;
+  
+      if (location.coordinates && Array.isArray(location.coordinates)) {
+        if (location.pickupLocationText) return location.pickupLocationText;
+        if (location.dropLocationText) return location.dropLocationText;
         
-        {/* Conditional Cancel Button for Users in Pending Jobs */}
-        {user?.role === 'user' && job.status === 'pending' && (
-          <button 
-            className="cancel-job-button"
-            onClick={() => handleCancelJob(job._id)}
-          >
-            <XCircle className="cancel-icon" />
-            Cancel Job
-          </button>
-        )}
-      </div>
+        return `Location: ${location.coordinates[1]}, ${location.coordinates[0]}`;
+      }
+  
+      if (typeof location === 'string') return location;
+  
+      if (Array.isArray(location)) {
+        return `Location: ${location[1]}, ${location[0]}`;
+      }
+  
+      return "Address not available";
+    } catch (error) {
+      console.error("Error extracting location text:", error);
+      return "Address not available";
+    }
+  };
 
-      <div className="job-content">
-        <div className="location-group">
-          <div className="location-item">
-            <MapPin className="location-icon pickup" />
-            <div className="location-text">
-              <h4>Pickup Location</h4>
-              <p>{job.pickupLocation.coordinates}</p>
-            </div>
+  const JobCard = ({ job, type }) => {
+    if (!job) return null;
+
+    const pickupAddress = getLocationText(job.pickupLocation) || "Address not available";
+    const dropAddress = getLocationText(job.dropLocation) || "Address not available";
+
+    return (
+      <div className={`job-card ${type}`}>
+        <div className="job-header">
+          {isAuthenticated && user?.role === 'driver' && (
+            <Location
+              isAuthenticated={isAuthenticated}
+              driverId={user?._id}
+              jobId={user.currentJob ? user.currentJob._id : null}
+            />
+          )}
+          <div className="status-section">
+            <span className={`status-badge ${job.status || 'unknown'}`}>
+              {type === "ongoing" ? (
+                <Timer className="status-icon" />
+              ) : (
+                <CheckCircle2 className="status-icon" />
+              )}
+              {job.status || 'Unknown Status'}
+            </span>
           </div>
 
-          <div className="location-item">
-            <MapPinned className="location-icon drop" />
-            <div className="location-text">
-              <h4>Drop Location</h4>
-              <p>{job.dropLocation.coordinates}</p>
-            </div>
-          </div>
-        </div>
+          {/* User-specific buttons */}
+          {user?.role === "user" && (
+            <>
+              {job.status === "pending" && !job.driverName && (
+                <button
+                  onClick={() => navigate(`/fares/${job._id}`)}
+                  className="cancel-job-button"
+                >
+                  <IndianRupee className="cancel-icon" />
+                  View Fares
+                </button>
+              )}
 
-        <div className="details-grid">
-          <div className="detail-item">
-            <PackageOpen className="detail-icon" />
-            <div className="detail-text">
-              <h4>Items</h4>
-              <p>{job.items}</p>
-            </div>
-          </div>
+              {(job.status === "assigned" || 
+                job.status === "in-transit" || 
+                job.status === "driver_at_pickup" || 
+                job.status === "driver_at_drop") && 
+                job.driverName && (
+                <button
+                  onClick={() => navigate(`/track-order/${job._id}`)}
+                  className="track-job-button"
+                >
+                  <Navigation className="track-icon" />
+                  Track Order
+                </button>
+              )}
 
-          <div className="detail-item">
-            <Weight className="detail-icon" />
-            <div className="detail-text">
-              <h4>Weight</h4>
-              <p>{job.weight} kg</p>
-            </div>
-          </div>
+              {job.status === "pending" && (
+                <button
+                  className="cancel-job-button"
+                  onClick={() => handleCancelJob(job._id)}
+                >
+                  <XCircle className="cancel-icon" />
+                  Cancel Job
+                </button>
+              )}
+            </>
+          )}
 
-          {job.fare && (
-            <div className="detail-item">
-              <DollarSign className="detail-icon" />
-              <div className="detail-text">
-                <h4>Fare</h4>
-                <p>₹{job.fare}</p>
-              </div>
-            </div>
+          {/* Driver-specific buttons */}
+          {user?.role === "driver" && (
+            <>
+              {/* Start Delivery Button */}
+              {(job.status === "assigned" || 
+                job.status === "driver_at_pickup") && (
+                <button
+                  onClick={() => navigate(`/track-order/${job._id}`)}
+                  className="cancel-job-button"
+                >
+                  <Navigation className="cancel-icon" />
+                  Start Delivery
+                </button>
+              )}
+
+              {/* Track Order Button */}
+              {(job.status === "in-transit" || 
+                job.status === "driver_at_drop") && (
+                <button
+                  onClick={() => navigate(`/track-order/${job._id}`)}
+                  className="track-job-button"
+                >
+                  <Navigation className="track-icon" />
+                  Track Order
+                </button>
+              )}
+            </>
           )}
         </div>
 
-        {user?.role === 'driver' && type === 'ongoing' && job.currentLocation && (
-          <div className="current-location">
-            <Truck className="detail-icon" />
-            <div className="detail-text">
-              <h4>Current Location</h4>
-              <p>{job.currentLocation}</p>
+        <div className="job-content">
+          <div className="location-group">
+            <div className="location-item">
+              <MapPin className="location-icon pickup" />
+              <div className="location-text">
+                <h4>Pickup Location</h4>
+                <p>{pickupAddress}</p>
+              </div>
+            </div>
+
+            <div className="location-item">
+              <MapPinned className="location-icon drop" />
+              <div className="location-text">
+                <h4>Drop Location</h4>
+                <p>{dropAddress}</p>
+              </div>
             </div>
           </div>
-        )}
 
-        <div className="time-details">
-          <Clock className="time-icon" />
-          <div className="time-grid">
-            {job.startTime && (
-              <div className="time-item">
-                <Calendar className="calendar-icon" />
-                <p>Start: {formatDate(job.startTime)}</p>
+          <div className="details-grid">
+            <div className="detail-item">
+              <PackageOpen className="detail-icon" />
+              <div className="detail-text">
+                <h4>Items</h4>
+                <p>{job.items || 'No items specified'}</p>
+              </div>
+            </div>
+
+            <div className="detail-item">
+              <Weight className="detail-icon" />
+              <div className="detail-text">
+                <h4>Weight</h4>
+                <p>{job.weight ? `${job.weight} kg` : 'Weight not specified'}</p>
+              </div>
+            </div>
+
+            <div className="detail-item">
+              <IndianRupee className="detail-icon" />
+              <div className="detail-text">
+                <h4>Fare</h4>
+                <p>{job.fare ? `₹${job.fare}` : "No fare decided"}</p>
+              </div>
+            </div>
+
+            {user?.role === "user" && (
+              <div className="detail-item">
+                <User className="detail-icon" />
+                <div className="detail-text">
+                  <h4>Assigned Driver:</h4>
+                  <p>{job.driverName || "Not assigned"}</p>
+                </div>
               </div>
             )}
-            {job.endTime && (
-              <div className="time-item">
-                <Calendar className="calendar-icon" />
-                <p>End: {formatDate(job.endTime)}</p>
+
+            {user?.role === "driver" && job.userName && (
+              <div className="detail-item">
+                <User className="detail-icon" />
+                <div className="detail-text">
+                  <h4>Customer:</h4>
+                  <p className="person-name">{job.userName}</p>
+                </div>
               </div>
             )}
-            <div className="time-item">
-              <Calendar className="calendar-icon" />
-              <p>Created: {formatDate(job.createdAt)}</p>
+          </div>
+
+          <div className="time-details">
+            <Clock className="time-icon" />
+            <div className="time-grid">
+              {job.startTime && (
+                <div className="time-item">
+                  <Calendar className="calendar-icon" />
+                  <p>Start: {formatDate(job.startTime)}</p>
+                </div>
+              )}
+              {job.endTime && (
+                <div className="time-item">
+                  <Calendar className="calendar-icon" />
+                  <p>End: {formatDate(job.endTime)}</p>
+                </div>
+              )}
+              <div className="time-item">
+                <Calendar className="calendar-icon" />
+                <p>Created: {formatDate(job.createdAt)}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (loading) return <Loader />;
 
@@ -190,43 +300,47 @@ const History = () => {
       <Navbar />
       <div className="history-content">
         <h1 className="history-title">
-          {user?.role === 'driver' ? 'My Deliveries' : 'My Orders'}
+          {user?.role === "driver" ? "My Deliveries" : "My Orders"}
         </h1>
 
-        {ongoingCount > 0 && (
+        {ongoingDeliveries && ongoingDeliveries.length > 0 && (
           <section className="delivery-section">
             <h2>
               <Truck className="section-icon" />
-              Ongoing {user?.role === 'driver' ? 'Deliveries' : 'Orders'} ({ongoingCount})
+              Ongoing {user?.role === "driver" ? "Deliveries" : "Orders"} (
+              {ongoingCount})
             </h2>
             <div className="jobs-grid">
-              {ongoingDeliveries.map((job, index) => (
-                <JobCard key={index} job={job} type="ongoing" />
+              {ongoingDeliveries.map((job) => (
+                <JobCard key={job?._id || Math.random()} job={job} type="ongoing" />
               ))}
             </div>
           </section>
         )}
 
-        {pastDeliveriesCount > 0 && (
+        {pastDeliveries && pastDeliveries.length > 0 && (
           <section className="delivery-section">
             <h2>
               <CheckCircle2 className="section-icon" />
-              Past {user?.role === 'driver' ? 'Deliveries' : 'Orders'} ({pastDeliveriesCount})
+              Past {user?.role === "driver" ? "Deliveries" : "Orders"} (
+              {pastDeliveriesCount})
             </h2>
             <div className="jobs-grid">
-              {pastDeliveries.map((job, index) => (
-                <JobCard key={index} job={job} type="past" />
+              {pastDeliveries.map((job) => (
+                <JobCard key={job?._id || Math.random()} job={job} type="past" />
               ))}
             </div>
           </section>
         )}
 
-        {!ongoingCount && !pastDeliveriesCount && (
+        {(!ongoingDeliveries?.length && !pastDeliveries?.length) && (
           <div className="no-deliveries">
             <PackageOpen size={48} className="empty-icon" />
-            <h3>No {user?.role === 'driver' ? 'deliveries' : 'orders'} found</h3>
+            <h3>
+              No {user?.role === "driver" ? "deliveries" : "orders"} found
+            </h3>
             <p>
-              {user?.role === 'driver'
+              {user?.role === "driver"
                 ? "You haven't completed any deliveries yet."
                 : "You haven't created any delivery requests yet."}
             </p>

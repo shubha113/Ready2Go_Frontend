@@ -116,7 +116,7 @@
 }
 
 .status-badge.pending { background: #FFF3E0; color: #E65100; }
-.status-badge.accepted { background: #E3F2FD; color: #1565C0; }
+.status-badge.assigned { background: #E3F2FD; color: #1565C0; }
 .status-badge.in-transit { background: #E8F5E9; color: #2E7D32; }
 .status-badge.completed { background: #E8EAF6; color: #3949AB; }
 .status-badge.canceled { background: #FFEBEE; color: #C62828; }
@@ -285,13 +285,14 @@
 .cancel-job-button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  margin: auto;
+  gap: 0.3rem;
   background-color: #DB2777;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.6rem;
   border-radius: 20px;
-  font-size: 0.875rem;
+  font-size: 0.65rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -305,3 +306,32 @@
   width: 16px;
   height: 16px;
 }
+
+
+.track-job-button {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-left: 130px;
+  gap: 0.3rem;
+  background-color: purple;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.track-job-button:hover {
+  background-color: #DB2777;
+}
+
+.track-job-button .track-icon {
+  width: 16px;
+  height: 16px;
+}
+
+

@@ -12,4 +12,7 @@ const store = configureStore({
 
 export default store;
 
-export const server = 'https://ready2go-nine.vercel.app/api/v1';
+export const server = 'https://ready2go.onrender.com/api/v1';
+//http://localhost:5000
+//https://ready2go-nine.vercel.app/api/v1
+//https://ready2go.onrender.com/

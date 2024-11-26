@@ -17,6 +17,10 @@ import {ProtectedRoute} from "protected-route-react";
 import CreateOrder from './Components/CreateOrder/CreateOrder';
 import History from './Components/History/History';
 import GetJobs from './Components/GetJobs/GetJobs';
+import Fare from './Components/Fare/Fare';
+import PaymentSuccess from './Components/Payment/PaymentSuccess';
+import PaymentFailure from './Components/Payment/PaymentFailure';
+import TrackOrder from './Components/TrackOrder/TrackOrder';
 
 function App() {
 
@@ -54,6 +58,10 @@ function App() {
           <Route path="/create-order" element={<CreateOrder />} />
           <Route path="/jobs" element={<GetJobs />} />
           <Route path="/history" element={  <History />} />
+          <Route path="/fares/:jobId" element={  <Fare/>} />
+          <Route path="/payment-success" element={  <PaymentSuccess />} />
+          <Route path="/payment-failure" element={  <PaymentFailure />} />
+          <Route path="/track-order/:jobId" element={<TrackOrder />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

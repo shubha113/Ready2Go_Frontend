@@ -1,14 +1,18 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAuthenticated: false,
-  user: null,
-  message: null,
-  jobs: [],
-  ongoingDeliveries: [],
-  pastDeliveries: [],
   loading: false,
-  error: null,
+    jobs: [],
+    error: null,
+    message: null,
+    hasActiveJob: false,
+    acceptedFare: null,
+    currentBlockedAmount: 0,
+    totalBlockedAmount: 0,
+    blockedPayments: [],
+    currentDriverLocation: null,
+    locationUpdateSuccess: false,
+    trackingData: null,
 };
 
 export const jobReducer = createReducer(initialState, (builder) => {
@@ -71,22 +75,20 @@ export const jobReducer = createReducer(initialState, (builder) => {
       state.error = action.payload;
     })
 
-    
-    .addCase("getJobsRequest", (state) => {
+    .addCase('getJobsRequest', (state) => {
       state.loading = true;
-      state.jobs = []; 
-    })
-    .addCase("getJobsSuccess", (state, action) => {
-      state.loading = false;
-      state.jobs = action.payload.availableJobs;
-      state.message = action.payload.message || null; 
       state.error = null;
     })
-    .addCase("getJobsFail", (state, action) => {
+    .addCase('getJobsSuccess', (state, action) => {
       state.loading = false;
-      state.jobs = []; 
+      state.jobs = action.payload.availableJobs;
+      state.hasActiveJob = action.payload.hasActiveJob;
+      state.error = null;
+    })
+    .addCase('getJobsFail', (state, action) => {
+      state.loading = false;
       state.error = action.payload;
-    })   
+    })  
 
     .addCase("cancelJobRequest", (state) => {
       state.loading = true;
@@ -106,24 +108,68 @@ export const jobReducer = createReducer(initialState, (builder) => {
 
     .addCase('acceptJobRequest', (state) => {
       state.loading = true;
+      state.error = null;
     })
     .addCase('acceptJobSuccess', (state, action) => {
       state.loading = false;
       state.message = action.payload.message;
-      const jobIndex = state.jobs.findIndex(
-        (job) => job._id === action.payload.fareSubmission.jobId
-      );
-      if (jobIndex !== -1) {
-        state.jobs[jobIndex].submittedFares = [
-          ...(state.jobs[jobIndex].submittedFares || []),
-          action.payload.fareSubmission,
-        ];
+      if (!state.jobs) {
+        state.jobs = [];
       }
+      // Update jobs array and set hasActiveJob
+      state.jobs = [...state.jobs, action.payload];
+      state.hasActiveJob = true;
     })
     .addCase('acceptJobFail', (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })
+
+    .addCase('getSubmittedFaresRequest', (state) => {
+      state.loading = true;
+    })
+    .addCase('getSubmittedFaresSuccess', (state, action) => {
+      state.loading = false;
+      state.submittedFares = action.payload.submittedFares;
+      state.jobDetails = action.payload.jobDetails;
+      state.totalSubmissions = action.payload.totalSubmissions;
+    })
+    .addCase('getSubmittedFaresFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+    .addCase("acceptFareRequest", (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase("acceptFareSuccess", (state, action) => {
+      state.loading = false;
+      state.message = action.payload.message;
+      state.acceptedFare = action.payload.acceptedFare;
+      state.currentBlockedAmount = action.payload.currentBlockedAmount;
+      state.totalBlockedAmount = action.payload.totalBlockedAmount;
+      state.blockedPayments = action.payload.blockedPayments;
+      state.hasActiveJob = true; 
+    })
+    .addCase("acceptFareFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+    .addCase("getJobTrackingRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("getJobTrackingSuccess", (state, action) => {
+      state.loading = false;
+      state.trackingData = action.payload.tracking;
+      state.error = null;
+    })
+    .addCase("getJobTrackingFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    
 
     .addCase("clearMessage", (state) => {
       state.message = "";

@@ -181,17 +181,20 @@ export const updateProfile = (profileData) => async (dispatch) => {
 
 
 // Update location action
+
+
+// 6. userAction.js
+
 export const updateLocation = (coordinates, jobId = null) => async (dispatch) => {
   try {
-    dispatch({ type: 'locationUpdateRequest' });
-
-    const endpoint = jobId
-      ? `${server}/driver/location/${jobId}`
-      : `${server}/user/user/location`;
-
+    dispatch({ type: 'updateLocationRequest' });
+    
+    // Update the URL to match the backend route
+    const url = `${server}/user/driver/location`;
+    
     const { data } = await axios.patch(
-      endpoint,
-      { coordinates },
+      url,
+      { coordinates, jobId }, // Include jobId in the request body
       {
         headers: {
           'Content-Type': 'application/json',
@@ -200,15 +203,36 @@ export const updateLocation = (coordinates, jobId = null) => async (dispatch) =>
       }
     );
 
-    dispatch({ type: 'locationUpdateSuccess', payload: data });
-    return data;
-
+    dispatch({
+      type: 'updateLocationSuccess',
+      payload: data
+    });
   } catch (error) {
     dispatch({
-      type: 'locationUpdateFail',
-      payload: error.response?.data?.message || 'Failed to update location',
+      type: 'updateLocationFail',
+      payload: error.response?.data?.message || 'Error updating location'
     });
-    throw error;
   }
 };
 
+
+export const updateLocationViaSocket = ({
+  jobId,
+  coordinates,
+  status,
+  isAtPickup,
+  isAtDestination,
+  timestamp,
+  driverDetails
+}) => ({
+  type: 'UPDATE_LOCATION_VIA_SOCKET',
+  payload: {
+    jobId,
+    coordinates,
+    status,
+    isAtPickup,
+    isAtDestination,
+    timestamp,
+    driverDetails
+  }
+});

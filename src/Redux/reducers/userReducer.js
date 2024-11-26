@@ -7,6 +7,9 @@ const initialState = {
   loading: false,
   message: null,
   error: null,
+  currentDriverLocation: null,
+  locationUpdateSuccess: false,
+  trackingData: null,
 };
 
 export const userReducer = createReducer(initialState, (builder) => {
@@ -126,21 +129,50 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.isAuthenticated = false;
       state.error = action.payload;
     })
-
-     // Location update actions
-     .addCase('locationUpdateRequest', (state) => {
+    
+    .addCase("updateLocationRequest", (state) => {
       state.loading = true;
+      state.locationUpdateSuccess = false;
+      state.error = null;
     })
-    .addCase('locationUpdateSuccess', (state, action) => {
+    .addCase("updateLocationSuccess", (state, action) => {
       state.loading = false;
+      state.locationUpdateSuccess = true;
+      state.error = null;
+      if (action.payload.location) {
+        if (state.user) {
+          state.user.location = {
+            type: "Point",
+            coordinates: action.payload.location
+          };
+        }
+      }
       state.message = action.payload.message;
-      state.user.location = action.payload.location; // Update location in the state
     })
-    .addCase('locationUpdateFail', (state, action) => {
+    .addCase("updateLocationFail", (state, action) => {
       state.loading = false;
+      state.locationUpdateSuccess = false;
       state.error = action.payload;
     })
-    
+    .addCase("UPDATE_LOCATION_VIA_SOCKET", (state, action) => {
+      if (action.payload.coordinates) {
+        if (state.user && state.user.role === 'driver') {
+          state.user.location = {
+            type: "Point",
+            coordinates: action.payload.coordinates
+          };
+        }
+        state.trackingData = {
+          jobId: action.payload.jobId,
+          status: action.payload.status,
+          isAtPickup: action.payload.isAtPickup,
+          isAtDestination: action.payload.isAtDestination,
+          timestamp: action.payload.timestamp,
+          driverDetails: action.payload.driverDetails,
+          coordinates: action.payload.coordinates
+        };
+      }
+    })
     .addCase("clearMessage", (state) => {
       state.message = "";
     })

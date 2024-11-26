@@ -56,15 +56,17 @@ const Navbar = () => {
               <li>
                 <Link to="/create-order">Create Order</Link>
               </li>
-              <li>
-                <Link to="/track-order">Track Order</Link>
-              </li>
             </>
           )}
           {(user?.role === "driver" || user?.role === "company") && (
+            <>
             <li>
               <Link to="/jobs">Take Delivery</Link>
             </li>
+            <li>
+              <Link to="/jobs">Track Order</Link>
+            </li>
+            </>
           )}
 
           {isAuthenticated ? (

@@ -1,44 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { locationSocket } from '../../utils/socket';
 
-const LocationTracker = ({ onLocationUpdate, isAuthenticated }) => {
-  const dispatch = useDispatch();
+const Location = ({ isAuthenticated, jobId, driverId }) => {
   const [watchId, setWatchId] = useState(null);
   const [lastUpdate, setLastUpdate] = useState(null);
-  const [lastCoordinates, setLastCoordinates] = useState(null); // Track last coordinates
-  const MIN_DISTANCE = 30; // meters (set to 30 meters to track movement)
-  const RATE_LIMIT = 5000; // milliseconds
-  const RETRY_LIMIT = 3; // Retry after 3 failures
-  let retryCount = 0;
+  const [lastCoordinates, setLastCoordinates] = useState(null);
 
-  const positionOptions = {
-    enableHighAccuracy: true, // Use GPS if available
-    timeout: 45000,           // Increased timeout to 45 seconds
-    maximumAge: 0,            // Don't use cached location
+  const MIN_DISTANCE = 30;
+  const RATE_LIMIT = 5000; 
+
+  const calculateDistance = (coords1, coords2) => {
+    const [lon1, lat1] = coords1;
+    const [lon2, lat2] = coords2;
+    
+    const R = 6371;
+    
+    const dLat = (lat2 - lat1) * (Math.PI/180);
+    const dLon = (lon2 - lon1) * (Math.PI/180);
+    
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c * 1000; // Convert to meters
   };
 
-  // Calculate distance between two coordinates (Haversine formula)
-  const calculateDistance = (coords1, coords2) => {
-    const [lng1, lat1] = coords1;
-    const [lng2, lat2] = coords2;
-
-    const R = 6371e3; // Earth radius in meters
-    const φ1 = (lat1 * Math.PI) / 180;
-    const φ2 = (lat2 * Math.PI) / 180;
-    const Δφ = ((lat2 - lat1) * Math.PI) / 180;
-    const Δλ = ((lng2 - lng1) * Math.PI) / 180;
-
-    const a =
-      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c; // Distance in meters
+  const positionOptions = {
+    enableHighAccuracy: true,
+    timeout: 30000,
+    maximumAge: 0,
   };
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !driverId) return;
 
     const startLocationTracking = async () => {
       try {
@@ -54,65 +51,39 @@ const LocationTracker = ({ onLocationUpdate, isAuthenticated }) => {
           const currentCoordinates = [longitude, latitude];
           const currentTime = Date.now();
 
-          // Log the accuracy to determine if it's GPS
-          console.log(`Latitude: ${latitude}, Longitude: ${longitude}, Accuracy: ${accuracy} meters`);
+          console.log('Current position:', {
+            coordinates: currentCoordinates,
+            accuracy,
+            timestamp: new Date(currentTime).toISOString()
+          });
 
-          // If accuracy is too large, skip this update
-          if (accuracy > 500) {
-            console.log('Skipping update due to low accuracy');
-            return;
-          }
-
-          // Check if the user has moved at least 30 meters
           if (lastCoordinates) {
             const distance = calculateDistance(lastCoordinates, currentCoordinates);
+            console.log(`Distance from last update: ${distance}m`);
+            
             if (distance < MIN_DISTANCE) {
-              console.log('Skipping update due to minimal movement');
+              console.log(`Movement (${distance}m) below minimum threshold (${MIN_DISTANCE}m)`);
               return;
             }
           }
 
-          // Rate limiting check (e.g., 5 seconds between updates)
           if (lastUpdate && currentTime - lastUpdate < RATE_LIMIT) {
-            console.log('Skipping update due to rate limit');
+            console.log(`Update too soon. Time since last update: ${currentTime - lastUpdate}ms`);
             return;
           }
 
-          // Dispatch location update
-          dispatch(onLocationUpdate(currentCoordinates))
-            .then(() => {
-              setLastUpdate(currentTime);
-              setLastCoordinates(currentCoordinates); // Save new coordinates
-              console.log('Location updated successfully');
-            })
-            .catch((error) => {
-              console.error('Location update error:', error);
-              toast.error('Failed to update location');
-            });
+          // Emit location via socket
+          if (jobId && driverId) {
+            locationSocket.emitDriverLocation(currentCoordinates, jobId, driverId);
+            
+            // Update local state for tracking
+            setLastUpdate(currentTime);
+            setLastCoordinates(currentCoordinates);
+          }
         };
 
         const handlePositionError = (error) => {
           console.error('Geolocation error:', error);
-          if (error.code === error.TIMEOUT) {
-            toast.error('Location request timed out. Retrying...');
-            if (retryCount < RETRY_LIMIT) {
-              retryCount++;
-              startLocationTracking(); // Retry fetching the location
-            } else {
-              toast.error('Failed to get location after multiple attempts. Please try again.');
-            }
-          } else {
-            switch (error.code) {
-              case error.PERMISSION_DENIED:
-                toast.error('Location permission denied. Please enable location access.');
-                break;
-              case error.POSITION_UNAVAILABLE:
-                toast.error('Location information unavailable.');
-                break;
-              default:
-                toast.error('Error getting location.');
-            }
-          }
         };
 
         const id = navigator.geolocation.watchPosition(
@@ -124,7 +95,6 @@ const LocationTracker = ({ onLocationUpdate, isAuthenticated }) => {
         setWatchId(id);
       } catch (error) {
         console.error('Location tracking error:', error);
-        toast.error('Error setting up location tracking');
       }
     };
 
@@ -135,9 +105,10 @@ const LocationTracker = ({ onLocationUpdate, isAuthenticated }) => {
         navigator.geolocation.clearWatch(watchId);
       }
     };
-  }, [isAuthenticated, dispatch, onLocationUpdate, lastUpdate, lastCoordinates]);
+  }, [isAuthenticated, driverId, jobId, lastUpdate, lastCoordinates]);
+  
 
   return null;
 };
 
-export default LocationTracker;
+export default Location;
