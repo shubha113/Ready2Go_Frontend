@@ -479,7 +479,7 @@ const TrackOrder = () => {
           </div>
           {eta && (
             <div className="detail-item">
-              <strong>Estimated Time of Arrival:</strong> {eta}
+              <strong>Estimated Time of Delivery:</strong> {eta}
             </div>
           )}
         </div>

@@ -111,7 +111,7 @@ export const locationSocket = {
     }
     console.log('Joining job room:', jobId);
     socket.emit('joinJobRoom', jobId);
-  }, 
+  },
 
   leaveJobRoom: (jobId) => {
     if (!socket || !socket.connected) {

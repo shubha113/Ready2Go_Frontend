@@ -1,61 +1,91 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+/* Navbar CSS with Modern Design and Responsiveness */
 
-* {
-  box-sizing: border-box;
+/* Color Variables for Easy Customization */
+:root {
+  --primary-color: #3498db;     /* Vibrant Blue */
+  --secondary-color: #2ecc71;   /* Fresh Green */
+  --background-color: #f4f4f4; /* Light Gray Background */
+  --text-color: #333;          /* Dark Gray Text */
+  --hover-color: rgb(170, 4, 170);      /* Darker Blue for Hover */
 }
 
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
+  padding-top: 80px; /* Adjust this value to match navbar height */
 }
 
-.header nav {
+.header {
+  width: 100%;
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+  padding: 0.5% 2%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.header .logo {
-  display: flex;
-  align-items: center;
+.logo img {
+  height: 50px;
+  transition: transform 0.3s ease;
 }
 
-.header .logo img {
-  height: 70px;
-  width: 80px;
-  margin-right: 0.5rem;
-}
-
-.header .logo h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
+.logo img:hover {
+  transform: scale(1.05);
 }
 
 .nav-links {
   display: flex;
-  list-style: none;
   align-items: center;
-  transition: all 0.5s ease;
-  /* border: 1px solid; */
-  border-radius: 34px;
-  padding: 10px;
-  background-color: purple;
+  list-style: none;
+  gap: 1.5rem;
 }
 
-.nav-links li {
-  margin-left: 1.5rem;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 1rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+.button-logout, .button-login {
   padding: 0.5rem 1rem;
-  border-radius: 5px;
-
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background-color: var(--primary-color);
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-logout:hover, .button-login:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-logout::before, .button-login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: all 0.5s ease;
+}
+
+.button-logout:hover::before, .button-login:hover::before {
+  left: 100%;
+}
+
+.button-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .hamburger {
@@ -67,122 +97,105 @@ body {
 .hamburger .line {
   width: 25px;
   height: 3px;
-  background: #333;
-  margin: 4px 0;
-  transition: transform 0.3s, opacity 0.3s;
+  background-color: var(--text-color);
+  margin: 3px 0;
+  transition: all 0.3s ease;
 }
 
-.hamburger-active .line:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-
-.hamburger-active .line:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger-active .line:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
-
-.nav-links.active {
-  flex-direction: column;
-  position: absolute;
-  top: 109px;
-  right: 0;
-  /* background: #fff; */
-  padding: 1rem 67px;
-  z-index: 20;
-  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-  height: 100vh;
-}
-
-.nav-links.active li {
-  margin: 0.5rem 0;
-}
-
-.button-link {
-  color: white;
-}
-
-.button-logout {
-  border-radius: 30em;
-  font-size: 15px;
-  padding: 10px;
-  font-family: inherit;
-  border: none;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  background-color: purple;
-  /* box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #d811b1; */
-}
-
-.button-logout::before {
-  content: "";
-  width: 0;
-  height: 3em;
-  border-radius: 30em;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-image: linear-gradient(to right, #cb0fd8 0%, #090909 100%);
-  transition: 0.5s ease;
-  display: block;
-  z-index: -1;
-}
-
-.button-logout:hover::before {
-  width: 9em;
-}
-
-.button-login {
-  border-radius: 30em;
-  font-size: 15px;
-  padding: 10px;
-  font-family: inherit;
-  border: none;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  background-color: purple;
-  /* box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #d811b1; */
-}
-
-.button-login::before {
-  content: "";
-  width: 0;
-  height: 3em;
-  border-radius: 30em;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-image: linear-gradient(to right, #cb0fd8 0%, #c147f9 100%);
-  transition: 0.5s ease;
-  display: block;
-  z-index: -1;
-}
-
-.button-login:hover::before {
-  width: 9em;
-}
-
+/* Responsive Design */
 @media screen and (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .nav-links a {
-    text-decoration: none;
-    font-size: 1rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    padding: 0;
-    border-radius: 5px;
-  }
   .hamburger {
     display: flex;
   }
 
-  .nav-links.active {
-    display: flex;
+  .nav-links {
+    position: fixed;
+    right: -100%;
+    top: 70px;
+    flex-direction: column;
+    background-color: #f3f3f3;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem 0;
   }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .hamburger-active .line:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .hamburger-active .line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-active .line:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+}
+
+/* Accessibility and Focus States */
+.button-logout:focus, .button-login:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 3px;
+}
+
+
+/* Navbar Button Styling */
+.button-logout, .button-login {
+  padding: 0;  /* Remove padding from parent div */
+}
+
+.button-logout .button-link, 
+.button-login .button-link {
+  display: block;  /* Make link fill entire div */
+  padding: 0.5rem 1rem;  /* Padding moved to link */
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background-color: var(--primary-color);
+  color: white;
+  width: 100%;  /* Ensure full width of parent */
+  height: 100%;  /* Ensure full height of parent */
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-link.active-route {
+  background-color: #DB2777;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.button-link.active-route::after {
+  content: '';
+  position: absolute;
+  display: none;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
+}
+
+.button-link:hover {
+  background-color: var(--hover-color);
+}
+
+li {
+  cursor: pointer;
+}
+
+.button-logout, .button-login {
+  width: 100%; 
 }

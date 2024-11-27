@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Navbar.css";
 import { logout } from "../../../Redux/actions/userAction";
@@ -42,79 +42,114 @@ const Navbar = () => {
     <header className="header">
       <nav>
         <div className="logo">
-          <Link to="/">
+          <NavLink to="/">
             <img src={Logo} alt="Ready2Go" />
-          </Link>
+          </NavLink>
         </div>
         <ul className={`nav-links ${isMenuActive ? "active" : ""}`}>
           <li>
-             <div className="button-logout">
-                  <Link  to="/" className="button-link">Home</Link>
-                </div>
-         
+            <div className="button-logout">
+              <NavLink 
+                to="/" 
+                className={({ isActive }) => 
+                  `button-link ${isActive ? 'active-route' : ''}`
+                }
+              >
+                Home
+              </NavLink>
+            </div>
           </li>
-
           {user?.role === "user" && (
-            <>
-              <li>
-                <div className="button-logout">
-                  <Link  to="/create-order" className="button-link">Create Order</Link>
-                </div>
-              </li>
-              
-              <li>
-                <div className="button-logout">
-                  <Link  to="/track-order" className="button-link">Track Order</Link>
-                </div>
-                
-              </li>
-            </>
+            <li>
+              <div className="button-logout">
+                <NavLink 
+                  to="/create-order" 
+                  className={({ isActive }) => 
+                    `button-link ${isActive ? 'active-route' : ''}`
+                  }
+                >
+                  Create Order
+                </NavLink>
+              </div>
+            </li>
           )}
           {(user?.role === "driver" || user?.role === "company") && (
-            <>
             <li>
-            
-               <div className="button-logout">
-                  <Link  to="/jobs" className="button-link">Take Delivery</Link>
-                </div>
+              <div className="button-logout">
+                <NavLink 
+                  to="/jobs" 
+                  className={({ isActive }) => 
+                    `button-link ${isActive ? 'active-route' : ''}`
+                  }
+                >
+                  Take Delivery
+                </NavLink>
+              </div>
             </li>
-            <li>
-              <Link to="/jobs">Track Order</Link>
-            </li>
-            </>
           )}
-
           {isAuthenticated ? (
             <>
               <li>
-                  <div className="button-logout">
-                  <Link  to="/profile" className="button-link">Profile</Link>
+                <div className="button-logout">
+                  <NavLink 
+                    to="/profile" 
+                    className={({ isActive }) => 
+                      `button-link ${isActive ? 'active-route' : ''}`
+                    }
+                  >
+                    Profile
+                  </NavLink>
                 </div>
-          
               </li>
               <li>
-                 <div className="button-logout">
-                  <Link  to="/history" className="button-link">History</Link>
+                <div className="button-logout">
+                  <NavLink 
+                    to="/history" 
+                    className={({ isActive }) => 
+                      `button-link ${isActive ? 'active-route' : ''}`
+                    }
+                  >
+                    History
+                  </NavLink>
                 </div>
               </li>
               <li onClick={handleLogout}>
                 <div className="button-logout">
-                  <Link className="button-link">Logout</Link>
+                  <NavLink 
+                    to="/logout" 
+                    className={({ isActive }) => 
+                      `button-link ${isActive ? 'active-route' : ''}`
+                    }
+                  >
+                    Logout
+                  </NavLink>
                 </div>
               </li>
             </>
           ) : (
             <>
               <li>
-             
-                    <div className="button-logout">
-                  <Link  to="/register" className="button-link">Register</Link>
+                <div className="button-logout">
+                  <NavLink 
+                    to="/register" 
+                    className={({ isActive }) => 
+                      `button-link ${isActive ? 'active-route' : ''}`
+                    }
+                  >
+                    Register
+                  </NavLink>
                 </div>
               </li>
-
               <li onClick={handleLogin}>
                 <div className="button-login">
-                  <Link className="button-link">Login</Link>
+                  <NavLink 
+                    to="/login" 
+                    className={({ isActive }) => 
+                      `button-link ${isActive ? 'active-route' : ''}`
+                    }
+                  >
+                    Login
+                  </NavLink>
                 </div>
               </li>
             </>

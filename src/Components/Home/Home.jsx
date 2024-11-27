@@ -13,14 +13,6 @@ const Home = () => {
   const { isAuthenticated, loading, user } = useSelector(state => state.user);
   const [locationPermissionRequested, setLocationPermissionRequested] = useState(false);
 
-  useEffect(() => {
-    const socketInstance = initializeSocket();
-    
-    return () => {
-      socketInstance.disconnect();
-    }; 
-  }, []);
-
   const handleLocationUpdate = useCallback(async (position) => {
     const { latitude, longitude } = position.coords;
     try {

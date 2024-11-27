@@ -21,11 +21,22 @@ import Fare from './Components/Fare/Fare';
 import PaymentSuccess from './Components/Payment/PaymentSuccess';
 import PaymentFailure from './Components/Payment/PaymentFailure';
 import TrackOrder from './Components/TrackOrder/TrackOrder';
+import { initializeSocket } from './utils/socket';
 
 function App() {
 
   const dispatch = useDispatch();
   const { isAuthenticated, error, message, loading, user } = useSelector((state) => state.user);
+
+  
+  useEffect(() => {
+    const socketInstance = initializeSocket();
+    
+    return () => {
+      socketInstance.disconnect();
+    }; 
+  }, []);
+
 
   useEffect(() => {
     if (error) {

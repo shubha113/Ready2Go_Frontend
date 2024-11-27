@@ -153,10 +153,12 @@
   background: rgba(107,33,168,0.05);
   border-radius: 8px;
 }
-
 .location-icon {
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  align-self: flex-start;
+  margin-top: 0.25rem;
 }
 
 .location-icon.pickup {
