@@ -1,16 +1,14 @@
-/* Navbar CSS with Modern Design and Responsiveness */
 
-/* Color Variables for Easy Customization */
 :root {
-  --primary-color: #3498db;     /* Vibrant Blue */
-  --secondary-color: #2ecc71;   /* Fresh Green */
-  --background-color: #f4f4f4; /* Light Gray Background */
-  --text-color: #333;          /* Dark Gray Text */
-  --hover-color: rgb(170, 4, 170);      /* Darker Blue for Hover */
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #f4f4f4;
+  --text-color: #333;     
+  --hover-color: rgb(170, 4, 170); 
 }
 
 body {
-  padding-top: 80px; /* Adjust this value to match navbar height */
+  padding-top: 65px;
 }
 
 .header {

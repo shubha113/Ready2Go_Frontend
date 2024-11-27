@@ -116,7 +116,7 @@ const Navbar = () => {
               <li onClick={handleLogout}>
                 <div className="button-logout">
                   <NavLink 
-                    to="/logout" 
+                    to="/login" 
                     className={({ isActive }) => 
                       `button-link ${isActive ? 'active-route' : ''}`
                     }

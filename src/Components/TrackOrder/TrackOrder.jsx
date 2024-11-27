@@ -6,6 +6,7 @@ import { MapPin, Package, Truck } from 'lucide-react';
 import { driverHistory, userHistory } from '../../Redux/actions/jobAction';
 import Navbar from '../Auth/Shared/Navbar';
 import './TrackOrder.css';
+import Loader from '../Loader/Loader';
 
 const TrackOrder = () => {
   const { jobId } = useParams();
@@ -445,7 +446,7 @@ const TrackOrder = () => {
     requestAnimationFrame(animate);
   };
 
-  if (loading) return <div className="loading-container">Loading...</div>;
+  if (loading) return <div className="loading-container"><Loader/></div>;
   if (error) return <div className="error-container">{error}</div>;
   if (!job) return <div className="error-container">Delivery not found</div>;
 

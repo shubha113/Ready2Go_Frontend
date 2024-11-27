@@ -32,13 +32,6 @@
     margin: 10px;
   }
   
-  .status-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-left: 8px;
-  }
-  
   .status-badge.pending {
     background-color: #fef3c7;
     color: #92400e;
