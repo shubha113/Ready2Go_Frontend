@@ -28,7 +28,6 @@ import Location from '../Location/Location.jsx';
 const History = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [trackingJob, setTrackingJob] = useState(null);
   const {
     loading,
     ongoingDeliveries = [], 

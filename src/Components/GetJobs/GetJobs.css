@@ -248,7 +248,6 @@
     background-color: var(--white);
     border-radius: 0.75rem;
     border: 1px solid var(--primary-light);
-    overflow: hidden;
     transition: border-color 0.2s ease;
   }
   
@@ -387,6 +386,7 @@
     background-color: var(--primary-color);
     color: var(--white);
     border: none;
+    margin-top: -10px;
   }
   
   .primary-button:hover {

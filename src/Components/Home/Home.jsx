@@ -6,7 +6,6 @@ import CargoImage from '../../Assets/Home.png';
 import Navbar from '../Auth/Shared/Navbar';
 import LocationTracker from '../Location/Location';
 import { updateLocation } from '../../Redux/actions/userAction';
-import { initializeSocket } from '../../utils/socket';
 
 const Home = () => {
   const dispatch = useDispatch();
