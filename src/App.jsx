@@ -30,13 +30,16 @@ function App() {
 
   
   useEffect(() => {
-    const socketInstance = initializeSocket();
-    
-    return () => {
-      socketInstance.disconnect();
-    }; 
-  }, []);
+    const timer = setTimeout(() => {
+      const socketInstance = initializeSocket();
+      
+      return () => {
+        socketInstance.disconnect();
+      };
+    }, 500);
 
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (error) {

@@ -53,7 +53,7 @@ export const initializeSocket = () => {
       console.log(`[Socket Event]: ${event}`, args);
     });
 
-    const handleConnect = () => {
+    const handleConnect = () => { 
       console.log("🟢 Socket Connected Successfully");
       console.log("Socket ID:", socket.id);
       console.log("Socket Connected:", socket.connected);
