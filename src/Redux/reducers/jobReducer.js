@@ -169,6 +169,50 @@ export const jobReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+
+
+    .addCase('updateDriverPickupRequest', (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase('updateDriverPickupSuccess', (state, action) => {
+      state.loading = false;
+      // Update the specific job in ongoingDeliveries
+      if (state.ongoingDeliveries) {
+        const index = state.ongoingDeliveries.findIndex(job => job._id === action.payload.job._id);
+        if (index !== -1) {
+          state.ongoingDeliveries[index] = action.payload.job;
+        }
+      }
+      state.message = action.payload.message;
+      state.error = null;
+    })
+    .addCase('updateDriverPickupFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+    // Add these cases to your existing builder
+.addCase('updateDriverCompleteDeliveryRequest', (state) => {
+  state.loading = true;
+  state.error = null;
+})
+.addCase('updateDriverCompleteDeliverySuccess', (state, action) => {
+  state.loading = false;
+  // Update the specific job in ongoingDeliveries
+  if (state.ongoingDeliveries) {
+    const index = state.ongoingDeliveries.findIndex(job => job._id === action.payload.job._id);
+    if (index !== -1) {
+      state.ongoingDeliveries[index] = action.payload.job;
+    }
+  }
+  state.message = action.payload.message;
+  state.error = null;
+})
+.addCase('updateDriverCompleteDeliveryFail', (state, action) => {
+  state.loading = false;
+  state.error = action.payload;
+})
     
 
     .addCase("clearMessage", (state) => {

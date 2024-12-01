@@ -7,8 +7,11 @@ import Navbar from "../Auth/Shared/Navbar";
 import "./History.css";
 import {
   PackageOpen,
-  LocateIcon,
+  UserCheck,     
+  CheckCircle,     
+  MapPinOff,
   MapPin,
+  HelpCircle,
   Truck,
   Weight,
   Clock,
@@ -45,6 +48,14 @@ const History = () => {
       dispatch(userHistory());
     }
   }, [dispatch, user?.role]);
+
+  const getCurrentJobId = () => {
+    if (user?.role === "driver" && ongoingDeliveries.length > 0) {
+      // Assuming the first ongoing delivery is the current job
+      return ongoingDeliveries[0]?._id;
+    }
+    return null;
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "Date not available";
@@ -118,19 +129,34 @@ const History = () => {
             <Location
               isAuthenticated={isAuthenticated}
               driverId={user?._id}
-              jobId={user.currentJob ? user.currentJob._id : null}
+              jobId={getCurrentJobId()}
             />
           )}
           <div className="status-section">
-            <span className={`status-badge ${job.status || 'unknown'}`}>
-              {type === "ongoing" ? (
-                <Timer className="status-icon" />
-              ) : (
-                <CheckCircle2 className="status-icon" />
-              )}
-              {job.status || 'Unknown Status'}
-            </span>
-          </div>
+  <span className={`status-badge ${job.status || 'unknown'}`}>
+    {(() => {
+      switch(job.status) {
+        case 'pending':
+          return <Clock className="status-icon" />;
+        case 'assigned':
+          return <UserCheck className="status-icon" />;
+        case 'in-transit':
+          return <Truck className="status-icon" />;
+        case 'completed':
+          return <CheckCircle className="status-icon" />;
+        case 'canceled':
+          return <XCircle className="status-icon" />;
+        case 'driver_at_pickup':
+          return <MapPin className="status-icon" />;
+        case 'driver_at_drop':
+          return <MapPinOff className="status-icon" />;
+        default:
+          return <HelpCircle className="status-icon" />;
+      }
+    })()}
+    {job.status || 'Unknown Status'}
+  </span>
+</div>
 
           {/* User-specific buttons */}
           {user?.role === "user" && (

@@ -41,6 +41,11 @@
     background-color: #dbeafe;
     color: #1e40af;
   }
+
+  .status-badge.driver_at_pickup {
+    background-color: #f8e6f7;
+    color: #ad027a;
+  }
   
   .status-badge.completed {
     background-color: #dcfce7;
@@ -152,4 +157,51 @@
     min-height: 400px;
     font-size: 18px;
     color: #EF4444;
+  }
+
+
+
+  .pickup-button {
+    background-color: #ad027a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pickup-button:hover {
+    background-color: #e242b2;
+  }
+  
+  .pickup-button:disabled {
+    background-color: #A0A0A0;
+    cursor: not-allowed;
+  }
+
+
+  .complete-delivery-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .complete-delivery-button:hover {
+    background-color: #45a049;
+  }
+  
+  .complete-delivery-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
   }

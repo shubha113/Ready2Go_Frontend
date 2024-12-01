@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { locationSocket } from '../../utils/socket';
 import { MapPin, Package, Truck } from 'lucide-react';
-import { driverHistory, userHistory } from '../../Redux/actions/jobAction';
+import { driverHistory, updateDriverCompleteDelivery, updateDriverPickupAndStartDelivery, userHistory } from '../../Redux/actions/jobAction';
 import Navbar from '../Auth/Shared/Navbar';
 import './TrackOrder.css';
 import Loader from '../Loader/Loader';
@@ -21,6 +21,7 @@ const TrackOrder = () => {
   const [isDriverMoving, setIsDriverMoving] = useState(false);
   const [eta, setEta] = useState(null);
   const [locationError, setLocationError] = useState(null);
+  const [isPickingUp, setIsPickingUp] = useState(false);
 
   
   const { user, isAuthenticated } = useSelector(state => state.user);
@@ -57,6 +58,15 @@ const TrackOrder = () => {
       }
     }
   }, [job, loading, dispatch, user?.role]);
+  
+  const handlePickupAndStartDelivery = () => {
+    setIsPickingUp(true);
+    dispatch(updateDriverPickupAndStartDelivery(jobId));
+  };
+
+  const handleCompleteDelivery = () => {
+    dispatch(updateDriverCompleteDelivery(jobId));
+  };
 
  
   // Debug function to log coordinates
@@ -483,6 +493,29 @@ const TrackOrder = () => {
               <strong>Estimated Time of Delivery:</strong> {eta}
             </div>
           )}
+
+{user?.role === 'driver' && 
+       job.status === 'driver_at_pickup' && 
+       !isPickingUp && (
+        <button 
+          className="pickup-button" 
+          onClick={handlePickupAndStartDelivery}
+          disabled={isPickingUp}
+        >
+          Delivery Picked Up
+        </button>
+      )}
+
+
+{user?.role === 'driver' && 
+ job.status === 'driver_at_drop' && (
+  <button 
+    className="complete-delivery-button" 
+    onClick={handleCompleteDelivery}
+  >
+    Complete Delivery
+  </button>
+)}
         </div>
 
         <div className="map-container">

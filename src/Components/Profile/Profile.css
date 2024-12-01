@@ -401,3 +401,73 @@
 .header1 {
   margin-left: 8%;
 }
+
+
+
+
+
+
+
+
+/* Bank Details Specific Styles */
+.bank-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: rgba(107, 33, 168, 0.02);
+  transition: all 0.3s ease;
+}
+
+.bank-details:hover {
+  background-color: rgba(107, 33, 168, 0.05);
+  transform: translateY(-2px);
+}
+
+.bank-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bank-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bank-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.bank-input-group label {
+  font-size: 0.875rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.bank-edit {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.bank-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .bank-edit {
+    flex-direction: column;
+  }
+  
+  .bank-actions {
+    flex-direction: column;
+  }
+}

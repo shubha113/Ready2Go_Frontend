@@ -25,6 +25,12 @@ const Profile = () => {
     vehicleRegistration: [],
     vehiclePhoto: [],
   });
+  const [bankDetails, setBankDetails] = useState({
+    accountNumber: '',
+    ifscCode: '',
+    bankName: '',
+    accountHolderName: ''
+  });
 
   const handleFileChange = (e, field) => {
     const selectedFiles = Array.from(e.target.files); // Convert FileList to array
@@ -171,6 +177,254 @@ const Profile = () => {
       </div>
     );
   };
+
+  const renderBankDetails = () => {
+    // Only show for drivers
+    if (role !== 'driver') return null;
+  
+    return (
+      <>
+        <div className="info-item">
+          <span className="info-label">Bank Name:</span>
+          <div className="editable-field">
+            {editingField === 'bankName' ? (
+              <div className="edit-mode">
+                <input
+                  type="text"
+                  value={bankDetails.bankName}
+                  onChange={(e) => setBankDetails(prev => ({
+                    ...prev, 
+                    bankName: e.target.value
+                  }))}
+                  className="edit-input"
+                  placeholder="Enter Bank Name"
+                />
+                <button
+                  onClick={() => {
+                    dispatch(updateProfile({ 
+                      driverAccountDetails: {
+                        ...user.driverAccountDetails,
+                        bankName: bankDetails.bankName
+                      }
+                    }));
+                    setEditingField(null);
+                  }}
+                  disabled={loading}
+                  className="action-btn save"
+                >
+                  <Check size={16} />
+                </button>
+                <button
+                  onClick={() => setEditingField(null)}
+                  className="action-btn cancel"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="display-mode">
+                <span className="info-value">
+                  {user.driverAccountDetails?.bankName || "Not provided"}
+                </span>
+                <button
+                  onClick={() => {
+                    setBankDetails(prev => ({
+                      ...prev,
+                      bankName: user.driverAccountDetails?.bankName || ''
+                    }));
+                    setEditingField('bankName');
+                  }}
+                  className="edit-btn"
+                >
+                  <Pencil size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+  
+        <div className="info-item">
+          <span className="info-label">Account Number:</span>
+          <div className="editable-field">
+            {editingField === 'accountNumber' ? (
+              <div className="edit-mode">
+                <input
+                  type="text"
+                  value={bankDetails.accountNumber}
+                  onChange={(e) => setBankDetails(prev => ({
+                    ...prev, 
+                    accountNumber: e.target.value
+                  }))}
+                  className="edit-input"
+                  placeholder="Enter Account Number"
+                />
+                <button
+                  onClick={() => {
+                    dispatch(updateProfile({ 
+                      driverAccountDetails: {
+                        ...user.driverAccountDetails,
+                        accountNumber: bankDetails.accountNumber
+                      }
+                    }));
+                    setEditingField(null);
+                  }}
+                  disabled={loading}
+                  className="action-btn save"
+                >
+                  <Check size={16} />
+                </button>
+                <button
+                  onClick={() => setEditingField(null)}
+                  className="action-btn cancel"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="display-mode">
+                <span className="info-value">
+                  {user.driverAccountDetails?.accountNumber 
+                    ? user.driverAccountDetails.accountNumber.replace(/\d(?=\d{4})/g, "*") 
+                    : "Not provided"}
+                </span>
+                <button
+                  onClick={() => {
+                    setBankDetails(prev => ({
+                      ...prev,
+                      accountNumber: user.driverAccountDetails?.accountNumber || ''
+                    }));
+                    setEditingField('accountNumber');
+                  }}
+                  className="edit-btn"
+                >
+                  <Pencil size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+  
+        <div className="info-item">
+          <span className="info-label">IFSC Code:</span>
+          <div className="editable-field">
+            {editingField === 'ifscCode' ? (
+              <div className="edit-mode">
+                <input
+                  type="text"
+                  value={bankDetails.ifscCode}
+                  onChange={(e) => setBankDetails(prev => ({
+                    ...prev, 
+                    ifscCode: e.target.value
+                  }))}
+                  className="edit-input"
+                  placeholder="Enter IFSC Code"
+                />
+                <button
+                  onClick={() => {
+                    dispatch(updateProfile({ 
+                      driverAccountDetails: {
+                        ...user.driverAccountDetails,
+                        ifscCode: bankDetails.ifscCode
+                      }
+                    }));
+                    setEditingField(null);
+                  }}
+                  disabled={loading}
+                  className="action-btn save"
+                >
+                  <Check size={16} />
+                </button>
+                <button
+                  onClick={() => setEditingField(null)}
+                  className="action-btn cancel"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="display-mode">
+                <span className="info-value">
+                  {user.driverAccountDetails?.ifscCode || "Not provided"}
+                </span>
+                <button
+                  onClick={() => {
+                    setBankDetails(prev => ({
+                      ...prev,
+                      ifscCode: user.driverAccountDetails?.ifscCode || ''
+                    }));
+                    setEditingField('ifscCode');
+                  }}
+                  className="edit-btn"
+                >
+                  <Pencil size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+  
+        <div className="info-item">
+          <span className="info-label">Account Holder Name:</span>
+          <div className="editable-field">
+            {editingField === 'accountHolderName' ? (
+              <div className="edit-mode">
+                <input
+                  type="text"
+                  value={bankDetails.accountHolderName}
+                  onChange={(e) => setBankDetails(prev => ({
+                    ...prev, 
+                    accountHolderName: e.target.value
+                  }))}
+                  className="edit-input"
+                  placeholder="Enter Account Holder Name"
+                />
+                <button
+                  onClick={() => {
+                    dispatch(updateProfile({ 
+                      driverAccountDetails: {
+                        ...user.driverAccountDetails,
+                        accountHolderName: bankDetails.accountHolderName
+                      }
+                    }));
+                    setEditingField(null);
+                  }}
+                  disabled={loading}
+                  className="action-btn save"
+                >
+                  <Check size={16} />
+                </button>
+                <button
+                  onClick={() => setEditingField(null)}
+                  className="action-btn cancel"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="display-mode">
+                <span className="info-value">
+                  {user.driverAccountDetails?.accountHolderName || "Not provided"}
+                </span>
+                <button
+                  onClick={() => {
+                    setBankDetails(prev => ({
+                      ...prev,
+                      accountHolderName: user.driverAccountDetails?.accountHolderName || ''
+                    }));
+                    setEditingField('accountHolderName');
+                  }}
+                  className="edit-btn"
+                >
+                  <Pencil size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  };
+
 
   const renderDriverFields = () => (
     <>
@@ -375,7 +629,12 @@ const Profile = () => {
               </div>
             </div>
 
-            {role === "driver" && renderDriverFields()}
+            {role === "driver" && (
+  <>
+    {renderDriverFields()}
+    {renderBankDetails()}
+  </>
+)}
             {role === "company" && renderCompanyFields()}
           </div>
         </div>

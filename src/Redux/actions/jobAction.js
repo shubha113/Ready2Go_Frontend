@@ -306,3 +306,42 @@ export const getJobTracking = (jobId) => async (dispatch) => {
     });
   }
 };
+
+
+export const updateDriverPickupAndStartDelivery = (jobId) => async (dispatch) => {
+  try {
+    dispatch({ type: 'updateDriverPickupRequest' });
+
+    const { data } = await axios.patch(`${server}/job/jobs/${jobId}/start`, {}, {
+      withCredentials: true
+    });
+
+    dispatch({ type: 'updateDriverPickupSuccess', payload: data });
+  } catch (error) {
+    dispatch({
+      type: 'updateDriverPickupFail',
+      payload: error.response?.data?.message || 'Error updating job status'
+    });
+  }
+};
+
+
+export const updateDriverCompleteDelivery = (jobId) => async (dispatch) => {
+  try {
+    dispatch({ type: 'updateDriverCompleteDeliveryRequest' });
+    
+    const { data } = await axios.patch(`${server}/job/jobs/${jobId}/complete`, {}, {
+      withCredentials: true
+    });
+    
+    dispatch({ 
+      type: 'updateDriverCompleteDeliverySuccess', 
+      payload: data 
+    });
+  } catch (error) {
+    dispatch({
+      type: 'updateDriverCompleteDeliveryFail',
+      payload: error.response?.data?.message || 'Error completing delivery'
+    });
+  }
+};

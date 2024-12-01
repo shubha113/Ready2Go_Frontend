@@ -166,7 +166,7 @@ nav {
 }
 
 .button-link.active-route {
-  background-color: #DB2777;
+  background-color: #e01fda;
   color: white;
   position: relative;
   overflow: hidden;

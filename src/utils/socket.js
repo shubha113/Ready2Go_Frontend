@@ -157,7 +157,10 @@ export const locationSocket = {
 
   subscribeToLocationUpdates: (callback) => {
     console.log("Subscribing to location updates");
-    socket.on("locationUpdate", callback);
+    socket.on("locationUpdate", (updateData) => {
+      console.log("Location Update Received:", updateData);
+      callback(updateData);
+    });
   },
 
   unsubscribeFromLocationUpdates: () => {

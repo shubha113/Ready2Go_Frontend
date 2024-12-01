@@ -151,7 +151,7 @@ const GoogleMap = ({ onLocationSelect }) => {
   };
 
   return (
-    <div className="map-container" style={{ padding: '20px' }}>
+    <div className="map-container1" style={{ padding: '20px' }}>
       <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
         <input
           type="text"
