@@ -25,7 +25,8 @@ const Features = () => {
             icon: <Truck className="feature-icon" />,
             title: "Real-Time Tracking",
             description: "Monitor your delivery in real-time with precise GPS tracking and updates."
-        }, {
+        }, 
+        {
             icon: <MessageSquare className="feature-icon" />,
             title: "Instant Connect",
             description: "Instant messaging with your delivery partner for seamless coordination."

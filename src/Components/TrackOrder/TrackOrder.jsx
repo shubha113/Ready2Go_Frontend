@@ -7,6 +7,7 @@ import { driverHistory, updateDriverCompleteDelivery, updateDriverPickupAndStart
 import Navbar from '../Auth/Shared/Navbar';
 import './TrackOrder.css';
 import Loader from '../Loader/Loader';
+import Location from '../Location/Location';
 
 const TrackOrder = () => {
   const { jobId } = useParams();
@@ -37,7 +38,7 @@ const TrackOrder = () => {
     // Then dispatch based on user role
     if (user?.role === "driver") {
       dispatch(driverHistory());
-    } else if (user?.role === "user") {
+    } else if (user?.role === "user") { 
       dispatch(userHistory());
     }
   }, [dispatch, user?.role, isAuthenticated]);
@@ -466,6 +467,13 @@ const TrackOrder = () => {
     <div className="tracking-container">
       <Navbar />
       <div className="tracking-content">
+      {isAuthenticated && user?.role === 'driver' && (
+          <Location
+            isAuthenticated={isAuthenticated}
+            driverId={user?._id}
+            jobId={jobId}
+          />
+        )}
       <h1 className="tracking-title">Track Your {user?.role === 'driver' ? 'Delivery' : 'Order'}</h1>
         
         {locationError && (
