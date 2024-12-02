@@ -1,3 +1,4 @@
+/* Global Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +10,7 @@ body {
   background-color: #f3f3f3;
 }
 
+/* Landing Page Styles */
 .landing-page {
   display: flex;
   justify-content: center;
@@ -36,9 +38,9 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* gap: 16%; */
 }
 
+/* Decorative Circles */
 .landing-page::before,
 .landing-page::after {
   content: "";
@@ -65,6 +67,7 @@ body {
   transform: rotate(15deg);
 }
 
+/* Main Content */
 .main-content {
   display: flex;
   justify-content: space-between;
@@ -99,6 +102,7 @@ body {
   font-weight: bold;
 }
 
+/* Image Container */
 .image-container {
   width: 50%;
   display: flex;
@@ -111,6 +115,7 @@ body {
   border-radius: 10px;
 }
 
+/* Blob Decoration */
 .content::before {
   content: "";
   position: absolute;
@@ -125,7 +130,7 @@ body {
   opacity: 0.9;
 }
 
-/* Add styles to position the bottom image */
+/* Bottom Image Container */
 .bottom-image-container {
   position: absolute;
   bottom: 0;
@@ -142,4 +147,91 @@ body {
   height: 600px;
   max-height: 600px;
   border-radius: 0 0 20px 20px;
+}
+
+/* Responsive Design for Mobile and Tablets */
+
+/* Mobile and Tablet */
+@media (max-width: 768px) {
+  /* Landing Page Layout */
+  .landing-page {
+    height: auto;
+    padding-bottom: 20px;
+  }
+
+  .main-content {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .content h1 {
+    font-size: 3.5rem;
+  }
+
+  .content p {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    padding: 12px 30px;
+    font-size: 1.2rem;
+  }
+
+  .image-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .cargo-image {
+    width: 90%;
+    border-radius: 10px;
+  }
+
+  /* Bottom Image Styles */
+  .bottom-image-container {
+    position: relative;
+    height: 300px;
+  }
+
+  .bottom-image {
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+  }
+}
+
+/* Mobile Portrait (Small Mobile) */
+@media (max-width: 480px) {
+  .landing-page {
+    padding: 0 10px;
+  }
+
+  .content h1 {
+    font-size: 2.5rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .cargo-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .bottom-image {
+    height: 200px;
+  }
 }
