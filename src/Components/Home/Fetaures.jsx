@@ -22,6 +22,15 @@ const Features = () => {
             description: "Direct pricing without any hidden fees. Pay exactly what the driver quotes."
         },
         {
+            icon: <Truck className="feature-icon" />,
+            title: "Real-Time Tracking",
+            description: "Monitor your delivery in real-time with precise GPS tracking and updates."
+        }, {
+            icon: <MessageSquare className="feature-icon" />,
+            title: "Instant Connect",
+            description: "Instant messaging with your delivery partner for seamless coordination."
+        },
+        {
             icon: <Users className="feature-icon" />,
             title: "Driver Freedom",
             description: "Complete independence for drivers. No subscriptions or company constraints."
@@ -36,16 +45,7 @@ const Features = () => {
             title: "Secure Transactions",
             description: "Payments held in secure escrow, released only upon successful delivery."
         },
-        {
-            icon: <MessageSquare className="feature-icon" />,
-            title: "Direct Communication",
-            description: "Instant messaging with your delivery partner for seamless coordination."
-        },
-        {
-            icon: <Truck className="feature-icon" />,
-            title: "Real-Time Tracking",
-            description: "Monitor your delivery in real-time with precise GPS tracking and updates."
-        },
+        
         {
             icon: <Star className="feature-icon" />,
             title: "Quality Ratings",
@@ -53,7 +53,7 @@ const Features = () => {
         },
         {
             icon: <Clock className="feature-icon" />,
-            title: "Flexibility",
+            title: "Full Flexibility",
             description: "Choose your ideal delivery partner based on price, convenience and ratings."
         },
     ];
