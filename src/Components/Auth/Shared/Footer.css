@@ -3,17 +3,17 @@
     background-color: purple;
     color: white;
     overflow: hidden;
-  }
+}
 
-  .footer-content {
+.footer-content {
     position: relative;
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 10px 15px;
+    padding: 20px 15px;
     z-index: 10;
-  }
+}
   
   .footer-logo-section {
     flex: 1;
@@ -111,28 +111,71 @@
     z-index: 10;
   }
   
-  /* Responsive Design */
-  @media (max-width: 768px) {
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
     .footer-content {
-      flex-direction: column;
-      text-align: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px;
     }
-  
+
     .footer-logo-section,
     .footer-contact-section,
     .footer-social-section {
-      margin: 15px 0;
+        margin: 15px 0;
+        flex: none;
+        width: 100%;
     }
-  
+
+    .logo-wrapper {
+        justify-content: center;
+    }
+
     .tagline {
-      max-width: 100%;
+        max-width: 100%;
+        text-align: center;
+        margin: 0 auto;
     }
-  
-    .social-icons {
-      justify-content: center;
+
+    .contact-details {
+        align-items: center;
     }
-  
+
     .contact-item {
-      justify-content: center;
+        justify-content: center;
+        text-align: center;
     }
-  }
+
+    .contact-icon {
+        margin-right: 10px;
+    }
+
+    .social-icons {
+        justify-content: center;
+        gap: 30px; /* Increased gap for easier tapping on mobile */
+    }
+
+    .social-icon {
+        size: 28px; /* Slightly larger icons for mobile touchscreens */
+    }
+
+    .footer-bottom {
+        padding: 15px 10px;
+        font-size: 0.9em;
+    }
+}
+
+/* Additional touch-friendly improvements */
+@media (max-width: 480px) {
+    .social-icons {
+        gap: 25px;
+    }
+
+    .footer-logo {
+        font-size: 22px;
+    }
+
+    .contact-item p {
+        font-size: 0.85em;
+    }
+}
