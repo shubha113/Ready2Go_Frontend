@@ -7,6 +7,7 @@ import { createJob } from "../../Redux/actions/jobAction";
 import Navbar from '../Auth/Shared/Navbar';
 import Loader from '../Loader/Loader';
 import GoogleMap from '../Map/Map';
+import Footer from '../Auth/Shared/Footer';
 
 const CreateOrder = () => {
   const dispatch = useDispatch();

@@ -1,0 +1,138 @@
+.footer-container {
+    position: relative;
+    background-color: purple;
+    color: white;
+    overflow: hidden;
+  }
+
+  .footer-content {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10px 15px;
+    z-index: 10;
+  }
+  
+  .footer-logo-section {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .logo-icon {
+    margin-right: 10px;
+    color: #db2777;
+    size: 30px;
+  }
+  
+  .footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .footer-logo span {
+    color: #db2777;
+    font-size: 1.5em;
+  }
+  
+  .tagline {
+    color: rgba(255,255,255,0.7);
+    max-width: 250px;
+  }
+  
+  .footer-contact-section,
+  .footer-social-section {
+    flex: 1;
+    margin: 0 20px;
+  }
+  
+  .contact-group h4,
+  .footer-social-section h4 {
+    border-bottom: 2px solid #db2777;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: white;
+  }
+  
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .contact-icon {
+    color: white;
+    flex-shrink: 0;
+  }
+  
+  .contact-item p {
+    margin: 0;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9em;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .social-icon-link {
+    color: white;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .social-icon {
+    size: 24px;
+  }
+  
+  .social-icon-link:hover {
+    color: #db2777;
+    transform: scale(1.2);
+  }
+  
+  .footer-bottom {
+    position: relative;
+    text-align: center;
+    padding: 15px 0;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-logo-section,
+    .footer-contact-section,
+    .footer-social-section {
+      margin: 15px 0;
+    }
+  
+    .tagline {
+      max-width: 100%;
+    }
+  
+    .social-icons {
+      justify-content: center;
+    }
+  
+    .contact-item {
+      justify-content: center;
+    }
+  }
