@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { locationSocket } from '../../utils/socket';
 import { MapPin, Package, Truck } from 'lucide-react';
 import { driverHistory, updateDriverCompleteDelivery, updateDriverPickupAndStartDelivery, userHistory } from '../../Redux/actions/jobAction';
@@ -11,6 +11,7 @@ import Location from '../Location/Location';
 
 const TrackOrder = () => {
   const { jobId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch(); 
   const mapRef = useRef(null);
   const markerRef = useRef(null);
@@ -65,14 +66,23 @@ const TrackOrder = () => {
     dispatch(updateDriverPickupAndStartDelivery(jobId));
   };
 
-const handleCompleteDelivery = () => {
-  dispatch(updateDriverCompleteDelivery(jobId))
-    .then((response) => {
-      if (response.type === 'updateDriverCompleteDeliverySuccess') {
+  const handleCompleteDelivery = () => {
+    dispatch(updateDriverCompleteDelivery(jobId))
+      .then((response) => {
+        // Successfully completed
         navigate('/delivery-success');
-      }
-    });
-};
+      })
+      .catch((error) => {
+        // Log the full error for debugging
+        console.error('Delivery Completion Error:', {
+          message: error.message,
+          response: error.response
+        });
+        
+        // Optional: Show a more specific error message
+        alert(`Failed to complete delivery: ${error.response?.data?.message || error.message}`);
+      });
+  };
 
  
   // Debug function to log coordinates

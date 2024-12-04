@@ -5,6 +5,8 @@
     height: 100vh;
     background-color: #f0f4f8;
     font-family: Arial, sans-serif;
+    padding: 20px; /* Added padding for small screens */
+    box-sizing: border-box;
   }
   
   .completion-card {
@@ -17,15 +19,10 @@
     width: 100%;
   }
   
-  .success-icon {
-    font-size: 80px;
-    color: #4CAF50;
-    margin-bottom: 20px;
-  }
-  
   .completion-card h1 {
     color: #333;
     margin-bottom: 20px;
+    font-size: 24px; /* Responsive font size */
   }
   
   .payout-details {
@@ -43,6 +40,8 @@
   .payout-details p {
     margin: 10px 0;
     color: #34495e;
+    font-size: 14px; /* Responsive font size */
+    display: block;
   }
   
   .success-message {
@@ -51,15 +50,73 @@
   }
   
   .back-to-dashboard-btn {
-    background-color: #3498db;
+    background-color: #db34cd;
     color: white;
     border: none;
     padding: 12px 24px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 14px; /* Responsive font size */
   }
   
   .back-to-dashboard-btn:hover {
-    background-color: #2980b9;
+    background-color: #c007c0;
   }
+  
+  /* Media Queries for Responsive Design */
+  @media (max-width: 768px) {
+    .completion-card {
+      padding: 30px;
+    }
+  
+    .success-icon {
+      font-size: 60px;
+    }
+  
+    .completion-card h1 {
+      font-size: 20px;
+    }
+  
+    .payout-details {
+      padding: 15px;
+    }
+  
+    .payout-details p {
+      font-size: 12px;
+      display: grid;
+    }
+  
+    .back-to-dashboard-btn {
+      padding: 10px 20px;
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .completion-card {
+      padding: 20px;
+    }
+  
+    .success-icon {
+      font-size: 50px;
+    }
+  
+    .completion-card h1 {
+      font-size: 18px;
+    }
+  
+    .payout-details {
+      padding: 10px;
+    }
+  
+    .payout-details p {
+      font-size: 10px;
+    }
+  
+    .back-to-dashboard-btn {
+      padding: 8px 16px;
+      font-size: 10px;
+    }
+  }
+  
