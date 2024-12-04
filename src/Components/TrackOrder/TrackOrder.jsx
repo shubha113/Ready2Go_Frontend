@@ -65,9 +65,14 @@ const TrackOrder = () => {
     dispatch(updateDriverPickupAndStartDelivery(jobId));
   };
 
-  const handleCompleteDelivery = () => {
-    dispatch(updateDriverCompleteDelivery(jobId));
-  };
+const handleCompleteDelivery = () => {
+  dispatch(updateDriverCompleteDelivery(jobId))
+    .then((response) => {
+      if (response.type === 'updateDriverCompleteDeliverySuccess') {
+        navigate('/delivery-success');
+      }
+    });
+};
 
  
   // Debug function to log coordinates

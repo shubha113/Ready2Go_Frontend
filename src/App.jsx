@@ -22,6 +22,7 @@ import PaymentSuccess from './Components/Payment/PaymentSuccess';
 import PaymentFailure from './Components/Payment/PaymentFailure';
 import TrackOrder from './Components/TrackOrder/TrackOrder';
 import { initializeSocket } from './utils/socket';
+import DeliverySuccess from './Components/DeliveryCompleted/DeliverySuccess';
 
 function App() {
 
@@ -75,6 +76,7 @@ function App() {
           <Route path="/fares/:jobId" element={  <Fare/>} />
           <Route path="/payment-success" element={  <PaymentSuccess />} />
           <Route path="/payment-failure" element={  <PaymentFailure />} />
+          <Route path="/delivery-success" element={  <DeliverySuccess />} />
           <Route path="/track-order/:jobId" element={<TrackOrder />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -574,7 +574,7 @@ const Profile = () => {
       <div className="profile-card">
         <div className="profile-header">
           <h2 className="profile-title">{name}</h2>
-          {role === "user" && (
+          {role === "driver" && (
             <h4 className="wallet-balance">Wallet Balance: {walletBalance}</h4>
           )}
         </div>

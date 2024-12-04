@@ -1,0 +1,65 @@
+.delivery-completion-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f8;
+    font-family: Arial, sans-serif;
+  }
+  
+  .completion-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .success-icon {
+    font-size: 80px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+  }
+  
+  .completion-card h1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .payout-details {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .payout-details h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+  }
+  
+  .payout-details p {
+    margin: 10px 0;
+    color: #34495e;
+  }
+  
+  .success-message {
+    color: #27ae60;
+    font-weight: bold;
+  }
+  
+  .back-to-dashboard-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-to-dashboard-btn:hover {
+    background-color: #2980b9;
+  }
