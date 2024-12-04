@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MapPin, Truck, Package, Weight, Route, Send, Map } from 'lucide-react';
 import './CreateOrder.css';
 import { createJob } from "../../Redux/actions/jobAction";
 import Navbar from '../Auth/Shared/Navbar';
@@ -23,24 +24,21 @@ const CreateOrder = () => {
   });
   const [weightError, setWeightError] = useState('');
   const [itemsError, setItemsError] = useState('');
-  const [showMap, setShowMap] = useState(null); // State to control map modal
+  const [showMap, setShowMap] = useState(null);
 
-  // Vehicle type weight limits
   const vehicleTypeLimits = {
     motorcycle: 150,
     small: 500,
     medium: 2000,
     large: 5000,
     "extra-large": 10000,
-    "heavy-duty": Infinity, // for weights above 10,000 kg
+    "heavy-duty": Infinity,
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Items validation: allow only letters and spaces
     if (name === "items") {
-      // Updated regex to allow letters, spaces, and commas
       if (/^[a-zA-Z\s,]*$/.test(value)) {
         setItemsError('');
       } else {
@@ -50,7 +48,6 @@ const CreateOrder = () => {
     
     setFormData({ ...formData, [name]: value });
 
-    // Weight validation
     if (name === "weight" || name === "vehicleType") {
       validateWeight(name === "weight" ? value : formData.weight, name === "vehicleType" ? value : formData.vehicleType);
     }
@@ -73,7 +70,7 @@ const CreateOrder = () => {
     } else if (showMap === 'drop') {
       setFormData({ ...formData, dropLocation: address });
     }
-    setShowMap(null); // Close the map after selecting location
+    setShowMap(null);
   };
 
   const handleSubmit = (e) => {
@@ -112,123 +109,135 @@ const CreateOrder = () => {
 
         <div className="main-content1">
           <div className="content1-title">
-            <h1 className="title">Create Job</h1>
+            <h1 className="title">Create Delivery</h1>
           </div>
 
-          <div className="content1-form">
-            <form onSubmit={handleSubmit} className="create-order-form">
-              <div className="form-group">
-                <label>Pickup Location</label>
-                <div style={{ display: 'flex' }}>
-                  <input
-                    type="text"
-                    name="pickupLocation"
-                    value={formData.pickupLocation}
-                    onChange={handleChange}
-                    required
-                  />
-                  <button type="button" onClick={() => setShowMap('pickup')}>
-                    📍
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Drop Location</label>
-                <div style={{ display: 'flex' }}>
-                  <input
-                    type="text"
-                    name="dropLocation"
-                    value={formData.dropLocation}
-                    onChange={handleChange}
-                    required
-                  />
-                  <button type="button" onClick={() => setShowMap('drop')}>
-                    📍
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Vehicle Type</label>
-                <select
-                  name="vehicleType"
-                  value={formData.vehicleType}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Vehicle Type</option>
-                  {Object.keys(vehicleTypeLimits).map((type) => (
-                    <option key={type} value={type}>
-                      {type.charAt(0).toUpperCase() + type.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label>Items</label>
+          <form onSubmit={handleSubmit} className="create-order-form">
+            <div className="form-group">
+              <label>
+                <MapPin size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Pickup Location
+              </label>
+              <div className="location-input">
                 <input
                   type="text"
-                  name="items"
-                  value={formData.items}
+                  name="pickupLocation"
+                  value={formData.pickupLocation}
+                  onFocus={() => setShowMap('pickup')}
                   onChange={handleChange}
                   required
                 />
-                {itemsError && <small style={{ color: "red" }}>{itemsError}</small>}
+                
               </div>
+            </div>
 
-              <div className="form-group">
-                <label>Weight</label>
-                <input
-                  type="number"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    borderColor: weightError ? "red" : "initial",
-                  }}
-                />
-                {weightError && (
-                  <small style={{ color: "red" }}>{weightError}</small>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label>Multi-Drop Locations (Optional)</label>
+            <div className="form-group">
+              <label>
+                <Route size={18} style={{color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Drop Location
+              </label>
+              <div className="location-input">
                 <input
                   type="text"
-                  name="multiDropLocations"
-                  value={formData.multiDropLocations}
+                  name="dropLocation"
+                  value={formData.dropLocation}
+                  onFocus={() => setShowMap('drop')}
                   onChange={handleChange}
-                  placeholder="Comma-separated locations"
+                  required
                 />
+                
               </div>
+            </div>
 
-              <button
-                type="submit"
-                className="cta-button"
-                disabled={loading}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '40px',
-                }}
+            <div className="form-group">
+              <label>
+                <Truck size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Vehicle Type
+              </label>
+              <select
+                name="vehicleType"
+                value={formData.vehicleType}
+                onChange={handleChange}
+                required
               >
-                {loading ? <Loader size={5} /> : "Create Delivery"}
-              </button>
-            </form>
-          </div>
+                <option value="">Select Vehicle Type</option>
+                {Object.keys(vehicleTypeLimits).map((type) => (
+                  <option key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>
+                <Package size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Items
+              </label>
+              <input
+                type="text"
+                name="items"
+                value={formData.items}
+                onChange={handleChange}
+                required
+              />
+              {itemsError && <small className="error-message">{itemsError}</small>}
+            </div>
+
+            <div className="form-group">
+              <label>
+                <Weight size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Weight (kg)
+              </label>
+              <input
+                type="number"
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
+                required
+                style={{
+                  borderColor: weightError ? "red" : "initial",
+                }}
+              />
+              {weightError && (
+                <small className="error-message">{weightError}</small>
+              )}
+            </div>
+
+            <div className="form-group multi-drop">
+              <label>
+                <Route size={18} style={{color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Multi-Drop Locations (Optional)
+              </label>
+              <input
+                type="text"
+                name="multiDropLocations"
+                value={formData.multiDropLocations}
+                onChange={handleChange}
+                placeholder="Comma-separated locations"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="cta-button"
+              disabled={loading}
+            >
+              {loading ? <Loader size={5} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}/> : <>
+                <Send size={18} />
+                Create Delivery
+              </>}
+            </button>
+          </form>
         </div>
       </div>
 
-      {/* Conditionally render Google Map */}
       {showMap && (
         <div className="map-modal">
-          <GoogleMap onLocationSelect={handleLocationSelect} />
-          <button onClick={() => setShowMap(null)}>Close Map</button>
+          <div>
+            <GoogleMap onLocationSelect={handleLocationSelect} />
+            <button onClick={() => setShowMap(null)}>Close Map</button>
+          </div>
         </div>
       )}
     </div>

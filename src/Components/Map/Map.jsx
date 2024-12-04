@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import './Map.css'; // Import the CSS file
 
 const GoogleMap = ({ onLocationSelect }) => {
   const mapRef = useRef(null);
@@ -180,45 +181,25 @@ const GoogleMap = ({ onLocationSelect }) => {
   };
 
   return (
-    <div className="map-container1" style={{ padding: '20px' }}>
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+    <div className="map-container">
+      <div className="search-container">
         <input
           type="text"
           ref={searchRef}
           placeholder="Search for a location"
-          style={{
-            flex: 1,
-            padding: '10px',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-          }}
+          className="search-input"
         />
         <button
           onClick={handleSearchLocation}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
+          className="search-button"
         >
           Search
         </button>
       </div>
-      <div ref={mapRef} style={{ width: '100%', height: '400px', marginBottom: '10px' }} />
+      <div ref={mapRef} className="map-display" />
       <button
         onClick={handleConfirmLocation}
-        style={{
-          width: '100%',
-          padding: '10px',
-          backgroundColor: '#2196F3',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
+        className="confirm-location-button1"
       >
         Confirm Location
       </button>

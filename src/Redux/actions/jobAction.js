@@ -345,3 +345,28 @@ export const updateDriverCompleteDelivery = (jobId) => async (dispatch) => {
     });
   }
 };
+
+
+export const rateJob = (jobId, rating) => async (dispatch) => {
+  try {
+    dispatch({ type: 'rateJobRequest' });
+
+    const { data } = await axios.post(`${server}/job/rate/${jobId}`, 
+      { rating }, 
+      { 
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true 
+      }
+    );
+
+    dispatch({ 
+      type: 'rateJobSuccess', 
+      payload: data 
+    });
+  } catch (error) {
+    dispatch({ 
+      type: 'rateJobFail', 
+      payload: error.response?.data?.message || 'Error rating job' 
+    });
+  }
+};

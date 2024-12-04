@@ -1,0 +1,80 @@
+.rating-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .rating-modal-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .star-rating {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .star-rating button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .star-rating .star {
+    font-size: 40px;
+    color: #ddd;
+    transition: color 0.2s;
+  }
+  
+  .star-rating button.on .star {
+    color: #ffc107;
+  }
+  
+  .rating-description {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #666;
+  }
+  
+  .rating-modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .submit-rating, .cancel-rating {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-rating {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .submit-rating:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .cancel-rating {
+    background-color: #f44336;
+    color: white;
+  }

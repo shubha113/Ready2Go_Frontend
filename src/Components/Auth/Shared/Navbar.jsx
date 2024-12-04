@@ -68,7 +68,7 @@ const Navbar = () => {
                     `button-link ${isActive ? 'active-route' : ''}`
                   }
                 >
-                  Create Order
+                  Create Delivery
                 </NavLink>
               </div>
             </li>
