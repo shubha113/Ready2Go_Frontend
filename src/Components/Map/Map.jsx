@@ -6,8 +6,12 @@ const GoogleMap = ({ onLocationSelect }) => {
   const mapInstance = useRef(null);
   const markerRef = useRef(null);
   const autocompleteInstance = useRef(null);
-  const [searchAddress, setSearchAddress] = useState('');
-  const [placeDetails, setPlaceDetails] = useState(null);
+  
+  const [mapLocation, setMapLocation] = useState({
+    latestAddress: '',
+    placeDetails: null,
+    latLng: null
+  });
 
   // Initialize the map and autocomplete
   useEffect(() => {
@@ -53,8 +57,16 @@ const GoogleMap = ({ onLocationSelect }) => {
         formattedAddress = `${place.name}, ${formattedAddress}`;
       }
 
-      setSearchAddress(formattedAddress);
-      setPlaceDetails(place);
+      // Update state with latest address
+      setMapLocation({
+        latestAddress: formattedAddress,
+        placeDetails: place,
+        latLng: {
+          lat: location.lat(),
+          lng: location.lng()
+        }
+      });
+      
       searchRef.current.value = formattedAddress;
     });
 
@@ -68,10 +80,11 @@ const GoogleMap = ({ onLocationSelect }) => {
 
   // Handle searching for an address
   const handleSearchLocation = () => {
-    if (!searchAddress) return;
+    const searchInput = searchRef.current.value;
+    if (!searchInput) return;
 
     const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: searchAddress }, (results, status) => {
+    geocoder.geocode({ address: searchInput }, (results, status) => {
       if (status === 'OK' && results[0]) {
         const location = results[0].geometry.location;
         
@@ -87,18 +100,19 @@ const GoogleMap = ({ onLocationSelect }) => {
           animation: window.google.maps.Animation.DROP
         });
 
-        // Preserve any business name from the search
-        const parts = searchAddress.split(',');
-        const possibleBusinessName = parts[0].trim();
+        // Create formatted address
         const formattedAddress = results[0].formatted_address;
         
-        if (!formattedAddress.includes(possibleBusinessName)) {
-          setSearchAddress(`${possibleBusinessName}, ${formattedAddress}`);
-          searchRef.current.value = `${possibleBusinessName}, ${formattedAddress}`;
-        } else {
-          setSearchAddress(formattedAddress);
-          searchRef.current.value = formattedAddress;
-        }
+        // Update state
+        setMapLocation({
+          latestAddress: formattedAddress,
+          latLng: {
+            lat: location.lat(),
+            lng: location.lng()
+          }
+        });
+        
+        searchRef.current.value = formattedAddress;
       }
     });
   };
@@ -124,9 +138,18 @@ const GoogleMap = ({ onLocationSelect }) => {
       const geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({ location }, (results, status) => {
         if (status === 'OK' && results[0]) {
-          const address = results[0].formatted_address;
-          setSearchAddress(address);
-          searchRef.current.value = address;
+          const mapClickedAddress = results[0].formatted_address;
+          
+          // Update state with map clicked address
+          setMapLocation({
+            latestAddress: mapClickedAddress,
+            latLng: {
+              lat: location.lat(),
+              lng: location.lng()
+            }
+          });
+          
+          searchRef.current.value = mapClickedAddress;
         }
       });
     };
@@ -140,13 +163,19 @@ const GoogleMap = ({ onLocationSelect }) => {
 
   // Handle confirming the selected location
   const handleConfirmLocation = () => {
-    if (searchAddress) {
-      // If we have place details and it has a business name, ensure it's included
-      if (placeDetails?.name && !searchAddress.includes(placeDetails.name)) {
-        onLocationSelect(`${placeDetails.name}, ${searchAddress}`);
-      } else {
-        onLocationSelect(searchAddress);
+    const { latestAddress, placeDetails, latLng } = mapLocation;
+    
+    if (latestAddress) {
+      // Prefer latest address 
+      let finalAddress = latestAddress;
+      
+      // If there's a place name and it's not in the address, prepend it
+      if (placeDetails?.name && !finalAddress.includes(placeDetails.name)) {
+        finalAddress = `${placeDetails.name}, ${finalAddress}`;
       }
+      
+      // Pass both address and coordinates
+      onLocationSelect(finalAddress, latLng);
     }
   };
 
@@ -163,7 +192,6 @@ const GoogleMap = ({ onLocationSelect }) => {
             border: '1px solid #ccc',
             borderRadius: '4px',
           }}
-          defaultValue={searchAddress}
         />
         <button
           onClick={handleSearchLocation}
