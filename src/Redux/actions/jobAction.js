@@ -370,3 +370,82 @@ export const rateJob = (jobId, rating) => async (dispatch) => {
     });
   }
 };
+
+
+export const getAllUsers = (filters = {}) => async (dispatch) => {
+  try {
+    dispatch({ type: 'getAllUsersRequest' });
+    
+    const {
+      role,
+      verificationStatus,
+      page = 1,
+      limit = 10,
+      search
+    } = filters;
+    
+    const config = {
+      params: {
+        role,
+        verificationStatus,
+        page,
+        limit,
+        search
+      },
+      withCredentials: true
+    };
+    
+    
+    const { data } = await axios.get(`${server}/job/admin/users`, config);
+    
+    
+    const users = Array.isArray(data.users) ? data.users : [];
+    
+    
+    dispatch({
+      type: 'getAllUsersSuccess',
+      payload: {
+        users: users,
+        totalUsers: data.totalUsers,
+        totalPages: data.totalPages,
+        currentPage: data.page
+      }
+    });
+  } catch (error) {
+    dispatch({
+      type: 'getAllUsersFail',
+      payload: error.response?.data?.message || 'Error fetching users'
+    });
+  }
+};
+
+
+export const verifyDocument = (userId, documentType, status) => async (dispatch) => {
+  try {
+    dispatch({ type: 'verifyDocumentRequest' });
+
+    const { data } = await axios.patch(
+      `${server}/job/admin/verify-document/${userId}`, 
+      { documentType, status },
+      { 
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true 
+      }
+    );
+
+    dispatch({ 
+      type: 'verifyDocumentSuccess', 
+      payload: {
+        userId,
+        documentType,
+        status,
+        user: data.user
+      }
+    });
+  } catch (error) {
+    dispatch({
+      type: 'verifyDocumentFail',
+      payload: error.response?.data?.message || 'Error verifying document'
+    });
+  }
+};

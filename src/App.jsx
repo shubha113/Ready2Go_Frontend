@@ -21,6 +21,7 @@ import Fare from './Components/Fare/Fare';
 import PaymentSuccess from './Components/Payment/PaymentSuccess';
 import PaymentFailure from './Components/Payment/PaymentFailure';
 import TrackOrder from './Components/TrackOrder/TrackOrder';
+import GetAllUsers from './Components/GetAllUsers/GetAllUsers';
 import { initializeSocket } from './utils/socket';
 import DeliverySuccess from './Components/DeliveryCompleted/DeliverySuccess';
 
@@ -78,6 +79,7 @@ function App() {
           <Route path="/payment-failure" element={  <PaymentFailure />} />
           <Route path="/delivery-success" element={  <DeliverySuccess />} />
           <Route path="/track-order/:jobId" element={<TrackOrder />} />
+          <Route path="/get-users" element={<GetAllUsers />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

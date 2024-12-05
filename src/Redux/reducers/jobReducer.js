@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: false,
+  users: [],
   jobs: [],
   error: null,
   message: null,
@@ -13,6 +14,11 @@ const initialState = {
   currentDriverLocation: null,
   locationUpdateSuccess: false,
   trackingData: null,
+  totalUsers: 0,
+  totalPages: 1,
+  currentPage: 1,
+  documentVerificationLoading: false,
+  documentVerificationError: null
 };
 
 export const jobReducer = createReducer(initialState, (builder) => {
@@ -229,6 +235,62 @@ export const jobReducer = createReducer(initialState, (builder) => {
     .addCase("rateJobFail", (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    })
+
+    .addCase('getAllUsersRequest', (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase('getAllUsersSuccess', (state, action) => {
+      state.loading = false;
+      state.users = action.payload.users;
+      state.totalUsers = action.payload.totalUsers;
+      state.totalPages = action.payload.totalPages;
+      state.currentPage = action.payload.currentPage;
+      state.error = null;
+    })
+    .addCase('getAllUsersFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.users = [];
+    })
+
+    .addCase('verifyDocumentRequest', (state) => {
+      state.documentVerificationLoading = true;
+      state.documentVerificationError = null;
+    })
+    .addCase('verifyDocumentSuccess', (state, action) => {
+      state.documentVerificationLoading = false;
+      
+      // Update the specific user in the users array
+      const userIndex = state.users.findIndex(user => user._id === action.payload.userId);
+      
+      if (userIndex !== -1) {
+        // Create a new user object with updated verification status
+        const updatedUser = {
+          ...state.users[userIndex],
+          verificationStatus: {
+            ...state.users[userIndex].verificationStatus,
+            [action.payload.documentType]: action.payload.status
+          },
+          isVerified: action.payload.user.isVerified,
+          overallVerificationStatus: action.payload.user.overallVerificationStatus
+        };
+  
+        // Create a new users array with the updated user
+        state.users = [
+          ...state.users.slice(0, userIndex),
+          updatedUser,
+          ...state.users.slice(userIndex + 1)
+        ];
+      }
+  
+      state.documentVerificationError = null;
+      state.message = `Document ${action.payload.documentType} ${action.payload.status}`;
+    })
+    .addCase('verifyDocumentFail', (state, action) => {
+      state.documentVerificationLoading = false;
+      state.documentVerificationError = action.payload;
     })
 
     .addCase("clearMessage", (state) => {
