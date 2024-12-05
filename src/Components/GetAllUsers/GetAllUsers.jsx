@@ -136,7 +136,7 @@ const UserCard = ({ user }) => {
         </div>
         <div className="user-status">
           <div className="status-item">
-            <ShieldCheck size={20} />
+            <ShieldCheck style={{color: "#DB2777"}} />
             <span>Overall Status: {user?.accountStatus?.overallVerificationStatus || 'N/A'}</span>
           </div>
         </div>

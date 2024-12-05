@@ -61,9 +61,9 @@
     margin-right: 10px;
   }
   
-  .role-icon.driver { color: #3498db; }
+  .role-icon.driver { color: purple; }
   .role-icon.company { color: #2ecc71; }
-  .role-icon.default { color: #95a5a6; }
+  .role-icon.default { color: #DB2777; }
   
   .verification-badge {
     margin-left: auto;
