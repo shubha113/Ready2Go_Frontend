@@ -57,7 +57,6 @@ export const initializeSocket = () => {
       console.log("🟢 Socket Connected Successfully");
       console.log("Socket ID:", socket.id);
       console.log("Socket Connected:", socket.connected);
-      toast.success("Connected to real-time updates");
       isSocketInitializing = false;
     };
 
@@ -68,13 +67,11 @@ export const initializeSocket = () => {
         message: error.message,
         stack: error.stack,
       });
-      toast.error(`Connection error: ${error.message}`);
       isSocketInitializing = false;
     };
 
     const handleDisconnect = (reason) => {
       console.log("🟠 Socket Disconnected:", reason);
-      toast.warning("Disconnected from real-time updates");
       isSocketInitializing = false;
     };
 
@@ -88,12 +85,10 @@ export const initializeSocket = () => {
 
     socket.on("connect_timeout", () => {
       console.error("⏰ Connection Timeout");
-      toast.error("Connection timeout occurred");
       isSocketInitializing = false;
     });
   } catch (error) {
     console.error("🛑 Fatal Socket Initialization Error:", error);
-    toast.error("Failed to initialize socket connection");
     isSocketInitializing = false;
   }
 
