@@ -1,6 +1,7 @@
 {
-    "routes": [
-      { "handle": "filesystem" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
-  }
+  "routes": [
+    { "src": "/firebase-messaging-sw.js", "dest": "/firebase-messaging-sw.js", "headers": {"Content-Type": "application/javascript"} },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
