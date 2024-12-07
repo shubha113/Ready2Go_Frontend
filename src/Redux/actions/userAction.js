@@ -179,10 +179,6 @@ export const updateProfile = (profileData) => async (dispatch) => {
   }
 };
 
-
-// Update location action
-
-
 // 6. userAction.js
 
 export const updateLocation = (coordinates, jobId = null) => async (dispatch) => {

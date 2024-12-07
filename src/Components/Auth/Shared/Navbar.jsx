@@ -14,29 +14,19 @@ const Navbar = () => {
     (state) => state.user
   );
 
-  useEffect(() => {
-    if (message) {
-      navigate("/login");
-      toast.success(message);
-      dispatch({ type: "clearMessage" });
-    }
-    if (error) {
-      toast.error(error);
-      dispatch({ type: "clearError" });
-    }
-  }, [message, error, dispatch, navigate]);
-
   const handleLogout = () => {
     dispatch(logout());
-  };
+    toast.success('Logged out successfully');
+    navigate('/login');
+};
 
-  const handleLogin = () => {
-    navigate("/login");
-  };
+const toggleMenu = () => {
+  setMenuActive(!isMenuActive);
+};
 
-  const toggleMenu = () => {
-    setMenuActive(!isMenuActive);
-  };
+const closeMenu = () => {
+  setMenuActive(false);
+};
 
   return (
     <header className="header">
@@ -54,6 +44,7 @@ const Navbar = () => {
                 className={({ isActive }) => 
                   `button-link ${isActive ? 'active-route' : ''}`
                 }
+                onClick={closeMenu}
               >
                 Home
               </NavLink>
@@ -67,6 +58,7 @@ const Navbar = () => {
                   className={({ isActive }) => 
                     `button-link ${isActive ? 'active-route' : ''}`
                   }
+                  onClick={closeMenu}
                 >
                   Create Delivery
                 </NavLink>
@@ -81,6 +73,7 @@ const Navbar = () => {
                   className={({ isActive }) => 
                     `button-link ${isActive ? 'active-route' : ''}`
                   }
+                  onClick={closeMenu}
                 >
                   Take Delivery
                 </NavLink>
@@ -96,6 +89,7 @@ const Navbar = () => {
                     className={({ isActive }) => 
                       `button-link ${isActive ? 'active-route' : ''}`
                     }
+                    onClick={closeMenu}
                   >
                     Profile
                   </NavLink>
@@ -108,6 +102,7 @@ const Navbar = () => {
                     className={({ isActive }) => 
                       `button-link ${isActive ? 'active-route' : ''}`
                     }
+                    onClick={closeMenu}
                   >
                     History
                   </NavLink>
@@ -120,6 +115,10 @@ const Navbar = () => {
                     className={({ isActive }) => 
                       `button-link ${isActive ? 'active-route' : ''}`
                     }
+                    onClick={() => {
+                      handleLogout();
+                      closeMenu();
+                  }}
                   >
                     Logout
                   </NavLink>
@@ -135,18 +134,20 @@ const Navbar = () => {
                     className={({ isActive }) => 
                       `button-link ${isActive ? 'active-route' : ''}`
                     }
+                    onClick={closeMenu}
                   >
                     Register
                   </NavLink>
                 </div>
               </li>
-              <li onClick={handleLogin}>
+              <li>
                 <div className="button-login">
                   <NavLink 
                     to="/login" 
                     className={({ isActive }) => 
                       `button-link ${isActive ? 'active-route' : ''}`
                     }
+                    onClick={closeMenu}
                   >
                     Login
                   </NavLink>
@@ -154,6 +155,21 @@ const Navbar = () => {
               </li>
             </>
           )}
+           {user?.role === "admin" && (
+                        <li>
+                            <div className="button-nav">
+                                <NavLink 
+                                    to="/get-users" 
+                                    className={({ isActive }) => 
+                                        `button-link ${isActive ? 'active-route' : ''}`
+                                    }
+                                    onClick={closeMenu}
+                                >
+                                    Manage Users
+                                </NavLink>
+                            </div>
+                        </li>
+                    )}
         </ul>
         <div
           className={`hamburger ${isMenuActive ? "hamburger-active" : ""}`}

@@ -8,7 +8,6 @@ import LocationTracker from "../Location/Location";
 import { updateLocation } from "../../Redux/actions/userAction";
 import Features from "./Fetaures";
 import { useNavigate } from "react-router-dom";
-import Footer from "../Auth/Shared/Footer";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -152,7 +151,6 @@ const Home = () => {
         </div>
       </div>
       <Features />
-      <Footer/>
     </div>
   );
 };
