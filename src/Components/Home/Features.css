@@ -11,15 +11,14 @@
     align-items: center;
     justify-content: center;
     padding: 50px 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .features-content-wrapper {
     width: 100%;
     max-width: 1400px;
-    height: 110vh;
-    max-height: 110vh;
     padding: 0 20px;
+    height: auto;
 }
 
 .features-header {
@@ -57,7 +56,7 @@
 .features-grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     gap: 20px;
     position: relative;
 }
@@ -146,7 +145,6 @@
     position: relative;
     overflow: hidden;
     height: 210px;
-    top: -42vh;
     border-radius: 20px;
 }
 
@@ -199,6 +197,10 @@
 
 /* Responsive Design for Mobile View */
 @media (max-width: 768px) {
+    .features-full-screen {
+        padding: 20px 0;
+        overflow: visible; /* Ensure content is not cut off */
+    }
     .features-header h1 {
         font-size: 3rem;
     }
@@ -207,11 +209,13 @@
         flex-direction: column;
         gap: 20px;
         padding: 0 10px;
+        position: relative; /* Add positioning */
+        z-index: 10; /* Ensure cards are above footer */
     }
 
     .features-content-wrapper {
-        height: 110vh;
-        min-height: 160vh;
+        height: auto; /* Change from fixed height to auto */
+        min-height: auto; /* Remove fixed min-height */
         padding: 0 10px;
     }
 
@@ -221,8 +225,7 @@
 
     .features-image-section {
         order: 2;
-        margin-top: 20px;
-        width: 100%;
+        margin-bottom: 20px; 
     }
 
     .image-wrapper {
@@ -238,12 +241,18 @@
 
     .features-cards-container:last-of-type {
         order: 3;
-        margin: auto
+        margin-top: 20px;
     }
 
     .features-grid-container {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: auto; /* Change to auto */
         gap: 15px;
+    }
+
+    .feature-card-modern {
+        width: 100%; /* Ensure full width */
+        box-sizing: border-box; /* Include padding and border in width calculation */
+        margin-bottom: 10px; /* Add some space between cards */
     }
 }

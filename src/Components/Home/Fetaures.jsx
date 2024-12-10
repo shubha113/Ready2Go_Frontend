@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Features.css';
 import FeaturesImage from '../../Assets/Features1.jpg';
 import {
@@ -12,10 +12,25 @@ import {
     IndianRupee
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../../i18n';
 
 const Features = () => {
     const [activeCard, setActiveCard] = useState(null);
     const { t } = useTranslation();
+    const [language, setLanguage] = useState(i18n.language);
+
+    useEffect(() => {
+        const handleLanguageChange = () => {
+            setLanguage(i18n.language);
+        };
+
+        i18n.on('languageChanged', handleLanguageChange);
+
+        return () => {
+            i18n.off('languageChanged', handleLanguageChange);
+        };
+    }, [i18n]);
+
 
     const features = [
         {
@@ -61,12 +76,10 @@ const Features = () => {
     ];
 
     return (
-        <div className="features-full-screen">
+        <div className="features-full-screen" key={language}>
             <div className="features-content-wrapper">
                 <div className="features-header">
-                    <h1>
-                        <h2 className="features-subtitle">Delivery Features</h2>
-                    </h1>
+                    <h2 className="features-subtitle">Delivery Features</h2>
                 </div>
 
                 <div className="features-main-content">
@@ -74,7 +87,7 @@ const Features = () => {
                         <div className="features-grid-container">
                             {features.slice(0, 4).map((feature, index) => (
                                 <div
-                                    key={index}
+                                    key={`${language}-${index}`}
                                     className={`feature-card-modern ${activeCard === index ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveCard(index)}
                                     onMouseLeave={() => setActiveCard(null)}
@@ -107,7 +120,7 @@ const Features = () => {
                         <div className="features-grid-container">
                             {features.slice(4).map((feature, index) => (
                                 <div
-                                    key={index + 4}
+                                    key={`${language}-${index + 4}`}
                                     className={`feature-card-modern ${activeCard === index + 4 ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveCard(index + 4)}
                                     onMouseLeave={() => setActiveCard(null)}
