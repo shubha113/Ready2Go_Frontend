@@ -67,7 +67,7 @@
     line-height: 1.5;
 }
 
-* No Fares Available State */ .no-fares-container {
+.no-fares-container {
     display: flex;
     flex-direction: column;
     align-items: center;
