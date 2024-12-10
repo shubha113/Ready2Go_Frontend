@@ -1,8 +1,8 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "./Home.css";
-import CargoImage from "../../Assets/Home.png";
+import CargoImage from "../../Assets/Home1.png";
 import Navbar from "../Auth/Shared/Navbar";
 import LocationTracker from "../Location/Location";
 import { updateLocation } from "../../Redux/actions/userAction";
