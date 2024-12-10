@@ -3,9 +3,9 @@ import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import enTranslations from '../Frontend/Locales/en.json';
-import hiTranslations from '../Frontend/Locales/hi.json';
-import paTranslations from '../Frontend/Locales/pa.json';
+import enTranslations from './Locales/en.json';
+import hiTranslations from './Locales/hi.json';
+import paTranslations from './Locales/pa.json';
 
 i18n
   .use(Backend)
