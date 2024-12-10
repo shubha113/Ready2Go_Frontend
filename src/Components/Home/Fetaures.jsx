@@ -11,51 +11,52 @@ import {
     MessageSquare,
     IndianRupee
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Features = () => {
     const [activeCard, setActiveCard] = useState(null);
+    const { t } = useTranslation();
 
     const features = [
         {
             icon: <IndianRupee className="feature-icon" />,
-            title: "Zero Commission",
-            description: "Direct pricing without any hidden fees. Pay exactly what the driver quotes."
+            title: t('features.0.title'),
+            description: t('features.0.description')
         },
         {
             icon: <Truck className="feature-icon" />,
-            title: "Real-Time Tracking",
-            description: "Monitor your delivery in real-time with precise GPS tracking and updates."
+            title: t('features.1.title'),
+            description: t('features.1.description')
         }, 
         {
             icon: <MessageSquare className="feature-icon" />,
-            title: "Instant Connect",
-            description: "Instant messaging with your delivery partner for seamless coordination."
+            title: t('features.2.title'),
+            description: t('features.2.description')
         },
         {
             icon: <Users className="feature-icon" />,
-            title: "Driver Freedom",
-            description: "Complete independence for drivers. No subscriptions or company constraints."
+            title: t('features.3.title'),
+            description: t('features.3.description')
         },
         {
             icon: <MapPin className="feature-icon" />,
-            title: "Local Matching",
-            description: "Instant connections with drivers within your locality. Multiple competitive bids."
+            title: t('features.4.title'),
+            description: t('features.4.description')
         },
         {
             icon: <ShieldCheck className="feature-icon" />,
-            title: "Secure Transactions",
-            description: "Payments held in secure escrow, released only upon successful delivery."
+            title: t('features.5.title'),
+            description: t('features.5.description')
         },
-        
         {
             icon: <Star className="feature-icon" />,
-            title: "Quality Ratings",
-            description: "Comprehensive driver and service ratings to help you make informed choices."
+            title: t('features.6.title'),
+            description: t('features.6.description')
         },
         {
             icon: <Clock className="feature-icon" />,
-            title: "Full Flexibility",
-            description: "Choose your ideal delivery partner based on price, convenience and ratings."
+            title: t('features.7.title'),
+            description: t('features.7.description')
         },
     ];
 

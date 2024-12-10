@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MapPin, Truck, Package, Weight, Route, Send, Map } from 'lucide-react';
+import { MapPin, Truck, Package, Weight, Route, Send } from 'lucide-react';
 import './CreateOrder.css';
 import { createJob } from "../../Redux/actions/jobAction";
 import Navbar from '../Auth/Shared/Navbar';
 import Loader from '../Loader/Loader';
 import GoogleMap from '../Map/Map';
-import Footer from '../Auth/Shared/Footer';
+import { useTranslation } from 'react-i18next';
 
 const CreateOrder = () => {
   const dispatch = useDispatch();
   const { loading, message, error } = useSelector((state) => state.job);
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     pickupLocation: '',
@@ -57,7 +58,11 @@ const CreateOrder = () => {
     if (vehicleType && weight) {
       const maxWeight = vehicleTypeLimits[vehicleType];
       if (weight > maxWeight) {
-        setWeightError(`${vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)} vehicle can carry only ${maxWeight}kg.`);
+        // Use translation for weight error
+        setWeightError(
+          t(`createOrder.errorMessages.weightValidation.${vehicleType.replace('-', '')}`, 
+            `${vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)} vehicle can carry only ${maxWeight}kg.`)
+        );
       } else {
         setWeightError("");
       }
@@ -109,17 +114,18 @@ const CreateOrder = () => {
 
         <div className="main-content1">
           <div className="content1-title">
-            <h1 className="title">Create Delivery</h1>
+            <h1 className="title">{t('createOrder.pageTitle')}</h1>
           </div>
 
           <form onSubmit={handleSubmit} className="create-order-form">
             <div className="form-group">
               <label>
                 <MapPin size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Pickup Location
+                {t('createOrder.labels.pickupLocation')}
               </label>
               <div className="location-input">
                 <input
+                  placeholder={t('createOrder.labels.pickupLocationPlaceholder')}
                   type="text"
                   name="pickupLocation"
                   value={formData.pickupLocation}
@@ -134,10 +140,11 @@ const CreateOrder = () => {
             <div className="form-group">
               <label>
                 <Route size={18} style={{color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Drop Location
+                {t('createOrder.labels.dropLocation')}
               </label>
               <div className="location-input">
                 <input
+                  placeholder={t('createOrder.labels.dropLocationPlaceholder')}
                   type="text"
                   name="dropLocation"
                   value={formData.dropLocation}
@@ -152,7 +159,7 @@ const CreateOrder = () => {
             <div className="form-group">
               <label>
                 <Truck size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Vehicle Type
+                {t('createOrder.labels.vehicleType')}
               </label>
               <select
                 name="vehicleType"
@@ -160,7 +167,7 @@ const CreateOrder = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="">Select Vehicle Type</option>
+                <option value="">{t('createOrder.labels.vehicleTypePlaceholder')}</option>
                 {Object.keys(vehicleTypeLimits).map((type) => (
                   <option key={type} value={type}>
                     {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -172,9 +179,10 @@ const CreateOrder = () => {
             <div className="form-group">
               <label>
                 <Package size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Items
+                {t('createOrder.labels.items')}
               </label>
               <input
+                placeholder={t('createOrder.labels.itemsPlaceholder')}
                 type="text"
                 name="items"
                 value={formData.items}
@@ -187,9 +195,10 @@ const CreateOrder = () => {
             <div className="form-group">
               <label>
                 <Weight size={18} style={{ color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Weight (kg)
+                {t('createOrder.labels.weight')}
               </label>
               <input
+                placeholder={t('createOrder.labels.weightPlaceholder')}
                 type="number"
                 name="weight"
                 value={formData.weight}
@@ -207,14 +216,14 @@ const CreateOrder = () => {
             <div className="form-group multi-drop">
               <label>
                 <Route size={18} style={{color: "#DB2777", marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Multi-Drop Locations (Optional)
+                {t('createOrder.labels.multiDropLocations')}
               </label>
               <input
                 type="text"
                 name="multiDropLocations"
                 value={formData.multiDropLocations}
                 onChange={handleChange}
-                placeholder="Comma-separated locations"
+                placeholder= {t('createOrder.labels.multiDropLocationsPlaceholder')}
               />
             </div>
 
@@ -225,7 +234,7 @@ const CreateOrder = () => {
             >
               {loading ? <Loader size={5} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}/> : <>
                 <Send size={18} />
-                Create Delivery
+                {t('createOrder.submitButton')}
               </>}
             </button>
           </form>

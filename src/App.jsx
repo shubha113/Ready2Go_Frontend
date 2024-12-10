@@ -31,6 +31,7 @@ import DeliverySuccess from "./Components/DeliveryCompleted/DeliverySuccess";
 import Navbar from "./Components/Auth/Shared/Navbar";
 import Footer from "./Components/Auth/Shared/Footer";
 import Loader from "./Components/Loader/Loader";
+import '../i18n.js';
 
 function App() {
   const dispatch = useDispatch();

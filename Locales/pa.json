@@ -1,0 +1,116 @@
+{
+  "home": {
+    "tagline": "ਤੁਰੰਤ ਡਿਲੀਵਰੀ, ਬਿਨਾਂ ਕਿਸੇ ਝੰਜਟ। ਲੋਕਲ ਡਰਾਈਵਰਾਂ ਨਾਲ ਜੁੜੋ, ਵਧੀਆ ਰੇਟ ਪਾਓ, ਅਤੇ ਆਪਣੀ ਡਿਲੀਵਰੀ ਨੂੰ ਲਾਈਵ ਟਰੈਕ ਕਰੋ।",
+    "ctaButton": "ਡਿਲੀਵਰੀ ਬੁੱਕ ਕਰੋ"
+  },
+  "features": [
+    {
+      "title": "ਕੋਈ ਕਮੀਸ਼ਨ ਨਹੀਂ",
+      "description": "ਡਰਾਈਵਰ ਦੀ ਦਿੱਤੀ ਕੀਮਤ ਹੀ ਭਰੋ, ਕੋਈ ਛੁਪੇ ਹੋਏ ਚਾਰਜ ਨਹੀਂ।"
+    },
+    {
+      "title": "ਲੋਕਲ ਡਰਾਈਵਰ",
+      "description": "ਆਪਣੇ ਨੇੜੇ ਦੇ ਡਰਾਈਵਰਾਂ ਨਾਲ ਜੁੜੋ ਤੇ ਵਧੀਆ ਡੀਲ ਪਾਓ।"
+    },
+    {
+      "title": "ਝਟਪਟ ਕਨੈਕਟ",
+      "description": "ਡਰਾਈਵਰ ਨਾਲ ਤੁਰੰਤ ਮੇਸੇਜ ਕਰ ਕੇ ਗੱਲ ਕਰੋ।"
+    },
+    {
+      "title": "ਡਰਾਈਵਰ ਦੀ ਆਜ਼ਾਦੀ",
+      "description": "ਡਰਾਈਵਰਾਂ ਨੂੰ ਪੂਰੀ ਆਜ਼ਾਦੀ। ਕੋਈ ਕੰਪਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ ਜਾਂ ਫੀਸ ਨਹੀਂ।"
+    },
+    {
+      "title": "ਲਾਈਵ ਟਰੈਕਿੰਗ",
+      "description": "ਜੀ.ਪੀ.ਐਸ. ਨਾਲ ਆਪਣੀ ਡਿਲੀਵਰੀ ਨੂੰ ਲਾਈਵ ਟਰੈਕ ਕਰੋ ਅਤੇ ਨਾਲ ਹੀ ਡਿਲੀਵਰੀ ਦੀ ਲਾਈਵ ਸਥਿਤੀ ਪ੍ਰਾਪਤ ਕਰੋ।"
+    },
+    {
+      "title": "ਸੁਰੱਖਿਅਤ ਭੁਗਤਾਨ",
+      "description": "ਭੁਗਤਾਨ ਸਿਰਫ ਡਿਲੀਵਰੀ ਪੂਰੀ ਹੋਣ 'ਤੇ ਜਾਰੀ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।"
+    },
+    {
+      "title": "ਰੇਟਿੰਗ ਦੀ ਸਹਾਇਤਾ",
+      "description": "ਡਰਾਈਵਰ ਦੀ ਰੇਟਿੰਗ ਵੇਖ ਕੇ ਸਹੀ ਫੈਸਲਾ ਕਰੋ।"
+    },
+    {
+      "title": "ਲਚਕਦਾਰਤਾ",
+      "description": "ਰੇਟਿੰਗ, ਕੀਮਤ ਅਤੇ ਸਹੂਲਤ ਦੇ ਆਧਾਰ 'ਤੇ ਡਰਾਈਵਰ ਚੁਣੋ।"
+    }
+  ],
+  "createOrder": {
+    "pageTitle": "ਡਿਲੀਵਰੀ ਬਣਾਓ",
+    "labels": {
+      "pickupLocation": "ਪਿਕਅਪ ਸਥਾਨ",
+      "pickupLocationPlaceholder": "ਆਪਣੇ ਪਿਕਅਪ ਸਥਾਨ ਨੂੰ ਪਿਨ ਕਰੋ",
+      "dropLocation": "ਡਰੌਪ ਸਥਾਨ",
+      "dropLocationPlaceholder": "ਆਪਣੇ ਡਰੌਪ ਸਥਾਨ ਨੂੰ ਪਿਨ ਕਰੋ",
+      "vehicleType": "ਵਾਹਨ ਦੀ ਕਿਸਮ",
+      "vehicleTypePlaceholder": "ਵਾਹਨ ਦੀ ਕਿਸਮ ਚੁਣੋ",
+      "items": "ਆਈਟਮ",
+      "itemsPlaceholder": "ਡਿਲੀਵਰੀ ਲਈ ਆਈਟਮ ਦਰਜ ਕਰੋ",
+      "weight": "ਭਾਰ (ਕਿਲੋਗ੍ਰਾਮ)",
+      "weightPlaceholder": "ਆਈਟਮ ਦਾ ਭਾਰ ਦਰਜ ਕਰੋ",
+      "multiDropLocations": "ਮਲਟੀ-ਡਰੌਪ ਸਥਾਨ (ਵਿਕਲਪਿਕ)",
+      "multiDropLocationsPlaceholder": "ਕਾਮਾ ਨਾਲ ਅਲੱਗ ਕੀਤੇ ਸਥਾਨ ਦਰਜ ਕਰੋ"
+    },
+    "errorMessages": {
+      "itemsValidation": "ਆਈਟਮ ਫੀਲਡ ਵਿੱਚ ਸਿਰਫ ਅੱਖਰ, ਸਪੇਸ ਅਤੇ ਕਾਮਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
+      "weightValidation": {
+        "motorcycle": "ਮੋਟਰਸਾਈਕਲ ਵਾਹਨ ਸਿਰਫ 150 ਕਿਲੋਗ੍ਰਾਮ ਤੱਕ ਲੈ ਜਾ ਸਕਦਾ ਹੈ।",
+        "small": "ਛੋਟਾ ਵਾਹਨ ਸਿਰਫ 500 ਕਿਲੋਗ੍ਰਾਮ ਤੱਕ ਲੈ ਜਾ ਸਕਦਾ ਹੈ।",
+        "medium": "ਦਰਮਿਆਨਾ ਵਾਹਨ ਸਿਰਫ 2000 ਕਿਲੋਗ੍ਰਾਮ ਤੱਕ ਲੈ ਜਾ ਸਕਦਾ ਹੈ।",
+        "large": "ਵੱਡਾ ਵਾਹਨ ਸਿਰਫ 5000 ਕਿਲੋਗ੍ਰਾਮ ਤੱਕ ਲੈ ਜਾ ਸਕਦਾ ਹੈ।",
+        "extraLarge": "ਵੱਧ ਵੱਡਾ ਵਾਹਨ ਸਿਰਫ 10000 ਕਿਲੋਗ੍ਰਾਮ ਤੱਕ ਲੈ ਜਾ ਸਕਦਾ ਹੈ।"
+      },
+      "submitError": "ਸਬਮਿਟ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਭਾਰ ਦੀ ਗਲਤੀ ਨੂੰ ਠੀਕ ਕਰੋ।"
+    },
+    "submitButton": "ਡਿਲੀਵਰੀ ਬਣਾਓ",
+    "vehicleTypes": {
+      "motorcycle": "ਮੋਟਰਸਾਈਕਲ",
+      "small": "ਛੋਟਾ",
+      "medium": "ਦਰਮਿਆਨਾ",
+      "large": "ਵੱਡਾ",
+      "extraLarge": "ਵੱਧ ਵੱਡਾ",
+      "heavyDuty": "ਭਾਰੀ ਵਾਹਨ"
+    }
+  },
+  "profile": {
+    "email": "ਈਮੇਲ:",
+    "phoneNumber": "ਫੋਨ ਨੰਬਰ:",
+    "walletBalance": "ਵਾਲਟ ਬੈਲੈਂਸ:",
+    "driverLicense": "ਡਰਾਈਵਰ ਲਾਇਸੈਂਸ:",
+    "IdentityProof": "ਪਛਾਣ ਸਬੂਤ:",
+    "vehicleInsurance": "ਵਾਹਨ ਬੀਮਾ:",
+    "vehicleRegistration": "ਵਾਹਨ ਰਜਿਸਟਰੇਸ਼ਨ:",
+    "vehiclePhoto": "ਵਾਹਨ ਦੀ ਤਸਵੀਰ:",
+    "vehicleType": "ਵਾਹਨ ਦਾ ਕਿਸਮ:",
+    "LoadCapacity": "ਲੋਡ ਸਮਰੱਥਾ:",
+    "companyRegistration": "ਕੰਪਨੀ ਰਜਿਸਟਰੇਸ਼ਨ:",
+    "gstCertificate": "ਜੀਐਸਟੀ ਸਰਟੀਫਿਕੇਟ:",
+    "viewDocument": "ਦਸਤਾਵੇਜ਼ ਵੇਖੋ",
+    "noDocumentUploaded": "ਕੋਈ ਦਸਤਾਵੇਜ਼ ਅਪਲੋਡ ਨਹੀਂ ਕੀਤਾ ਗਿਆ",
+    "uploadNew": "ਨਵਾਂ ਅਪਲੋਡ ਕਰੋ",
+    "bankName": "ਬੈਂਕ ਦਾ ਨਾਮ:",
+    "accountNumber": "ਖਾਤਾ ਨੰਬਰ:",
+    "ifscCode": "ਆਈਐਫਐਸਸੀ ਕੋਡ:",
+    "accountHolderName": "ਖਾਤੇ ਧਾਰਕ ਦਾ ਨਾਮ:"
+  },
+  "history": {
+    "pickupLocation": "ਪਿਕਅੱਪ ਸਥਾਨ",
+    "dropLocation": "ਡ੍ਰਾਪ ਸਥਾਨ",
+    "items": "ਆਈਟਮ",
+    "weight": "ਵਜ਼ਨ",
+    "fare": "ਕਿਰਾਇਆ",
+    "customer": "ਗਾਹਕ",
+    "start": "ਸ਼ੁਰੂ:",
+    "end": "ਖਤਮ:",
+    "created": "ਬਣਾਇਆ ਗਿਆ:",
+    "viewFares": "ਕਿਰਾਇਆ ਵੇਖੋ",
+    "trackOrder": "ਆਰਡਰ ਟ੍ਰੈਕ ਕਰੋ",
+    "cancelOrder": "ਆਰਡਰ ਰੱਦ ਕਰੋ",
+    "startDelivery": "ਡਿਲੀਵਰੀ ਸ਼ੁਰੂ ਕਰੋ",
+    "assignedDriver": "ਨਿਰਧਾਰਤ ਡਰਾਈਵਰ:",
+    "ongoing": "ਚੱਲ ਰਹੀ ਹੈ",
+    "past": "ਪਿਛਲੇ"
+  }
+}

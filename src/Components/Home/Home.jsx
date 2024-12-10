@@ -8,13 +8,14 @@ import LocationTracker from "../Location/Location";
 import { updateLocation } from "../../Redux/actions/userAction";
 import Features from "./Fetaures";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const { t } = useTranslation();
   const { isAuthenticated, loading, user } = useSelector((state) => state.user);
-  const [locationPermissionRequested, setLocationPermissionRequested] =
-    useState(false);
+  const [locationPermissionRequested, setLocationPermissionRequested] = useState(false);
 
   const handleLocationUpdate = useCallback(
     async (position) => {
@@ -123,20 +124,17 @@ const Home = () => {
           <div className="main-content">
             <div className="content">
               <h1 className="name">
-                Ready
-                <span style={{ color: "purple", fontSize: "6rem" }}>2</span>Go
+              <span>Ready<span style={{color:"purple"}}>2</span>Go</span>
               </h1>
               <p>
-                Instant delivery, zero hassle. Connect with local drivers, get
-                competitive quotes, and track your package in real-time. Your
-                perfect delivery solution is just a tap away.
+              {t('home.tagline')}
               </p>
               <button
                 className="cta-button"
                 onClick={requestLocationPermission}
                 
               >
-                Request Delivery
+                {t('home.ctaButton')}
               </button>
             </div>
 

@@ -7,11 +7,12 @@ import { Pencil, Check, X, Upload } from "lucide-react";
 import { updateProfile } from "../../Redux/actions/userAction";
 import { toast } from "react-toastify";
 import Loader from "../Loader/Loader";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const { user, message, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [editingField, setEditingField] = useState(null);
   const [fieldValue, setFieldValue] = useState("");
@@ -136,31 +137,31 @@ const Profile = () => {
             ))}
           </ul>
         ) : (
-          <span className="no-document">No document uploaded</span>
+          <span className="no-document">{t('profile.noDocumentUploaded')}</span>
         )}
         <div className="document-upload">
           <label htmlFor={field} className="upload-label">
-            <Upload size={16} /> Upload New
+            <Upload size={16} /> {t('profile.uploadNew')}
           </label>
           <input
             type="file"
             id={field}
-            multiple // Allow multiple file uploads
-            onChange={(e) => handleFileChange(e, field)} // Use the updated handler
+            multiple
+            onChange={(e) => handleFileChange(e, field)}
             className="file-input"
           />
           {files[field]?.length > 0 && (
             <div className="selected-files">
               <ul>
                 {files[field].map((file, index) => (
-                  <li key={index}>{file.name}</li> // Display selected file names
+                  <li key={index}>{file.name}</li> 
                 ))}
               </ul>
             </div>
           )}
           {files[field]?.length > 0 && (
             <button
-              onClick={() => handleSaveClick(field)} // Pass the specific field to save
+              onClick={() => handleSaveClick(field)}
               disabled={loading}
               className="submit-upload"
               style={{
@@ -179,13 +180,12 @@ const Profile = () => {
   };
 
   const renderBankDetails = () => {
-    // Only show for drivers
     if (role !== 'driver') return null;
   
     return (
       <>
         <div className="info-item">
-          <span className="info-label">Bank Name:</span>
+          <span className="info-label">{t('profile.bankName')}</span>
           <div className="editable-field">
             {editingField === 'bankName' ? (
               <div className="edit-mode">
@@ -244,7 +244,7 @@ const Profile = () => {
         </div>
   
         <div className="info-item">
-          <span className="info-label">Account Number:</span>
+          <span className="info-label">{t('profile.accountNumber')}</span>
           <div className="editable-field">
             {editingField === 'accountNumber' ? (
               <div className="edit-mode">
@@ -305,7 +305,7 @@ const Profile = () => {
         </div>
   
         <div className="info-item">
-          <span className="info-label">IFSC Code:</span>
+          <span className="info-label">{t('profile.ifscCode')}</span>
           <div className="editable-field">
             {editingField === 'ifscCode' ? (
               <div className="edit-mode">
@@ -364,7 +364,7 @@ const Profile = () => {
         </div>
   
         <div className="info-item">
-          <span className="info-label">Account Holder Name:</span>
+          <span className="info-label">{t('profile.accountHolderName')}</span>
           <div className="editable-field">
             {editingField === 'accountHolderName' ? (
               <div className="edit-mode">
@@ -429,22 +429,22 @@ const Profile = () => {
   const renderDriverFields = () => (
     <>
       <div className="info-item">
-        <span className="info-label">Driver License:</span>
+        <span className="info-label">{t('profile.driverLicense')}</span>
         {formatDocumentList("driverLicense", documents.driverLicense)}
       </div>
 
       <div className="info-item">
-        <span className="info-label">Identity Proof:</span>
+        <span className="info-label">{t('profile.identityProof')}</span>
         {formatDocumentList("identityProof", documents.identityProof)}
       </div>
 
       <div className="info-item">
-        <span className="info-label">Vehicle Insurance:</span>
+        <span className="info-label">{t('profile.vehicleInsurance')}</span>
         {formatDocumentList("vehicleInsurance", documents.vehicleInsurance)}
       </div>
 
       <div className="info-item">
-        <span className="info-label">Vehicle Registration:</span>
+        <span className="info-label">{t('profile.vehicleRegistration')}</span>
         {formatDocumentList(
           "vehicleRegistration",
           documents.vehicleRegistration
@@ -452,12 +452,12 @@ const Profile = () => {
       </div>
 
       <div className="info-item">
-        <span className="info-label">Vehicle Photo:</span>
+        <span className="info-label">{t('profile.vehiclePhoto')}</span>
         {formatDocumentList("vehiclePhoto", documents.vehiclePhoto)}
       </div>
 
       <div className="info-item">
-        <span className="info-label">Vehicle Type:</span>
+        <span className="info-label">{t('profile.vehicleType')}</span>
         <div className="editable-field">
           {editingField === "vehicleType" ? (
             <div className="edit-mode">
@@ -505,7 +505,7 @@ const Profile = () => {
       </div>
 
       <div className="info-item">
-        <span className="info-label">Load Capacity:</span>
+        <span className="info-label">{t('profile.loadCapacity')}</span>
         <div className="editable-field">
           {editingField === "loadCapacity" ? (
             <div className="edit-mode">
@@ -552,7 +552,7 @@ const Profile = () => {
   const renderCompanyFields = () => (
     <>
       <div className="info-item">
-        <span className="info-label">Company Registration:</span>
+        <span className="info-label">{t('profile.companyRegistration')}</span>
         {formatDocumentList(
           "companyRegistration",
           documents.companyRegistration
@@ -560,7 +560,7 @@ const Profile = () => {
       </div>
 
       <div className="info-item">
-        <span className="info-label">GST Certificate:</span>
+        <span className="info-label">{t('profile.gstCertificate')}</span>
         {formatDocumentList("gstCertificate", documents.gstCertificate)}
       </div>
     </>
@@ -575,19 +575,19 @@ const Profile = () => {
         <div className="profile-header">
           <h2 className="profile-title">{name}</h2>
           {role === "driver" && (
-            <h4 className="wallet-balance">Wallet Balance: {walletBalance}</h4>
+            <h4 className="wallet-balance">{t('profile.walletBalance')} {walletBalance}</h4>
           )}
         </div>
 
         <div className="profile-content">
           <div className="info-grid">
             <div className="info-item">
-              <span className="info-label">Email:</span>
+              <span className="info-label">{t('profile.email')}</span>
               <span className="info-value">{email}</span>
             </div>
 
             <div className="info-item">
-              <span className="info-label">Phone Number:</span>
+              <span className="info-label">{t('profile.phoneNumber')}</span>
               <div className="editable-field">
                 {editingField === "phoneNumber" ? (
                   <div className="edit-mode">

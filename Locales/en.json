@@ -1,0 +1,116 @@
+{
+  "home": {
+    "tagline": "Instant delivery, zero hassle. Connect with local drivers, get competitive quotes, and track your package in real-time. Your perfect delivery solution is just a tap away.",
+    "ctaButton": "Request Delivery"
+  },
+  "features": [
+    {
+      "title": "Zero Commission",
+      "description": "Direct pricing without any hidden fees. Pay exactly what the driver quotes."
+    },
+    {
+      "title": "Local Matching",
+      "description": "Instant connections with drivers within your locality. Multiple competitive bids."
+    },
+    {
+      "title": "Instant Connect",
+      "description": "Instant messaging with your delivery partner for seamless coordination."
+    },
+    {
+      "title": "Driver Freedom",
+      "description": "Complete independence for drivers. No subscriptions or company constraints."
+    },
+    {
+      "title": "Real-Time Tracking",
+      "description": "Monitor your delivery in real-time with precise GPS tracking and updates."
+    },
+    {
+      "title": "Secure Transactions",
+      "description": "Payments held in secure escrow, released only upon successful delivery."
+    },
+    {
+      "title": "Quality Ratings",
+      "description": "Comprehensive driver and service ratings to help you make informed choices."
+    },
+    {
+      "title": "Full Flexibility",
+      "description": "Choose your ideal delivery partner based on price, convenience and ratings."
+    }
+  ],
+  "createOrder": {
+    "pageTitle": "Create Delivery",
+    "labels": {
+      "pickupLocation": "Pickup Location",
+      "pickupLocationPlaceholder": "Pin Your Pickup Location",
+      "dropLocation": "Drop Location",
+      "dropLocationPlaceholder": "Pin Your Drop Location",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypePlaceholder": "Select Vehicle Type",
+      "items": "Items",
+      "itemsPlaceholder": "Enter the items for delivery",
+      "weight": "Weight (kg)",
+      "weightPlaceholder": "Enter the weight of the items",
+      "multiDropLocations": "Multi-Drop Locations (Optional)",
+      "multiDropLocationsPlaceholder": "Comma-separated locations"
+    },
+    "errorMessages": {
+      "itemsValidation": "Items field should only contain letters, spaces, and commas.",
+      "weightValidation": {
+        "motorcycle": "Motorcycle vehicle can carry only 150kg.",
+        "small": "Small vehicle can carry only 500kg.",
+        "medium": "Medium vehicle can carry only 2000kg.",
+        "large": "Large vehicle can carry only 5000kg.",
+        "extraLarge": "Extra-large vehicle can carry only 10000kg."
+      },
+      "submitError": "Please fix the weight error before submitting."
+    },
+    "submitButton": "Create Delivery",
+    "vehicleTypes": {
+      "motorcycle": "Motorcycle",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large",
+      "extraLarge": "Extra Large",
+      "heavyDuty": "Heavy Duty"
+    }
+  },
+  "profile": {
+    "email": "Email:",
+    "phoneNumber": "Phone Number:",
+    "walletBalance": "Wallet Balance:",
+    "driverLicense": "Driver License:",
+    "IdentityProof": "Identity Proof:",
+    "vehicleInsurance": "Vehicle Insurance:",
+    "vehicleRegistration": "Vehicle Registration:",
+    "vehiclePhoto": "Vehicle Photo:",
+    "vehicleType": "Vehicle Type:",
+    "LoadCapacity": "Load Capacity:",
+    "companyRegistration": "Company Registration:",
+    "gstCertificate": "GST Certificate:",
+    "viewDocument": "View Document",
+    "noDocumentUploaded": "No document uploaded",
+    "uploadNew": "Upload New",
+    "bankName": "Bank Name:",
+    "accountNumber": "Account Number:",
+    "ifscCode": "IFSC Code:",
+    "accountHolderName": "Account Holder Name:"
+  },
+  "history": {
+    "pickupLocation": "Pickup Location",
+    "dropLocation": "Drop Location",
+    "items": "Items",
+    "weight": "Weight",
+    "fare": "Fare",
+    "customer": "Customer",
+    "start": "Start:",
+    "end": "End:",
+    "created": "Created:",
+    "viewFares": "View Fares",
+    "trackOrder": "Track Order",
+    "cancelOrder": "Cancel Order",
+    "startDelivery": "Start Delivery",
+    "assignedDriver": "Assigned Driver:",
+    "ongoing": "Ongoing",
+    "past": "Past"
+  }
+}

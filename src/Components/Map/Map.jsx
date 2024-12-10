@@ -197,12 +197,14 @@ const GoogleMap = ({ onLocationSelect }) => {
         </button>
       </div>
       <div ref={mapRef} className="map-display" />
+      <div className="map-buttons-container">
       <button
         onClick={handleConfirmLocation}
         className="confirm-location-button1"
       >
         Confirm Location
       </button>
+    </div>
     </div>
   );
 };

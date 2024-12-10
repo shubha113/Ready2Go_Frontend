@@ -27,10 +27,12 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Location from '../Location/Location.jsx';
+import { useTranslation } from "react-i18next";
 
 const History = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     loading,
     ongoingDeliveries = [], 
@@ -51,7 +53,6 @@ const History = () => {
 
   const getCurrentJobId = () => {
     if (user?.role === "driver" && ongoingDeliveries.length > 0) {
-      // Assuming the first ongoing delivery is the current job
       return ongoingDeliveries[0]?._id;
     }
     return null;
@@ -197,10 +198,8 @@ const History = () => {
             </>
           )}
 
-          {/* Driver-specific buttons */}
           {user?.role === "driver" && (
             <>
-              {/* Start Delivery Button */}
               {(job.status === "assigned" || 
                 job.status === "driver_at_pickup") && (
                 <button
@@ -211,8 +210,7 @@ const History = () => {
                   Start Delivery
                 </button>
               )}
-
-              {/* Track Order Button */}
+{/*
               {(job.status === "in-transit" || 
                 job.status === "driver_at_drop") && (
                 <button
@@ -223,16 +221,17 @@ const History = () => {
                   Track Order
                 </button>
               )}
+                */}
             </>
-          )}
-        </div>
+          )} 
+      </div>
 
         <div className="job-content">
           <div className="location-group">
             <div className="location-item">
               <MapPin className="location-icon pickup" />
               <div className="location-text">
-                <h4>Pickup Location</h4>
+                <h4>{t('history.pickupLocation')}</h4>
                 <p>{pickupAddress}</p>
               </div>
             </div>
@@ -240,7 +239,7 @@ const History = () => {
             <div className="location-item">
               <MapPinned className="location-icon drop" />
               <div className="location-text">
-                <h4>Drop Location</h4>
+                <h4>{t('history.dropLocation')}</h4>
                 <p>{dropAddress}</p>
               </div>
             </div>
@@ -250,7 +249,7 @@ const History = () => {
             <div className="detail-item">
               <PackageOpen className="detail-icon" />
               <div className="detail-text">
-                <h4>Items</h4>
+                <h4>{t('history.items')}</h4>
                 <p>{job.items || 'No items specified'}</p>
               </div>
             </div>
@@ -258,7 +257,7 @@ const History = () => {
             <div className="detail-item">
               <Weight className="detail-icon" />
               <div className="detail-text">
-                <h4>Weight</h4>
+                <h4>{t('history.weight')}</h4>
                 <p>{job.weight ? `${job.weight} kg` : 'Weight not specified'}</p>
               </div>
             </div>
@@ -266,7 +265,7 @@ const History = () => {
             <div className="detail-item">
               <IndianRupee className="detail-icon" />
               <div className="detail-text">
-                <h4>Fare</h4>
+                <h4>{t('history.fare')}</h4>
                 <p>{job.fare ? `₹${job.fare}` : "No fare decided"}</p>
               </div>
             </div>
@@ -275,7 +274,7 @@ const History = () => {
               <div className="detail-item">
                 <User className="detail-icon" />
                 <div className="detail-text">
-                  <h4>Assigned Driver:</h4>
+                  <h4>{t('history.assignedDriver')}</h4>
                   <p>{job.driverName || "Not assigned"}</p>
                 </div>
               </div>
@@ -285,7 +284,7 @@ const History = () => {
               <div className="detail-item">
                 <User className="detail-icon" />
                 <div className="detail-text">
-                  <h4>Customer:</h4>
+                  <h4>{t('history.customer')}</h4>
                   <p className="person-name">{job.userName}</p>
                 </div>
               </div>
@@ -298,18 +297,18 @@ const History = () => {
               {job.startTime && (
                 <div className="time-item">
                   <Calendar className="calendar-icon" />
-                  <p>Start: {formatDate(job.startTime)}</p>
+                  <p>{t('history.start')} {formatDate(job.startTime)}</p>
                 </div>
               )}
               {job.endTime && (
                 <div className="time-item">
                   <Calendar className="calendar-icon" />
-                  <p>End: {formatDate(job.endTime)}</p>
+                  <p>{t('history.end')} {formatDate(job.endTime)}</p>
                 </div>
               )}
               <div className="time-item">
                 <Calendar className="calendar-icon" />
-                <p>Created: {formatDate(job.createdAt)}</p>
+                <p>{t('history.created')} {formatDate(job.createdAt)}</p>
               </div>
             </div>
           </div>

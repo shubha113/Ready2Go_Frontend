@@ -17,7 +17,8 @@
 .features-content-wrapper {
     width: 100%;
     max-width: 1400px;
-    height: 100vh;
+    height: 110vh;
+    max-height: 110vh;
     padding: 0 20px;
 }
 
@@ -209,16 +210,15 @@
     }
 
     .features-content-wrapper {
-        height: auto;
+        height: 110vh;
+        min-height: 160vh;
         padding: 0 10px;
     }
 
-    /* First 2 cards container */
     .features-cards-container:first-of-type {
         order: 1;
     }
 
-    /* Image section */
     .features-image-section {
         order: 2;
         margin-top: 20px;
@@ -236,7 +236,6 @@
         object-fit: cover;
     }
 
-    /* Last 4 cards container */
     .features-cards-container:last-of-type {
         order: 3;
         margin-top: 20px;

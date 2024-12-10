@@ -1,32 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Languages } from "lucide-react";
 import "./Navbar.css";
 import { logout } from "../../../Redux/actions/userAction";
 import { toast } from "react-toastify";
 import Logo from "../../../Assets/logo.png";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const [isMenuActive, setMenuActive] = useState(false);
+  const [isLanguageDropdownOpen, setLanguageDropdownOpen] = useState(false);
+  const languageDropdownRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated, user, message, error } = useSelector(
-    (state) => state.user
-  );
+  const { t, i18n } = useTranslation();
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' },
+    { code: 'pa', name: 'ਪੰਜਾਬੀ', flag: '🇮🇳' }
+  ];
+
+  const changeLanguage = (languageCode) => {
+    i18n.changeLanguage(languageCode);
+    setLanguageDropdownOpen(false);
+    localStorage.setItem('selectedLanguage', languageCode);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (languageDropdownRef.current && 
+          !languageDropdownRef.current.contains(event.target)) {
+        setLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
     toast.success('Logged out successfully');
     navigate('/login');
-};
+  };
 
-const toggleMenu = () => {
-  setMenuActive(!isMenuActive);
-};
+  const toggleMenu = () => {
+    setMenuActive(!isMenuActive);
+  };
 
-const closeMenu = () => {
-  setMenuActive(false);
-};
+  const closeMenu = () => {
+    setMenuActive(false);
+  };
 
   return (
     <header className="header">
@@ -118,7 +148,7 @@ const closeMenu = () => {
                     onClick={() => {
                       handleLogout();
                       closeMenu();
-                  }}
+                    }}
                   >
                     Logout
                   </NavLink>
@@ -155,21 +185,48 @@ const closeMenu = () => {
               </li>
             </>
           )}
-           {user?.role === "admin" && (
-                        <li>
-                            <div className="button-nav">
-                                <NavLink 
-                                    to="/get-users" 
-                                    className={({ isActive }) => 
-                                        `button-link ${isActive ? 'active-route' : ''}`
-                                    }
-                                    onClick={closeMenu}
-                                >
-                                    Manage Users
-                                </NavLink>
-                            </div>
-                        </li>
-                    )}
+          {user?.role === "admin" && (
+            <li>
+              <div className="button-nav">
+                <NavLink 
+                  to="/get-users" 
+                  className={({ isActive }) => 
+                    `button-link ${isActive ? 'active-route' : ''}`
+                  }
+                  onClick={closeMenu}
+                >
+                  Manage Users
+                </NavLink>
+              </div>
+            </li>
+          )}
+          
+          {/* Language Dropdown */}
+          <li ref={languageDropdownRef} className="language-dropdown-container">
+            <div 
+              className="language-dropdown-trigger"
+              onClick={() => setLanguageDropdownOpen(!isLanguageDropdownOpen)}
+            >
+              <Languages size={20} />
+              <span>
+                {languages.find(lang => lang.code === i18n.language)?.name || 'Language'}
+              </span>
+            </div>
+            {isLanguageDropdownOpen && (
+              <div className="language-dropdown-menu">
+                {languages.map((language) => (
+                  <div 
+                    key={language.code}
+                    className="language-dropdown-item"
+                    onClick={() => changeLanguage(language.code)}
+                  >
+                    <span className="language-flag">{language.flag}</span>
+                    <span className="language-name">{language.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </li>
         </ul>
         <div
           className={`hamburger ${isMenuActive ? "hamburger-active" : ""}`}
