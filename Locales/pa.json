@@ -79,12 +79,12 @@
     "phoneNumber": "ਫੋਨ ਨੰਬਰ:",
     "walletBalance": "ਵਾਲਟ ਬੈਲੈਂਸ:",
     "driverLicense": "ਡਰਾਈਵਰ ਲਾਇਸੈਂਸ:",
-    "IdentityProof": "ਪਛਾਣ ਸਬੂਤ:",
+    "identityProof": "ਪਛਾਣ ਸਬੂਤ:",
     "vehicleInsurance": "ਵਾਹਨ ਬੀਮਾ:",
     "vehicleRegistration": "ਵਾਹਨ ਰਜਿਸਟਰੇਸ਼ਨ:",
     "vehiclePhoto": "ਵਾਹਨ ਦੀ ਤਸਵੀਰ:",
     "vehicleType": "ਵਾਹਨ ਦਾ ਕਿਸਮ:",
-    "LoadCapacity": "ਲੋਡ ਸਮਰੱਥਾ:",
+    "loadCapacity": "ਲੋਡ ਸਮਰੱਥਾ:",
     "companyRegistration": "ਕੰਪਨੀ ਰਜਿਸਟਰੇਸ਼ਨ:",
     "gstCertificate": "ਜੀਐਸਟੀ ਸਰਟੀਫਿਕੇਟ:",
     "viewDocument": "ਦਸਤਾਵੇਜ਼ ਵੇਖੋ",
@@ -112,5 +112,16 @@
     "assignedDriver": "ਨਿਰਧਾਰਤ ਡਰਾਈਵਰ:",
     "ongoing": "ਚੱਲ ਰਹੀ ਹੈ",
     "past": "ਪਿਛਲੇ"
+  },
+  "navbar": {
+    "home": "ਹੋਮ",
+    "createDelivery": "ਡਿਲੀਵਰੀ ਬਣਾਓ",
+    "takeDelivery": "ਡਿਲੀਵਰੀ ਲਵੋ",
+    "profile": "ਪਰੋਫਾਈਲ",
+    "history": "ਇਤਿਹਾਸ",
+    "logout": "ਲਾਗ ਆਉਟ",
+    "register": "ਰਜਿਸਟਰ",
+    "login": "ਲਾਗਇਨ",
+    "manageUsers": "ਯੂਜਰ ਪ੍ਰਬੰਧਨ"
   }
 }

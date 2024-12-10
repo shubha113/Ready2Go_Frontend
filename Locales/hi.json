@@ -79,12 +79,12 @@
     "phoneNumber": "फोन नंबर:",
     "walletBalance": "वॉलेट बैलेंस:",
     "driverLicense": "ड्राइवर लाइसेंस:",
-    "IdentityProof": "पहचान प्रमाण:",
+    "identityProof": "पहचान प्रमाण:",
     "vehicleInsurance": "वाहन बीमा:",
     "vehicleRegistration": "वाहन पंजीकरण:",
     "vehiclePhoto": "वाहन का फोटो:",
     "vehicleType": "वाहन प्रकार:",
-    "LoadCapacity": "भार क्षमता:",
+    "loadCapacity": "भार क्षमता:",
     "companyRegistration": "कंपनी पंजीकरण:",
     "gstCertificate": "जीएसटी प्रमाणपत्र:",
     "viewDocument": "दस्तावेज़ देखें",
@@ -112,5 +112,16 @@
     "assignedDriver": "निर्धारित ड्राइवर:",
     "ongoing": "चल रही है",
     "past": "पूर्व"
+  },
+  "navbar": {
+    "home": "होम",
+    "createDelivery": "डिलीवरी बनाएं",
+    "takeDelivery": "डिलीवरी लें",
+    "profile": "प्रोफाइल",
+    "history": "इतिहास",
+    "logout": "लॉगआउट",
+    "register": "रजिस्टर",
+    "login": "लॉगिन",
+    "manageUsers": "यूजर प्रबंधन"
   }
 }

@@ -29,7 +29,6 @@ const Navbar = () => {
     localStorage.setItem('selectedLanguage', languageCode);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (languageDropdownRef.current && 
@@ -76,7 +75,7 @@ const Navbar = () => {
                 }
                 onClick={closeMenu}
               >
-                Home
+                  {t('navbar.home')}
               </NavLink>
             </div>
           </li>
@@ -90,7 +89,7 @@ const Navbar = () => {
                   }
                   onClick={closeMenu}
                 >
-                  Create Delivery
+                  {t('navbar.createDelivery')}
                 </NavLink>
               </div>
             </li>
@@ -105,7 +104,7 @@ const Navbar = () => {
                   }
                   onClick={closeMenu}
                 >
-                  Take Delivery
+                  {t('navbar.takeDelivery')}
                 </NavLink>
               </div>
             </li>
@@ -121,7 +120,7 @@ const Navbar = () => {
                     }
                     onClick={closeMenu}
                   >
-                    Profile
+                  {t('navbar.profile')}
                   </NavLink>
                 </div>
               </li>
@@ -134,7 +133,7 @@ const Navbar = () => {
                     }
                     onClick={closeMenu}
                   >
-                    History
+                  {t('navbar.history')}
                   </NavLink>
                 </div>
               </li>
@@ -150,7 +149,7 @@ const Navbar = () => {
                       closeMenu();
                     }}
                   >
-                    Logout
+                  {t('navbar.logout')}
                   </NavLink>
                 </div>
               </li>
@@ -166,7 +165,7 @@ const Navbar = () => {
                     }
                     onClick={closeMenu}
                   >
-                    Register
+                  {t('navbar.register')}
                   </NavLink>
                 </div>
               </li>
@@ -179,7 +178,7 @@ const Navbar = () => {
                     }
                     onClick={closeMenu}
                   >
-                    Login
+                  {t('navbar.login')}
                   </NavLink>
                 </div>
               </li>
@@ -195,7 +194,7 @@ const Navbar = () => {
                   }
                   onClick={closeMenu}
                 >
-                  Manage Users
+                  {t('navbar.manageUsers')}
                 </NavLink>
               </div>
             </li>

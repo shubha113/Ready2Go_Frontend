@@ -238,7 +238,7 @@
 
     .features-cards-container:last-of-type {
         order: 3;
-        margin-top: 20px;
+        margin: auto
     }
 
     .features-grid-container {

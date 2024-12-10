@@ -79,12 +79,12 @@
     "phoneNumber": "Phone Number:",
     "walletBalance": "Wallet Balance:",
     "driverLicense": "Driver License:",
-    "IdentityProof": "Identity Proof:",
+    "identityProof": "Identity Proof:",
     "vehicleInsurance": "Vehicle Insurance:",
     "vehicleRegistration": "Vehicle Registration:",
     "vehiclePhoto": "Vehicle Photo:",
     "vehicleType": "Vehicle Type:",
-    "LoadCapacity": "Load Capacity:",
+    "loadCapacity": "Load Capacity:",
     "companyRegistration": "Company Registration:",
     "gstCertificate": "GST Certificate:",
     "viewDocument": "View Document",
@@ -112,5 +112,17 @@
     "assignedDriver": "Assigned Driver:",
     "ongoing": "Ongoing",
     "past": "Past"
+  },
+  
+  "navbar": {
+    "home": "Home",
+    "createDelivery": "Create Delivery",
+    "takeDelivery": "Take Delivery",
+    "profile": "Profile",
+    "history": "History",
+    "logout": "Logout",
+    "register": "Register",
+    "login": "Login",
+    "manageUsers": "Manage Users"
   }
 }

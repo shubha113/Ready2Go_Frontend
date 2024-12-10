@@ -1,39 +1,41 @@
-
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #2ecc71;
-  --background-color: #f4f4f4;
-  --text-color: #333;     
-  --hover-color: rgb(170, 4, 170); 
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --background-color: #f4f6f7;
+  --text-color: #333;
+  --hover-color: #2980b9;
+  --transition-speed: 0.3s;
+  --navbar-height: 60px;
 }
 
 body {
-  padding-top: 65px;
+  padding-top: var(--navbar-height);
 }
 
 .header {
-  width: 100%;
-  background-color: #f3f3f3;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: var(--navbar-height);
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   z-index: 1000;
-  transition: all 0.3s ease;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5% 2%;
   max-width: 1200px;
+  height: 100%;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .logo img {
   height: 50px;
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-speed) ease;
 }
 
 .logo img:hover {
@@ -47,60 +49,113 @@ nav {
   gap: 1.5rem;
 }
 
-.button-logout, .button-login {
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
+.button-link {
   text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  background-color: var(--primary-color);
-  color: white;
+  color: var(--text-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all var(--transition-speed) ease;
   position: relative;
-  overflow: hidden;
 }
 
-.button-logout:hover, .button-login:hover {
-  background-color: var(--hover-color);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.button-link:hover {
+  color: var(--secondary-color);
 }
 
-.button-logout::before, .button-login::before {
+.button-link.active-route {
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.button-link.active-route::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
+  bottom: -4px;
+  left: 0;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: all 0.5s ease;
+  height: 2px;
+  background-color: var(--secondary-color);
 }
 
-.button-logout:hover::before, .button-login:hover::before {
-  left: 100%;
+.button-logout, .button-login, .button-nav {
+  transition: transform var(--transition-speed) ease;
 }
 
-.button-link {
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.button-logout:hover, 
+.button-login:hover, 
+.button-nav:hover {
+  transform: translateY(-2px);
 }
 
 .hamburger {
   display: none;
   flex-direction: column;
   cursor: pointer;
+  gap: 5px;
 }
 
 .hamburger .line {
   width: 25px;
   height: 3px;
-  background-color: var(--text-color);
-  margin: 3px 0;
-  transition: all 0.3s ease;
+  background-color: var(--primary-color);
+  transition: all var(--transition-speed) ease;
 }
 
-/* Responsive Design */
+.language-dropdown-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.language-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.language-dropdown-trigger:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.language-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  min-width: 150px;
+  animation: fadeIn 0.3s ease;
+}
+
+.language-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.language-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media screen and (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -108,23 +163,23 @@ nav {
 
   .nav-links {
     position: fixed;
-    right: -100%;
-    top: 70px;
+    top: 80px;
+    left: -100%;
     flex-direction: column;
-    background-color: #f3f3f3;
     width: 100%;
-    text-align: center;
-    transition: 0.3s;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    padding: 2rem 0;
+    background-color: white;
+    transition: left var(--transition-speed) ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    gap: 1rem;
   }
 
   .nav-links.active {
-    right: 0;
+    left: 0;
   }
 
   .hamburger-active .line:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
+    transform: rotate(45deg) translate(5px, 5px);
   }
 
   .hamburger-active .line:nth-child(2) {
@@ -132,122 +187,13 @@ nav {
   }
 
   .hamburger-active .line:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
+    transform: rotate(-45deg) translate(5px, -5px);
   }
-}
 
-/* Accessibility and Focus States */
-.button-logout:focus, .button-login:focus {
-  outline: 2px solid var(--secondary-color);
-  outline-offset: 3px;
-}
-
-
-/* Navbar Button Styling */
-.button-logout, .button-login {
-  padding: 0;  /* Remove padding from parent div */
-}
-
-.button-logout .button-link, 
-.button-login .button-link {
-  display: block;  /* Make link fill entire div */
-  padding: 0.5rem 1rem;  /* Padding moved to link */
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  background-color: var(--primary-color);
-  color: white;
-  width: 100%;  /* Ensure full width of parent */
-  height: 100%;  /* Ensure full height of parent */
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.button-link.active-route {
-  background-color: #d808d1;
-  color: white;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.button-link.active-route::after {
-  content: '';
-  position: absolute;
-  display: none;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: var(--primary-color);
-  transform: scaleX(1);
-  transition: transform 0.3s ease;
-}
-
-.button-link:hover {
-  background-color: var(--hover-color);
-}
-
-li {
-  cursor: pointer;
-}
-
-.button-logout, .button-login {
-  width: 100%; 
-}
-
-
-
-
-
-
-.language-dropdown-container {
-  position: relative;
-}
-
-.language-dropdown-trigger {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-}
-
-.language-dropdown-trigger svg {
-  stroke: currentColor;
-}
-
-.language-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: max-content;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 10;
-}
-
-.language-dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.language-dropdown-item:hover {
-  background-color: #f4f4f4;
-}
-
-.language-flag {
-  font-size: 1.2rem;
-}
-
-.language-name {
-  font-size: 0.9rem;
+  .language-dropdown-menu {
+    position: static;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0;
+  }
 }
