@@ -181,8 +181,8 @@ const GoogleMap = ({ onLocationSelect }) => {
   };
 
   return (
-    <div className="map-container">
-      <div className="search-container">
+    <div className="map-container1">
+      <div className="search-container1">
         <input
           type="text"
           ref={searchRef}

@@ -1,4 +1,4 @@
-.map-container {
+.map-container1 {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
@@ -9,7 +9,7 @@
   display: contents;
 }
 
-.search-container {
+.search-container1 {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
@@ -73,11 +73,11 @@
 
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
-  .map-container {
+  .map-container1 {
     padding: 10px;
   }
 
-  .search-container {
+  .search-container1 {
     flex-direction: column;
   }
 
