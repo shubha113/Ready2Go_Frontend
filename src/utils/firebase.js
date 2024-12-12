@@ -21,39 +21,22 @@ export const messaging = getMessaging(app);
 // Function to get the FCM token
 export const getFCMToken = async () => {
   try {
-    // Ensure HTTPS
-    if (window.location.protocol !== 'https:') {
-      console.error('Notifications require HTTPS');
-      return null;
-    }
-
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      // Use absolute path
-      const serviceWorkerRegistration = await navigator.serviceWorker.register(
-        '/firebase-messaging-sw.js',
-        { scope: './' }
-      );
+      // Register the service worker
+      const serviceWorkerRegistration = await navigator.serviceWorker.register('../../Public/firebase-messaging-sw');
       
-      console.log('Service Worker Registered:', serviceWorkerRegistration);
-
       const token = await getToken(messaging, {
         vapidKey: 'BMxFBwOZK7cUSehtq1ROBOJ5qS_6cmIieJ2GvfjHNdZLJ5F_J22VtE8WFZiK4bTuqE2CKYSoZZftJSR5fhMJTXs',
         serviceWorkerRegistration: serviceWorkerRegistration
       });
-      
-      console.log('FCM Token:', token);
+      console.log(token)
       return token;
     } else {
-      console.error('Notification permission denied');
-      return null;
+      throw new Error('Notification permission denied');
     }
   } catch (error) {
-    console.error('Detailed FCM Token Error:', {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
-    });
+    console.error('Error getting FCM token:', error);
     return null;
   }
 };
