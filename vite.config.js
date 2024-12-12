@@ -17,5 +17,5 @@ export default defineConfig({
   },
   base: '/',
   // Use absolute path to public directory
-  publicDir: resolve(__dirname, '../../Public')
+  publicDir: resolve(__dirname, './Public')
 })
