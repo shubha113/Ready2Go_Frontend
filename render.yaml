@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: your-frontend-app
+    env: static
+    buildCommand: npm install && npm run build
+    publishDir: ./dist
+    staticPublishPath: ./dist
+    routes:
+      - type: static
+        source: /firebase-messaging-sw.js
+        destination: /firebase-messaging-sw.js
