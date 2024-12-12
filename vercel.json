@@ -5,7 +5,8 @@
       "dest": "/firebase-messaging-sw.js",
       "headers": {
         "Content-Type": "application/javascript",
-        "Cache-Control": "public, max-age=0, must-revalidate"
+        "Cache-Control": "public, max-age=0, must-revalidate",
+        "Service-Worker-Allowed": "/"
       }
     },
     { "handle": "filesystem" },
