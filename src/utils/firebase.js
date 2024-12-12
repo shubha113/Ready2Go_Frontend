@@ -24,7 +24,7 @@ export const getFCMToken = async () => {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       // Register the service worker
-      const serviceWorkerRegistration = await navigator.serviceWorker.register('../../Public/firebase-messaging-sw');
+      const serviceWorkerRegistration = await navigator.serviceWorker.register('firebase-messaging-sw');
       
       const token = await getToken(messaging, {
         vapidKey: 'BMxFBwOZK7cUSehtq1ROBOJ5qS_6cmIieJ2GvfjHNdZLJ5F_J22VtE8WFZiK4bTuqE2CKYSoZZftJSR5fhMJTXs',
