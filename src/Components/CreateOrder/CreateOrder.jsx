@@ -232,7 +232,7 @@ const CreateOrder = () => {
               className="cta-button"
               disabled={loading}
             >
-              {loading ? <Loader size={5} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}/> : <>
+              {loading ? <Loader style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}/> : <>
                 <Send size={18} />
                 {t('createOrder.submitButton')}
               </>}
