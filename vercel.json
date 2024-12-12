@@ -2,7 +2,7 @@
   "routes": [
     {
       "src": "/firebase-messaging-sw.js",
-      "dest": "/public/firebase-messaging-sw.js",
+      "dest": "../../Public/firebase-messaging-sw",
       "headers": {
         "Content-Type": "application/javascript",
         "Cache-Control": "public, max-age=0, must-revalidate",
