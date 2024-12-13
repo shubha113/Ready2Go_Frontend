@@ -200,8 +200,10 @@ const History = () => {
 
           {user?.role === "driver" && (
             <>
-              {(job.status === "assigned" || 
-                job.status === "driver_at_pickup") && (
+              {(job.status === "assigned" ||
+              job.status === "in-transit" || 
+              job.status === "driver_at_pickup" || 
+              job.status === "driver_at_drop")  && (
                 <button
                   onClick={() => navigate(`/track-order/${job._id}`)}
                   className="cancel-job-button"
