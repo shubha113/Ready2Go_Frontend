@@ -129,7 +129,7 @@ export const locationSocket = {
       "driverLocationUpdate",
       {
         coordinates,
-        jobId,
+        jobId: jobId || null, // Allow null if no job is assigned
         driverId,
         timestamp: Date.now(),
       },

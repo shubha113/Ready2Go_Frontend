@@ -106,7 +106,7 @@ const Location = ({ isAuthenticated, jobId, driverId }) => {
           if (jobId && driverId) {
             locationSocket.emitDriverLocation(
               currentCoordinates,
-              jobId,
+              jobId || null, 
               driverId
             );
 
