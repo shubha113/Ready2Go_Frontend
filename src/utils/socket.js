@@ -114,27 +114,34 @@ export const locationSocket = {
     console.log("Leaving job room:", jobId);
     socket.emit("leaveJobRoom", jobId);
   },
+  
 
   emitDriverLocation: (coordinates, jobId, driverId) => {
-    console.log("Socket Location Emission Details:", {
+    console.log("Emitting Location Update:", {
       coordinates,
       jobId,
       driverId,
-      socketExists: !!socket,
-      socketConnected: socket?.connected,
+      coordinatesType: typeof coordinates,
+      coordinatesLength: coordinates?.length,
+      isValidCoordinates: coordinates && Array.isArray(coordinates) && coordinates.length === 2
     });
-
-    // Ensure you're logging the exact payload being sent
+  
+    if (!coordinates || !Array.isArray(coordinates) || coordinates.length !== 2) {
+      console.error("Invalid coordinates for location update");
+      return;
+    }
+  
+    const sanitizedCoordinates = coordinates.map(coord => Number(coord));
+  
     socket.emit(
       "driverLocationUpdate",
       {
-        coordinates,
-        jobId: jobId || null, // Allow null if no job is assigned
+        coordinates: sanitizedCoordinates,
+        jobId: jobId || null, 
         driverId,
         timestamp: Date.now(),
       },
       (acknowledgement) => {
-        // Add a callback to get server-side acknowledgement
         console.log("Server Acknowledgement:", acknowledgement);
       }
     );
