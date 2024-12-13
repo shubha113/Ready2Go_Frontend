@@ -1,0 +1,15 @@
+{
+    "routes": [
+      {
+        "src": "/firebase-messaging-sw.js",
+        "dest": "./Public/firebase-messaging-sw.js",
+        "headers": {
+          "Content-Type": "application/javascript",
+          "Cache-Control": "public, max-age=0, must-revalidate",
+          "Service-Worker-Allowed": "/"
+        }
+      },
+      { "handle": "filesystem" },
+      { "src": "/(.*)", "dest": "/index.html" }   
+    ]
+  }
