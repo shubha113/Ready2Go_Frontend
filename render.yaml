@@ -7,5 +7,5 @@ services:
     staticPublishPath: ./dist
     routes:
       - type: static
-        source: ./Public/firebase-messaging-sw.js
-        destination: ./Public/firebase-messaging-sw.js
+        source: /firebase-messaging-sw.js
+        destination: /firebase-messaging-sw.js
