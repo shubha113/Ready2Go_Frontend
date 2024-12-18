@@ -8,6 +8,8 @@ import Navbar from '../Auth/Shared/Navbar';
 import './TrackOrder.css';
 import Loader from '../Loader/Loader';
 import Location from '../Location/Location';
+import { Phone, PhoneOff } from 'lucide-react';
+import { endCall, initiateCall } from '../../Redux/actions/userAction';
 
 const TrackOrder = () => {
   const { jobId } = useParams();
@@ -24,19 +26,44 @@ const TrackOrder = () => {
   const [eta, setEta] = useState(null);
   const [locationError, setLocationError] = useState(null);
   const [isPickingUp, setIsPickingUp] = useState(false);
+  const [isCallInProgress, setIsCallInProgress] = useState(false);
 
   
-  const { user, isAuthenticated } = useSelector(state => state.user);
+  const { user, isAuthenticated } = useSelector(state => state.user); 
+  const { 
+    callActive, 
+    callInitiating, 
+    callError, 
+    callSid 
+  } = useSelector(state => state.user);
+
 
   const { ongoingDeliveries, loading, error } = useSelector(state => state.job);
   const job = ongoingDeliveries?.find(delivery => delivery._id === jobId);
 
+  const handleInitiateCall = () => {
+    if (job && jobId) {
+      dispatch(initiateCall(jobId));
+      setIsCallInProgress(true);
+    }
+  };
+
+  const handleEndCall = () => {
+    if (job && jobId) {
+      dispatch(endCall(jobId));
+      setIsCallInProgress(false);
+    }
+  };
 
   useEffect(() => {
-    // Always check for authentication first
+    setIsCallInProgress(callActive);
+  }, [callActive]);
+
+
+
+  useEffect(() => {
     if (!isAuthenticated) return;
   
-    // Then dispatch based on user role
     if (user?.role === "driver") {
       dispatch(driverHistory());
     } else if (user?.role === "user") { 
@@ -477,6 +504,45 @@ const TrackOrder = () => {
   if (!job) return <div className="error-container">Delivery not found</div>;
 
 
+  const renderCallButton = () => {
+    // Only show call button if job exists and is in an active state
+    if (!job || ['completed', 'cancelled'].includes(job.status)) return null;
+
+    const buttonText = user?.role === 'driver' 
+      ? 'Talk to User' 
+      : 'Talk to Driver';
+
+    return (
+      <div className="call-action-container">
+        {!isCallInProgress ? (
+          <button 
+            className="call-button" 
+            onClick={handleInitiateCall}
+            disabled={callInitiating}
+          >
+            <Phone className="call-icon" />
+            {buttonText}
+          </button>
+        ) : (
+          <button 
+            className="end-call-button" 
+            onClick={handleEndCall}
+          >
+            <PhoneOff className="call-icon" />
+            End Call
+          </button>
+        )}
+        
+        {callError && (
+          <div className="call-error-message">
+            {callError}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+
 
   return (
     <div className="tracking-container">
@@ -517,6 +583,7 @@ const TrackOrder = () => {
             </div>
           )}
 
+{renderCallButton()}
 {user?.role === 'driver' && 
        job.status === 'driver_at_pickup' && 
        !isPickingUp && (

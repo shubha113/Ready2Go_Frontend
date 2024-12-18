@@ -13,6 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 70px;
   height: 100vh;
   position: relative;
   overflow: hidden;
@@ -23,7 +24,7 @@ body {
   );
 }
 
-.card-overlay {
+.card-overlay1 {
   background-color: white;
   border-radius: 20px;
   height: 90%;

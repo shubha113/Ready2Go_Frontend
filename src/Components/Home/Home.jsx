@@ -9,6 +9,7 @@ import { updateLocation } from "../../Redux/actions/userAction";
 import Features from "./Fetaures";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Step from "../Step/Step";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -110,7 +111,7 @@ const Home = () => {
   return (
     <div>
       <div className="landing-page">
-        <div className="card-overlay">
+        <div className="card-overlay1">
           <Navbar />
 
           {isAuthenticated && user?.role === "driver" && (
@@ -149,6 +150,7 @@ const Home = () => {
         </div>
       </div>
       <Features />
+      <Step/>
     </div>
   );
 };

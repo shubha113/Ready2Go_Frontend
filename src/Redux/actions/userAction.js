@@ -232,3 +232,56 @@ export const updateLocationViaSocket = ({
     driverDetails
   }
 });
+
+
+export const initiateCall = (jobId) => async (dispatch) => {
+  try {
+    dispatch({ type: 'initiateCallRequest' });
+
+    const { data } = await axios.post(`${server}/user/jobs/${jobId}/initiate-call`, {}, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    dispatch({ 
+      type: 'initiateCallSuccess', 
+      payload: { 
+        callSid: data.callSid, 
+        message: data.message 
+      } 
+    });
+  } catch (error) {
+    dispatch({ 
+      type: 'initiateCallFail', 
+      payload: error.response?.data?.message || 'Failed to initiate call' 
+    });
+  }
+};
+
+// End Call Action
+export const endCall = (jobId) => async (dispatch) => {
+  try {
+    dispatch({ type: 'endCallRequest' });
+
+    const { data } = await axios.post(`${server}/user/jobs/${jobId}/end-call`, {}, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    dispatch({ 
+      type: 'endCallSuccess', 
+      payload: { 
+        message: data.message 
+      } 
+    });
+  } catch (error) {
+    dispatch({ 
+      type: 'endCallFail', 
+      payload: error.response?.data?.message || 'Failed to end call' 
+    });
+  }
+};

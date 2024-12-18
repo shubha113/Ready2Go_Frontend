@@ -10,6 +10,11 @@ const initialState = {
   currentDriverLocation: null,
   locationUpdateSuccess: false,
   trackingData: null,
+  callInitiating: false,
+  callEnding: false,
+  callActive: false,
+  callError: null,
+  callSid: null,
 };
 
 export const userReducer = createReducer(initialState, (builder) => {
@@ -172,6 +177,35 @@ export const userReducer = createReducer(initialState, (builder) => {
           coordinates: action.payload.coordinates
         };
       }
+    })
+    .addCase("initiateCallRequest", (state) => {
+      state.callInitiating = true;
+      state.callError = null;
+    })
+    .addCase("initiateCallSuccess", (state, action) => {
+      state.callInitiating = false;
+      state.callActive = true;
+      state.callSid = action.payload.callSid;
+      state.message = action.payload.message;
+    })
+    .addCase("initiateCallFail", (state, action) => {
+      state.callInitiating = false;
+      state.callActive = false;
+      state.callError = action.payload;
+    })
+    .addCase("endCallRequest", (state) => {
+      state.callEnding = true;
+      state.callError = null;
+    })
+    .addCase("endCallSuccess", (state, action) => {
+      state.callEnding = false;
+      state.callActive = false;
+      state.callSid = null;
+      state.message = action.payload.message;
+    })
+    .addCase("endCallFail", (state, action) => {
+      state.callEnding = false;
+      state.callError = action.payload;
     })
     .addCase("clearMessage", (state) => {
       state.message = "";

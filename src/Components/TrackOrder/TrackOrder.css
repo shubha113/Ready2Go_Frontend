@@ -208,3 +208,47 @@
     background-color: #cccccc;
     cursor: not-allowed;
   }
+
+
+
+  .call-action-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 0;
+  }
+  
+  .call-button, .end-call-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .call-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .end-call-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .call-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .call-icon {
+    margin-right: 10px;
+  }
+  
+  .call-error-message {
+    color: #f44336;
+    margin-top: 10px;
+    text-align: center;
+  }
