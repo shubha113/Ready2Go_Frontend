@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 const Profile = () => {
   const { user, message, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const [editingField, setEditingField] = useState(null);
@@ -76,6 +77,12 @@ const Profile = () => {
 
   const handleSaveClick = (field) => {
     // Handle Non-Document Fields (e.g., phoneNumber, vehicleType, etc.)
+    if (field === "phoneNumber" && fieldValue.trim()) {
+      // Store the new phone number in localStorage for OTP verification
+      localStorage.setItem("phoneNumber", fieldValue);
+      // Navigate to OTP verification page
+      navigate('/verify-otp');
+    }
     if (editingField && fieldValue.trim()) {
       const updatedData = { [editingField]: fieldValue };
       dispatch(updateProfile(updatedData)); // Submit non-document data
